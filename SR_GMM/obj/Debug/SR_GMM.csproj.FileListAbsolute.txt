@@ -1,0 +1,11 @@
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\bin\Debug\SR_GMM.exe.config
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\bin\Debug\SR_GMM.exe
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\bin\Debug\SR_GMM.pdb
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\obj\Debug\SR_GMM.Form1.resources
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\obj\Debug\SR_GMM.Properties.Resources.resources
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\obj\Debug\SR_GMM.csproj.GenerateResource.Cache
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\obj\Debug\SR_GMM.exe
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\obj\Debug\SR_GMM.pdb
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\obj\Debug\SR_GMM.csprojResolveAssemblyReference.cache
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
+E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
