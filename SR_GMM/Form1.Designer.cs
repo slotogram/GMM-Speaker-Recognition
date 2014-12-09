@@ -61,6 +61,9 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
             this.button14 = new System.Windows.Forms.Button();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.textBox19 = new System.Windows.Forms.TextBox();
@@ -91,9 +94,6 @@
             this.button12 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
-            this.textBox22 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBox23 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -460,6 +460,31 @@
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(511, 127);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(57, 13);
+            this.label16.TabIndex = 60;
+            this.label16.Text = "Фильтр E";
+            // 
+            // textBox23
+            // 
+            this.textBox23.Location = new System.Drawing.Point(365, 124);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(140, 20);
+            this.textBox23.TabIndex = 59;
+            this.textBox23.Text = "0";
+            // 
+            // textBox22
+            // 
+            this.textBox22.Location = new System.Drawing.Point(536, 26);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(141, 20);
+            this.textBox22.TabIndex = 58;
+            this.textBox22.Text = "E:\\temp\\123\\12samplesN";
+            // 
             // button14
             // 
             this.button14.Location = new System.Drawing.Point(514, 149);
@@ -731,31 +756,6 @@
             this.textBox20.Size = new System.Drawing.Size(25, 20);
             this.textBox20.TabIndex = 31;
             this.textBox20.Text = "-2,5";
-            // 
-            // textBox22
-            // 
-            this.textBox22.Location = new System.Drawing.Point(536, 26);
-            this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(141, 20);
-            this.textBox22.TabIndex = 58;
-            this.textBox22.Text = "E:\\temp\\123\\12samplesN";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(511, 127);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(57, 13);
-            this.label16.TabIndex = 60;
-            this.label16.Text = "Фильтр E";
-            // 
-            // textBox23
-            // 
-            this.textBox23.Location = new System.Drawing.Point(365, 124);
-            this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(140, 20);
-            this.textBox23.TabIndex = 59;
-            this.textBox23.Text = "0";
             // 
             // Form1
             // 

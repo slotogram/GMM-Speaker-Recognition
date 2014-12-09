@@ -964,5 +964,10 @@ namespace SR_GMM
             fs.WriteLine("Всего - " + total.ToString());
             fs.Close();
         }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

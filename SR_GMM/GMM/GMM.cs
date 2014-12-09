@@ -91,6 +91,66 @@ namespace SR_GMM
 	return 0;
 
         }
+        
+        public int Adapt(Data feas, GMM world, int itNum, string fnf, string fnm, int nmix, double m = -1, double sigma = 0.01, int imax = 100, int t = 0, string fnr = null)
+        {
+            const int INT_MIN = int.MinValue;
+            int i, o, x = 0;
+            t = Environment.ProcessorCount;
+            float last = INT_MIN, llh;
+            //Проверка аргументов и инициализация
+            if (t > 256 || t < 1) new Exception("Number of threads must be on the 1-256 range");
+            if (nmix > 524228 || nmix < 2) throw new Exception("Number of components must be on the 2-32768 range");
+            if (imax > 10000 || imax < 1) throw new Exception("Number of iterations must be on the 1-10000 range");
+            if (fnf.Length > 0) x++;
+            if (fnm.Length > 0) x++;
+            if (m > 1.0 || m < 0.0) throw new Exception("Merge threshold must be on the 0.0-1.0 range");
+            if (sigma > 1.0 || imax < 0.0) throw new Exception("Sigma criterion must be on the 0.0-1.0 range");
+
+            if (x < 2) new Exception("Не знаданы входной и выходной файлы"); /* Test if exists all the needed arguments. */
+
+            //http://msdn.microsoft.com/ru-ru/library/h4732ks0.aspx
+            ThreadPool.SetMaxThreads(t, 1);
+
+
+            //workers *pool=workers_create(t);
+            //data *feas=feas_load(fnf,pool);  /* Load the features from the specified disc file. s*/
+
+            /*if(nmix==-1){
+                if(m<0)m=0.95;
+                nmix=sqrt(feas->samples/2);
+            }*/
+            //gmm *gmix=gmm_initialize(feas,nmix); /* Good GMM initialization using data.    */
+
+            //fprintf(stdout,"Number of Components: %06i\n",gmix->num);
+            for (o = 1; o <= imax; o++)
+            {
+                for (i = 1; i <= imax; i++)
+                {
+                    llh = gmm_EMtrain(feas, t); /* Compute one iteration of EM algorithm.   */
+                    //fprintf(stdout,"Iteration: %05i    Improvement: %3i%c    LogLikelihood: %.3f\n",
+                    //	i,abs(round(-100*(llh-last)/last)),'%',llh); /* Show the EM results.  */
+                    if (last - llh > -sigma || float.IsNaN(last - llh)) break; /* Break with sigma threshold. */
+                    last = llh;
+                }
+                x = num;
+                if (m >= 0)
+                {
+                    //gmm_merge(gmix,feas,m,pool);
+                    //fprintf(stdout,"Number of Components: %06i\n",gmix->num);
+                }
+                if (x == num) break;
+                last = INT_MIN;
+            }
+            /*workers_finish(pool);
+            feas_delete(feas);*/
+            //if(fnr!=NULL)gmm_save_log(fnr,gmix);
+            Gmm_init_classifier(); /* Pre-compute the non-data dependant part of classifier. */
+            Gmm_save(fnm); /* Save the model with the pre-computed part for fast classify.  */
+            //gmm_delete(gmix);
+            return 0;
+
+        }
 	/* Public function prototypes to work with Gaussian Mixture Models. */
 /*	GMM *gmm_load(char*)
 	GMM *gmm_initialize(data*,number);
@@ -411,6 +471,23 @@ namespace SR_GMM
                     mix[i].dcov[k] = mix[0].dcov[k];
                 }
             }
+        }
+        public GMM (GMM gmm)
+        {
+            this.dimension = gmm.dimension;
+            this.num = gmm.num;
+            this.Llh = gmm.Llh;
+            this.mcov = new float[dimension];
+            gmm.mcov.CopyTo(this.mcov, 0);
+            this.mix = new gauss[num];
+            for (int ii = 0; ii < num; ii++)
+            {
+                mix[ii] = new gauss(dimension);
+            }
+            gmm.mix.CopyTo(this.mix, 0);
+            
+
+
         }
     }
 }
