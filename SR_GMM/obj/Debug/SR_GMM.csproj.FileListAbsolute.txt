@@ -12,3 +12,6 @@ E:\work\Aspirant\SpeakerRecognition\SR_GMM\SR_GMM\bin\Debug\FirebirdSql.Data.Fir
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.exe.config
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.exe
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.pdb
+D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.exe.config
+D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.exe
+D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.pdb

@@ -92,7 +92,7 @@ namespace SR_GMM
 
         }
         
-        public int Adapt(Data feas, GMM world, int itNum, string fnf, string fnm, int nmix, double m = -1, double sigma = 0.01, int imax = 100, int t = 0, string fnr = null)
+        public int Adapt(Data feas, GMM world, string fnf, string fnm, int nmix, int reg=14, double m = -1, double sigma = 0.01, int imax = 1, int t = 0, string fnr = null)
         {
             const int INT_MIN = int.MinValue;
             int i, o, x = 0;
@@ -123,50 +123,53 @@ namespace SR_GMM
             //gmm *gmix=gmm_initialize(feas,nmix); /* Good GMM initialization using data.    */
 
             //fprintf(stdout,"Number of Components: %06i\n",gmix->num);
-            for (o = 1; o <= imax; o++)
-            {
+
+            //задаем число итераций
+
                 for (i = 1; i <= imax; i++)
                 {
                     llh = gmm_EMtrain(feas, t); /* Compute one iteration of EM algorithm.   */
-                    //fprintf(stdout,"Iteration: %05i    Improvement: %3i%c    LogLikelihood: %.3f\n",
-                    //	i,abs(round(-100*(llh-last)/last)),'%',llh); /* Show the EM results.  */
                     if (last - llh > -sigma || float.IsNaN(last - llh)) break; /* Break with sigma threshold. */
                     last = llh;
+
+                    //MapOccDep Algorithm
+                    MapOccDep(world, reg, feas.samples);
+
+                    //change other params to world model
+                    for (int j = 0; j < this.num; j++)
+                    {
+                        world.mix[j].dcov.CopyTo(this.mix[j].dcov, 0);
+                        this.mix[j].prior = world.mix[j].prior;
+                        //and reverse covariance matrix
+                        for (int k = 0; k < this.dimension; k++)
+                            this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
+                    }                    
                 }
-                x = num;
-                if (m >= 0)
-                {
-                    //gmm_merge(gmix,feas,m,pool);
-                    //fprintf(stdout,"Number of Components: %06i\n",gmix->num);
-                }
-                if (x == num) break;
-                last = INT_MIN;
-            }
-            /*workers_finish(pool);
-            feas_delete(feas);*/
-            //if(fnr!=NULL)gmm_save_log(fnr,gmix);
+                
             Gmm_init_classifier(); /* Pre-compute the non-data dependant part of classifier. */
             Gmm_save(fnm); /* Save the model with the pre-computed part for fast classify.  */
             //gmm_delete(gmix);
             return 0;
 
         }
-	/* Public function prototypes to work with Gaussian Mixture Models. */
-/*	GMM *gmm_load(char*)
-	GMM *gmm_initialize(data*,number);
-	void gmm_save(char*,GMM*);
-	void gmm_save_log(char*,GMM*);
-	void gmm_delete(GMM*);
-	decimal gmm_classify(char*,data*,GMM*,GMM*,workers*);
-	decimal gmm_simple_classify(data*,GMM*,GMM*,workers*);
-	decimal gmm_EMtrain(data*,GMM*,workers*);
-	GMM *gmm_merge(GMM*,data*,decimal,workers*); */
-	/* Private function prototypes to work with Gaussian Mixture Models. */
-	//GMM *gmm_create(number,number);
-	//void gmm_init_classifier(GMM*);
 
+        void MapOccDep(GMM world, int reg, long frame_count)
+        {
+            float alpha = 0;
+            for (int i = 0; i < this.num; i++)
+            {
+                alpha = (float)(Math.Pow(10,this.mix[i].prior) * frame_count);
+                alpha = this.mix[i].prior * frame_count;
+                alpha = (alpha / (alpha + reg));
+                for (int j = 0; j < this.dimension; j++)
+                {
+                    this.mix[i].mean[j] = ((1 - alpha) * world.getMean(i, j) + alpha * this.mix[i].mean[j]);
+                }
+            }
+        }
         /* Parallel implementation of the E Step of the EM algorithm. */
-        void Thread_trainer(Data feas, long ini, long end){
+        void Thread_trainer(Data feas, long ini, long end)
+        {
 	//trainer *t=(trainer*)tdata; /* Get the data for the thread and alloc memory. */
 	//gmm *gmix=t->gmix; data *feas=t->feas;
 	float[] zval= new float[num], prob =new float [num];
@@ -488,6 +491,10 @@ namespace SR_GMM
             
 
 
+        }
+        public float getMean(int n, int coef)
+        {
+            return this.mix[n].mean[coef];
         }
     }
 }
