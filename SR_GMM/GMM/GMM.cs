@@ -159,7 +159,7 @@ namespace SR_GMM
             for (int i = 0; i < this.num; i++)
             {
                 alpha = (float)(Math.Pow(10,this.mix[i].prior) * frame_count);
-                alpha = this.mix[i].prior * frame_count;
+                //alpha = this.mix[i].prior * frame_count;
                 alpha = (alpha / (alpha + reg));
                 for (int j = 0; j < this.dimension; j++)
                 {

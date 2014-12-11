@@ -94,6 +94,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
+            this.button15 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -426,6 +427,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.button15);
             this.tabPage4.Controls.Add(this.label16);
             this.tabPage4.Controls.Add(this.textBox23);
             this.tabPage4.Controls.Add(this.textBox22);
@@ -528,9 +530,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(64, 181);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(64, 13);
+            this.label14.Size = new System.Drawing.Size(97, 13);
             this.label14.TabIndex = 53;
-            this.label14.Text = "Порог SVM";
+            this.label14.Text = "Порог SVM (UBM)";
             // 
             // textBox18
             // 
@@ -538,7 +540,7 @@
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(25, 20);
             this.textBox18.TabIndex = 52;
-            this.textBox18.Text = "0.1";
+            this.textBox18.Text = "0,1";
             // 
             // button10
             // 
@@ -650,7 +652,7 @@
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(140, 20);
             this.textBox10.TabIndex = 39;
-            this.textBox10.Text = "CV128_30_10";
+            this.textBox10.Text = "CV128_30_10_UBM";
             // 
             // button8
             // 
@@ -685,7 +687,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(141, 20);
             this.textBox12.TabIndex = 35;
-            this.textBox12.Text = "E:\\temp\\123\\12samplesN";
+            this.textBox12.Text = "D:\\reduced\\12samplesN - 2SR";
             // 
             // button9
             // 
@@ -756,6 +758,16 @@
             this.textBox20.Size = new System.Drawing.Size(25, 20);
             this.textBox20.TabIndex = 31;
             this.textBox20.Text = "-2,5";
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(514, 197);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(103, 42);
+            this.button15.TabIndex = 61;
+            this.button15.Text = "UBM 1 раз";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click_1);
             // 
             // Form1
             // 
@@ -848,6 +860,7 @@
         private System.Windows.Forms.TextBox textBox22;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.Button button15;
     }
 }
 

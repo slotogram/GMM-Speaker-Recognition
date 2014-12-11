@@ -41,6 +41,7 @@ namespace SR_GMM
         public long samples;    /* Samples number of the overall data.   */
         public int dimension;  /* Dimension number of the data loaded.  */
         public float frame_rate;
+        public int spkrID;
         //ushort dimension;
         public Data()
         {
@@ -179,7 +180,7 @@ namespace SR_GMM
 
             foreach (string s in Paths)
             {
-                d = new Data(s, false);
+                d = new Data(s, false); //поменял , можно брать только одного диктора данные
                 samp += d.samples;
                 
                 if ((samp / d.frame_rate) > Length)
@@ -231,12 +232,18 @@ namespace SR_GMM
             LoadSingle(Path);
 
             if (needMean) CalcMean();
-
-
-            //вызов train\
-
-            //GMM g = new GMM(24, dimension, feas );
-            //g.Train(feas, "asdas", "model.txt",24, 0.95,0.01,100,1);
+            
+                //взять имя файла
+            string tmp = System.IO.Path.GetFileNameWithoutExtension(Path);
+                //найти пробел
+                   
+                //вырезать с начала до пробела
+            tmp=tmp.Substring(0, tmp.IndexOf(' '));
+            int ind = 0;
+                //toInt
+            int.TryParse(tmp, out ind);
+            this.spkrID = ind;
+            
 
         }
 

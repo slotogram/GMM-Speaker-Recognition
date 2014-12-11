@@ -969,5 +969,203 @@ namespace SR_GMM
         {
             
         }
+
+        private void button15_Click_1(object sender, EventArgs e)
+        {
+            /* Что тут делается:
+             * 1. Глобальный цикл на число кросс-валидаций
+             * 2. В каждом цикле данные разбиваются на участки x и y длительностью, x-обучающая, y - тестовая; x -20 сегментов
+             * 3. Проводится обучение UBM-GMM модели на x данных
+             * 3.2. Проводится MAP адаптация моделей дикторов
+             * 4. Проводится тестирование на Y данных
+             * 5. Подводиться итог данного цикла
+             * 6. Подводится итог всех цикллов
+             */
+
+            //загоняем данные о коэфф-ах в память
+
+
+            //Узнать длительность каждого файла в кадрах
+            //Составить список файлов, которые не должны участвовать в тестировании
+            //
+            StreamWriter fs = new StreamWriter(Environment.CurrentDirectory + "\\" + textBox10.Text + ".txt");
+            int right = 0, error = 0, Right = 0, Error = 0;
+            int total = 0;
+            int CVCount = 1; //заглушка
+            float thrsh = 0;
+            float.TryParse(textBox18.Text, out thrsh);
+
+            List<int> speakerList = new List<int>();
+            for (int i = 1; i <= 50; i++) speakerList.Add(i);
+            List<string>[] learnList = new List<string>[50];
+            int learnLen = int.MaxValue, testLen;
+            //int.TryParse(textBox11.Text, out learnLen);
+            int.TryParse(textBox13.Text, out testLen);
+
+            //прогнать цикл по спикерам
+            //выбрать тестовые данные
+            //создать модель из тестовых данных
+
+            for (int ii = 0; ii < CVCount; ii++)
+            {
+
+                right = 0; error = 0; total = 0;
+                List<GMM> gmmList = new List<GMM>();
+                learnList[0] = new List<string>();
+                GMM ubm = null;
+                Data learnData = null;
+                int gmmN = 0;
+                int.TryParse(textBox15.Text, out gmmN);
+                //проверить, есть ли gmm?
+                if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
+                {
+                    ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm");
+                }
+                else
+                {
+                    for (int i = 0; i < speakerList.Count; i++)
+                    {
+
+                        //Создание списка обучающих сегментов
+                        for (int k = 1; k <= 20; k++)
+                        {
+                            learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                        }
+
+                    }
+                    //сформировать Data из обучающих данных и создать модель UBM
+                    learnData = new Data(learnList[0], learnLen);
+                    
+                    
+
+                    ubm = new GMM(gmmN, learnData.dimension, learnData);
+                    ubm.Train(learnData, "asdas", textBox12.Text + "\\" + "ubm.gmm", gmmN, 0.95, 0.01, 100, 1);
+                }
+                //адаптировать модели дикторов
+                for (int i = 0; i < speakerList.Count; i++)
+                {
+                    learnList[i] = new List<string>();
+                    //Создание списка обучающих сегментов
+                    for (int k = 21; k <= 30; k++)
+                    {
+                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                    }
+
+                    learnData = new Data(learnList[i], learnLen);
+                    GMM spkr = new GMM(gmmN, learnData.dimension, learnData);
+                    spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,14, 0.95, 0.01, 1, 1);
+                    gmmList.Add(spkr);
+                }
+
+                //сформировать тестовую выборку и начать тестирование
+                int[] rSp = new int[gmmList.Count];
+                int[] errSp = new int[gmmList.Count]; //1
+                int[] falseAlarm = new int[gmmList.Count]; //2
+
+                //создаем список обучающих сегментов
+                Random r = new Random(DateTime.Now.Millisecond);
+                List<string> DirList;
+                List<Data> AllTestData = new List<Data>();
+
+                for (int l = 0; l < speakerList.Count; l++)
+                {
+                    DirList = new List<string>();
+                    //Создание списка обучающих сегментов
+                    for (int k = 31; k <= 50; k++)
+                    {
+                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ").mcc");
+                    }
+
+                    // не надо перемешать список!
+                    /*int n = DirList.Count;
+                    while (n > 1)
+                    {
+                        n--;
+                        int k = r.Next(n + 1);
+                        string tmp = DirList[k];
+                        DirList[k] = DirList[n];
+                        DirList[n] = tmp;
+                    }*/
+                    AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen));
+                }
+                    //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
+                 
+
+
+                    for (int i = 0; i < speakerList.Count; i++)
+                    {
+                        //bool[] used = new bool[s.Length];
+
+                        float[] res = new float[gmmList.Count];
+
+                        foreach (Data d in AllTestData)
+                        {
+                            //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
+                            //float max = -(float.MaxValue - 1);
+
+                            /*float E = 0;
+                            float.TryParse(textBox23.Text, out E);
+                            d.deleteLowEnergySamples(E);*/
+
+                            //if (gmmList[i].Classify(d, 1, null, ubm) > thrsh)
+                            if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
+                            {
+                                if (d.spkrID == i + 1)
+                                {
+                                    right++;
+                                    rSp[d.spkrID - 1]++;
+                                }
+                                else
+                                {
+                                    error++;
+                                    errSp[i]++;
+                                }
+                            }
+                            else
+                            {
+                                if (d.spkrID == i + 1)
+                                {
+                                    error++;
+                                    falseAlarm[i]++;
+                                    
+                                }
+                                else
+                                {
+                                    right++;
+                                    rSp[d.spkrID - 1]++;
+                                }                               
+                                
+                            }
+
+
+                        }
+
+                    }
+                total = right + error;
+                for (int i = 0; i < gmmList.Count; i++)
+                {
+                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (errSp[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i]);
+                }
+
+                fs.WriteLine("Всего распознано верно - " + right.ToString());
+                fs.WriteLine("Всего распознано верно проценты - " + ((int)(100 * right / total)).ToString());
+
+                fs.WriteLine("Всего распознано неверно - " + error.ToString());
+                fs.WriteLine("Всего распознано неверно проценты - " + ((int)(100 * error / total)).ToString());
+                fs.Flush();
+
+                Right += right;
+                Error += error;
+            }
+            total = Right + Error;
+            fs.WriteLine("-------------------------------------------------------------");
+            fs.WriteLine("Всего распознано верно - " + Right.ToString());
+            fs.WriteLine("Всего распознано верно проценты - " + ((int)(100 * Right / total)).ToString());
+
+            fs.WriteLine("Всего распознано неверно - " + Error.ToString());
+            fs.WriteLine("Всего распознано неверно проценты - " + ((int)(100 * Error / total)).ToString());
+            fs.WriteLine("Всего - " + total.ToString());
+            fs.Close();
+        }
     }
 }
