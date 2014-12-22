@@ -1167,5 +1167,14 @@ namespace SR_GMM
             fs.WriteLine("Всего - " + total.ToString());
             fs.Close();
         }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            string[] s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
+
+            //загружаем Data;
+
+            Data.SaveCSV(s,textBox24.Text);
+        }
     }
 }

@@ -246,14 +246,26 @@ namespace SR_GMM
             
 
         }
-
+        /// <summary>
+        /// Похоже, что этот конструктор не стоит использовать, я добавил код для id, но не уверен
+        /// </summary>
+        /// <param name="Path"></param>
         public Data(string Path)
         {
             LoadSingle(Path);
 
             CalcMean();
-            
-           
+
+            //взять имя файла
+            string tmp = System.IO.Path.GetFileNameWithoutExtension(Path);
+            //найти пробел
+
+            //вырезать с начала до пробела
+            tmp = tmp.Substring(0, tmp.IndexOf(' '));
+            int ind = 0;
+            //toInt
+            int.TryParse(tmp, out ind);
+            this.spkrID = ind;
             //вызов train\
             
             //GMM g = new GMM(24, dimension, feas );
@@ -400,6 +412,27 @@ namespace SR_GMM
             stream.Close();
 
 
+        }
+        public static void SaveCSV(string[] path, string fname)
+        {
+            Data dt;
+            System.IO.StreamWriter stream = new StreamWriter(fname, false);
+            foreach (string s1 in path)
+            {
+                dt = new Data(s1, false);
+                
+                for (long i = 0; i < dt.samples; i++)
+                {
+                    for (int j = 0; j < dt.dimension; j++)
+                    {
+                        stream.Write(dt.data[i][j]);
+                        stream.Write(';');
+                    }
+                    stream.WriteLine(dt.spkrID);
+                }
+                
+            }
+            stream.Close();
         }
 	};
 }

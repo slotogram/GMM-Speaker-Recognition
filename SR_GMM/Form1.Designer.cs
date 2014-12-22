@@ -61,6 +61,7 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button15 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox22 = new System.Windows.Forms.TextBox();
@@ -94,7 +95,8 @@
             this.button12 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
-            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.textBox24 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -462,6 +464,16 @@
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(514, 197);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(103, 42);
+            this.button15.TabIndex = 61;
+            this.button15.Text = "UBM 1 раз";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click_1);
+            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -701,6 +713,8 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.textBox24);
+            this.tabPage5.Controls.Add(this.button16);
             this.tabPage5.Controls.Add(this.button13);
             this.tabPage5.Controls.Add(this.textBox21);
             this.tabPage5.Controls.Add(this.button12);
@@ -759,15 +773,23 @@
             this.textBox20.TabIndex = 31;
             this.textBox20.Text = "-2,5";
             // 
-            // button15
+            // button16
             // 
-            this.button15.Location = new System.Drawing.Point(514, 197);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(103, 42);
-            this.button15.TabIndex = 61;
-            this.button15.Text = "UBM 1 раз";
-            this.button15.UseVisualStyleBackColor = true;
-            this.button15.Click += new System.EventHandler(this.button15_Click_1);
+            this.button16.Location = new System.Drawing.Point(174, 141);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(86, 34);
+            this.button16.TabIndex = 39;
+            this.button16.Text = "Convert MFCC to CSV";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // textBox24
+            // 
+            this.textBox24.Location = new System.Drawing.Point(27, 143);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(141, 20);
+            this.textBox24.TabIndex = 40;
+            this.textBox24.Text = "all.csv";
             // 
             // Form1
             // 
@@ -861,6 +883,8 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox23;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.TextBox textBox24;
     }
 }
 
