@@ -11,7 +11,6 @@ E:\work\Aspirant\SpeakerRecognition\MicRecognition\MicRecognition\obj\Debug\MicR
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\bin\Debug\MicRecognition.exe.config
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\bin\Debug\MicRecognition.exe
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\bin\Debug\MicRecognition.pdb
-E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\bin\Debug\NAudio.xml
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.csprojResolveAssemblyReference.cache
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\obj\Debug\SR_GMM.RecordForm.resources
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.Properties.Resources.resources

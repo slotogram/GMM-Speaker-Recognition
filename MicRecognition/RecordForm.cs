@@ -115,14 +115,14 @@ namespace SR_GMM
             waveIn.StopRecording();
         }
 
-        private void Record(int time)
+        private void Record(int time, string path)
         {
             waveIn = new WaveIn();
             waveIn.DeviceNumber = 0;
             waveIn.DataAvailable += waveIn_DataAvailable;
             waveIn.RecordingStopped += new EventHandler<NAudio.Wave.StoppedEventArgs>(waveIn_RecordingStopped);
             waveIn.WaveFormat = new WaveFormat(16000, 1);
-            outputFilename = textBox1.Text + ".wav";
+            outputFilename = path + ".wav";
             writer = new WaveFileWriter(outputFilename, waveIn.WaveFormat);
             waveIn.StartRecording();
             //Thread.Sleep(time*1000);
@@ -140,8 +140,12 @@ namespace SR_GMM
         {
             int t = 0;
             int.TryParse(textBox2.Text, out t);
+            bool rec = false;
             if (!System.IO.File.Exists(textBox1.Text + ".wav"))
-            Record(t);
+            {
+                Record(t, textBox1.Text);
+                rec = true;
+            }
 
             //замеряем время вычислений
            
@@ -151,7 +155,7 @@ namespace SR_GMM
 
             Thread thread = new Thread(delegate()
             {
-                Waiter(t);
+                if (rec)  Waiter(t);
                 var start = DateTime.Now;
                 var stopwatch = Stopwatch.StartNew();
                 // Do something
@@ -169,12 +173,16 @@ namespace SR_GMM
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            bool rec = false;
             if (!System.IO.File.Exists(textBox4.Text + ".wav"))
-            Record(10);
+            {
+                Record(10, textBox4.Text);
+                rec = true;
+            }
             float res = 0;
             Thread thread = new Thread(delegate()
             {
-                Waiter(10);
+                if (rec) Waiter(10);
                 var stopwatch = Stopwatch.StartNew();
                 if (!System.IO.File.Exists(textBox4.Text + ".mcc"))
                 getMCC(textBox4.Text);
@@ -186,7 +194,7 @@ namespace SR_GMM
                 System.IO.StreamWriter sw = new StreamWriter("log.txt", true);
 
                 sw.WriteLine();
-                sw.WriteLine(textBox4.Text+" "+ res);
+                sw.WriteLine(textBox4.Text+" "+ res.ToString());
                 sw.Close();
 
             });
@@ -199,14 +207,18 @@ namespace SR_GMM
         {
             int t = 0;
             int.TryParse(textBox2.Text, out t);
-            if (!System.IO.File.Exists(textBox1.Text+".wav"))
-            Record(t);
+            bool rec = false;
+            if (!System.IO.File.Exists(textBox1.Text + ".wav"))
+            {
+                Record(t, textBox1.Text);
+                rec = true;
+            }
             
             //замеряем время вычислений
 
             Thread thread = new Thread(delegate()
             {
-                if (!System.IO.File.Exists(textBox1.Text + ".wav"))
+                if (rec)
                 Waiter(t);
                 var start = DateTime.Now;
                 var stopwatch = Stopwatch.StartNew();
@@ -251,12 +263,16 @@ namespace SR_GMM
 
         private void button3_Click(object sender, EventArgs e)
         {
+            bool rec = false;
             if (!System.IO.File.Exists(textBox4.Text + ".wav"))
-                Record(10);
+            {
+                Record(10, textBox4.Text);
+                rec = true;
+            }
             float res = 0;
             Thread thread = new Thread(delegate()
             {
-                if (!System.IO.File.Exists(textBox4.Text + ".wav"))
+                if (rec)
                 Waiter(10);
                 var stopwatch = Stopwatch.StartNew();
                 if (!System.IO.File.Exists(textBox4.Text + ".mcc"))
@@ -283,7 +299,7 @@ namespace SR_GMM
                 System.IO.StreamWriter sw = new StreamWriter("log.txt", true);
 
                 sw.WriteLine();
-                sw.WriteLine(textBox4.Text + " " + res);
+                sw.WriteLine(textBox4.Text + " " + res.ToString());
                 sw.Close();
 
             });
