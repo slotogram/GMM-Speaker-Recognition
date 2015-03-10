@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SR_GMM", "SR_GMM\SR_GMM.csproj", "{99B51E2E-4CFE-4FF8-B6A3-BEDBEB147C31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicRecognition", "MicRecognition\MicRecognition.csproj", "{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{99B51E2E-4CFE-4FF8-B6A3-BEDBEB147C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99B51E2E-4CFE-4FF8-B6A3-BEDBEB147C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99B51E2E-4CFE-4FF8-B6A3-BEDBEB147C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

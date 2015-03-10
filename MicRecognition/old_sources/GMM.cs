@@ -14,7 +14,7 @@ using System.IO;
 
 namespace SR_GMM
 {
-    public class GMM
+    class GMM
     {
         const double NUM_PI = 3.14159265358979323846; /* Math PI value.   */
 
@@ -91,85 +91,22 @@ namespace SR_GMM
 	return 0;
 
         }
-        
-        public int Adapt(Data feas, GMM world, string fnf, string fnm, int nmix, int reg=14, double m = -1, double sigma = 0.01, int imax = 1, int t = 0, string fnr = null)
-        {
-            const int INT_MIN = int.MinValue;
-            int i, x = 0;
-            t = Environment.ProcessorCount;
-            float last = INT_MIN, llh;
-            //Проверка аргументов и инициализация
-            if (t > 256 || t < 1) new Exception("Number of threads must be on the 1-256 range");
-            if (nmix > 524228 || nmix < 2) throw new Exception("Number of components must be on the 2-32768 range");
-            if (imax > 10000 || imax < 1) throw new Exception("Number of iterations must be on the 1-10000 range");
-            if (fnf.Length > 0) x++;
-            if (fnm.Length > 0) x++;
-            if (m > 1.0 || m < 0.0) throw new Exception("Merge threshold must be on the 0.0-1.0 range");
-            if (sigma > 1.0 || imax < 0.0) throw new Exception("Sigma criterion must be on the 0.0-1.0 range");
+	/* Public function prototypes to work with Gaussian Mixture Models. */
+/*	GMM *gmm_load(char*)
+	GMM *gmm_initialize(data*,number);
+	void gmm_save(char*,GMM*);
+	void gmm_save_log(char*,GMM*);
+	void gmm_delete(GMM*);
+	decimal gmm_classify(char*,data*,GMM*,GMM*,workers*);
+	decimal gmm_simple_classify(data*,GMM*,GMM*,workers*);
+	decimal gmm_EMtrain(data*,GMM*,workers*);
+	GMM *gmm_merge(GMM*,data*,decimal,workers*); */
+	/* Private function prototypes to work with Gaussian Mixture Models. */
+	//GMM *gmm_create(number,number);
+	//void gmm_init_classifier(GMM*);
 
-            if (x < 2) new Exception("Не знаданы входной и выходной файлы"); /* Test if exists all the needed arguments. */
-
-            //http://msdn.microsoft.com/ru-ru/library/h4732ks0.aspx
-            ThreadPool.SetMaxThreads(t, 1);
-
-
-            //workers *pool=workers_create(t);
-            //data *feas=feas_load(fnf,pool);  /* Load the features from the specified disc file. s*/
-
-            /*if(nmix==-1){
-                if(m<0)m=0.95;
-                nmix=sqrt(feas->samples/2);
-            }*/
-            //gmm *gmix=gmm_initialize(feas,nmix); /* Good GMM initialization using data.    */
-
-            //fprintf(stdout,"Number of Components: %06i\n",gmix->num);
-
-            //задаем число итераций
-
-                for (i = 1; i <= imax; i++)
-                {
-                    llh = gmm_EMtrain(feas, t); /* Compute one iteration of EM algorithm.   */
-                    if (last - llh > -sigma || float.IsNaN(last - llh)) break; /* Break with sigma threshold. */
-                    last = llh;
-
-                    //MapOccDep Algorithm
-                    MapOccDep(world, reg, feas.samples);
-
-                    //change other params to world model
-                    for (int j = 0; j < this.num; j++)
-                    {
-                        world.mix[j].dcov.CopyTo(this.mix[j].dcov, 0);
-                        this.mix[j].prior = world.mix[j].prior;
-                        //and reverse covariance matrix
-                        for (int k = 0; k < this.dimension; k++)
-                            this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
-                    }                    
-                }
-                
-            Gmm_init_classifier(); /* Pre-compute the non-data dependant part of classifier. */
-            Gmm_save(fnm); /* Save the model with the pre-computed part for fast classify.  */
-            //gmm_delete(gmix);
-            return 0;
-
-        }
-
-        void MapOccDep(GMM world, int reg, long frame_count)
-        {
-            float alpha = 0;
-            for (int i = 0; i < this.num; i++)
-            {
-                alpha = (float)(Math.Pow(10,this.mix[i].prior) * frame_count);
-                //alpha = this.mix[i].prior * frame_count;
-                alpha = (alpha / (alpha + reg));
-                for (int j = 0; j < this.dimension; j++)
-                {
-                    this.mix[i].mean[j] = ((1 - alpha) * world.getMean(i, j) + alpha * this.mix[i].mean[j]);
-                }
-            }
-        }
         /* Parallel implementation of the E Step of the EM algorithm. */
-        void Thread_trainer(Data feas, long ini, long end)
-        {
+        void Thread_trainer(Data feas, long ini, long end){
 	//trainer *t=(trainer*)tdata; /* Get the data for the thread and alloc memory. */
 	//gmm *gmix=t->gmix; data *feas=t->feas;
 	float[] zval= new float[num], prob =new float [num];
@@ -474,31 +411,6 @@ namespace SR_GMM
                     mix[i].dcov[k] = mix[0].dcov[k];
                 }
             }
-        }
-        public GMM (GMM gmm)
-        {
-            this.dimension = gmm.dimension;
-            this.num = gmm.num;
-            this.Llh = gmm.Llh;
-            this.mcov = new float[dimension];
-            gmm.mcov.CopyTo(this.mcov, 0);
-            this.mix = new gauss[num];
-            for (int ii = 0; ii < num; ii++)
-            {
-                mix[ii] = new gauss(dimension);
-            }
-            gmm.mix.CopyTo(this.mix, 0);
-            
-
-
-        }
-        public float getMean(int n, int coef)
-        {
-            return this.mix[n].mean[coef];
-        }
-        public int getNumMix()
-        {
-            return this.num;
         }
     }
 }

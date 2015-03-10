@@ -23,3 +23,11 @@ D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.exe
 D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.pdb
 D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
 D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.exe
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.pdb
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.MainForm.resources
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.Properties.Resources.resources
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.csproj.GenerateResource.Cache
+E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.csprojResolveAssemblyReference.cache
