@@ -235,6 +235,12 @@ namespace SR_GMM
 
                 //посчитаем порог для данной записи
                 float score = spkr.Classify(learnData, 1, null, ubm);
+                textBoxLog.Invoke(
+                (ThreadStart)delegate()
+                {
+                    textBoxLog.Text += "Диктор " + textBox1.Text + " = " + score.ToString() + Environment.NewLine;
+                });
+                
 
                 if (System.IO.Directory.Exists("impostors"))
                 {
@@ -252,7 +258,13 @@ namespace SR_GMM
                         if (impScore > max) max = impScore;
                     }
                     avg /= impList.Count;
-                    //textBox3.Text = avg.ToString();
+                    textBoxLog.Invoke(
+                    (ThreadStart)delegate()
+                    {
+                        textBoxLog.Text += "Средний нарушитель " + " = " + avg.ToString() + Environment.NewLine;
+                        textBoxLog.Text += "Min нарушитель " + " = " + min.ToString() + Environment.NewLine;
+                        textBoxLog.Text += "Max нарушитель " + " = " + max.ToString() + Environment.NewLine;
+                    });
                 }
                 MessageBox.Show("Обучение прошло за: " + stopwatch.ElapsedMilliseconds.ToString() + " мс");
 
@@ -288,7 +300,11 @@ namespace SR_GMM
 
                 //посчитаем порог для данной записи
                 float score = spkr.Classify(learnData, 1, null, ubm);
-
+                textBoxLog.Invoke(
+               (ThreadStart)delegate()
+               {
+                   textBoxLog.Text += "Проверка диктора " + textBox4.Text + " = " + score.ToString() + Environment.NewLine;
+               });
                 float thr = 0;
                 float.TryParse(textBox3.Text, out thr);
 
