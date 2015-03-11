@@ -90,19 +90,26 @@
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.button9 = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.button16 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.textBox21 = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
-            this.button16 = new System.Windows.Forms.Button();
-            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.button17 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBox26 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -112,6 +119,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Multiline = true;
@@ -728,6 +736,24 @@
             this.tabPage5.Text = "Silence remove";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // textBox24
+            // 
+            this.textBox24.Location = new System.Drawing.Point(27, 143);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(141, 20);
+            this.textBox24.TabIndex = 40;
+            this.textBox24.Text = "all.csv";
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(174, 141);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(86, 34);
+            this.button16.TabIndex = 39;
+            this.button16.Text = "Convert MFCC to CSV";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
             // button13
             // 
             this.button13.Location = new System.Drawing.Point(174, 112);
@@ -773,31 +799,72 @@
             this.textBox20.TabIndex = 31;
             this.textBox20.Text = "-2,5";
             // 
-            // button16
+            // tabPage6
             // 
-            this.button16.Location = new System.Drawing.Point(174, 141);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(86, 34);
-            this.button16.TabIndex = 39;
-            this.button16.Text = "Convert MFCC to CSV";
-            this.button16.UseVisualStyleBackColor = true;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
+            this.tabPage6.Controls.Add(this.button18);
+            this.tabPage6.Controls.Add(this.label17);
+            this.tabPage6.Controls.Add(this.textBox26);
+            this.tabPage6.Controls.Add(this.textBox25);
+            this.tabPage6.Controls.Add(this.button17);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(685, 251);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "UBM creation";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // textBox24
+            // textBox25
             // 
-            this.textBox24.Location = new System.Drawing.Point(27, 143);
-            this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(141, 20);
-            this.textBox24.TabIndex = 40;
-            this.textBox24.Text = "all.csv";
+            this.textBox25.Location = new System.Drawing.Point(26, 15);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.Size = new System.Drawing.Size(141, 20);
+            this.textBox25.TabIndex = 28;
+            this.textBox25.Text = "E:\\temp\\123\\12samples1d";
             // 
-            // Form1
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(173, 15);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(37, 23);
+            this.button17.TabIndex = 27;
+            this.button17.Text = "Dir";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(170, 55);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(86, 23);
+            this.button18.TabIndex = 41;
+            this.button18.Text = "Start";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(95, 60);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(56, 13);
+            this.label17.TabIndex = 40;
+            this.label17.Text = "Имя UBM";
+            // 
+            // textBox26
+            // 
+            this.textBox26.Location = new System.Drawing.Point(25, 57);
+            this.textBox26.Name = "textBox26";
+            this.textBox26.Size = new System.Drawing.Size(64, 20);
+            this.textBox26.TabIndex = 39;
+            this.textBox26.Text = "ubm.gmm";
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 277);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "GMM идентификация диктора";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -810,6 +877,8 @@
             this.tabPage4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -885,6 +954,12 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.TextBox textBox24;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox textBox26;
+        private System.Windows.Forms.TextBox textBox25;
+        private System.Windows.Forms.Button button17;
     }
 }
 

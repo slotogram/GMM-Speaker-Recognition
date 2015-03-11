@@ -1176,5 +1176,32 @@ namespace SR_GMM
 
             Data.SaveCSV(s,textBox24.Text);
         }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                textBox25.Text = folderBrowserDialog1.SelectedPath;
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            string gmmName = textBox26.Text;
+            string path = textBox25.Text;
+
+            string[] list = System.IO.Directory.GetFiles(path, "*.wav");
+
+            //создаем mfcc файлы из wav
+
+            for (int i = 0; i < list.Count(); i++)
+            {
+
+            }
+            //создаем единый дата из всех mfcc
+             list = System.IO.Directory.GetFiles(path, "*.mcc");
+            learnData = new Data(learnList[0], learnLen);
+            
+            GMM ubm = new GMM(gmmN, learnData.dimension, learnData);
+            ubm.Train(learnData, "asdas", textBox12.Text + "\\" + "ubm.gmm", gmmN, 0.95, 0.01, 100, 1);
+        }
     }
 }
