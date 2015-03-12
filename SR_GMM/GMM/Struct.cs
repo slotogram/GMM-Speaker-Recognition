@@ -78,6 +78,10 @@ namespace SR_GMM
             }
 
         }
+        /// <summary>
+        /// Создает единый дата из нескольких дата файлов
+        /// </summary>
+        /// <param name="Paths">список путей к файлам mcc с параметрами</param>
         public Data(List<string> Paths)
         {
             
@@ -91,11 +95,14 @@ namespace SR_GMM
                 lst.Add(d.data);
                 samp += d.samples;
             }
-            //удилать
+            //удилать ???
+            //Это я вроде бы использовал для оценки влияния энергиии в features
+
+            /* 
             int count = 0;
             int count2 = 0;
             List<int> chng = new List<int>();
-
+                         
             for (int i = 1; i < d.samples; i++)
             {
                 //if (d.data[i][0] > 0) count++;
@@ -107,7 +114,7 @@ namespace SR_GMM
                 if ((d.data[i][0] > 0.5) || (d.data[i][3] > 0.5) || (d.data[i][12] > 0.5)) count2++;
             }
             float flt = (float)count / d.samples;
-
+            */
             //
             data = lst[0];
             dimension = d.dimension;
@@ -116,11 +123,7 @@ namespace SR_GMM
             samples = samp;
           
             CalcMean();
-
-            //вызов train\
-
-            //GMM g = new GMM(24, dimension, feas );
-            //g.Train(feas, "asdas", "model.txt",24, 0.95,0.01,100,1);
+                     
 
         }
         /// <summary>
@@ -233,15 +236,21 @@ namespace SR_GMM
 
             if (needMean) CalcMean();
             
+            //записываем номер диктора, если есть
+
                 //взять имя файла
             string tmp = System.IO.Path.GetFileNameWithoutExtension(Path);
-                //найти пробел
-                   
-                //вырезать с начала до пробела
-            tmp=tmp.Substring(0, tmp.IndexOf(' '));
+            
             int ind = 0;
+            if (tmp.IndexOf(' ') >= 0)
+            {
+                //найти пробел
+                //вырезать с начала до пробела
+                tmp = tmp.Substring(0, tmp.IndexOf(' '));
+
                 //toInt
-            int.TryParse(tmp, out ind);
+                int.TryParse(tmp, out ind);
+            }
             this.spkrID = ind;
             
 

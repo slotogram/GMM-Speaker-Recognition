@@ -16,7 +16,6 @@ D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.exe.config
 D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.exe
 D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.pdb
 D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.csprojResolveAssemblyReference.cache
-D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.Form1.resources
 D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.Properties.Resources.resources
 D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.csproj.GenerateResource.Cache
 D:\git\GMM-Speaker-Recognition\SR_GMM\bin\Debug\SR_GMM.exe
@@ -31,3 +30,4 @@ E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.Properties.Resources.resources
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.csproj.GenerateResource.Cache
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.csprojResolveAssemblyReference.cache
+D:\git\GMM-Speaker-Recognition\SR_GMM\obj\Debug\SR_GMM.MainForm.resources

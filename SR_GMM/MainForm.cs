@@ -55,9 +55,12 @@ namespace SR_GMM
         private void button3_Click(object sender, EventArgs e)
         {
             int n = 0;
-            string[] s = System.IO.Directory.GetFiles(textBox1.Text);
-            
-            
+            string[] s;
+            if (checkBox4.Checked) 
+                s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav", SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav");
+
+                       
             int.TryParse( textBox2.Text, out n);
             if (n > 0 && n < 24)
             {
@@ -70,7 +73,7 @@ namespace SR_GMM
                 if (radioButton3.Checked) { shortArgs += "-D -A "; dir += "2d"; }
                 if (checkBox2.Checked) { shortArgs += "-Z -R "; dir += "N"; }
 
-                Directory.CreateDirectory(dir);
+                if (checkBox5.Checked) Directory.CreateDirectory(dir);
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = Environment.CurrentDirectory + "\\sfbcep.exe",
@@ -79,8 +82,9 @@ namespace SR_GMM
                 };
                 foreach (string s1 in s)
                 {
-
-                    startInfo.Arguments = shortArgs + "\"" + s1 + "\" \"" + dir + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mcc\"";
+                    if (checkBox5.Checked)
+                    startInfo.Arguments =      shortArgs + "\"" + s1 + "\" \"" + dir + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mcc\"";
+                    else startInfo.Arguments = shortArgs + "\"" + s1 + "\" \"" + Path.GetDirectoryName(s1) + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mcc\"";
                     Process.Start(startInfo).WaitForExit();
                     //порог делаем
 
@@ -789,7 +793,9 @@ namespace SR_GMM
         {
             float thr = 0;
             float.TryParse(textBox20.Text, out thr);
-            string[] s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
+            string[] s;
+            if (checkBox6.Checked) s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc",SearchOption.AllDirectories);
+            else s = s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
 
             //загружаем Data;
             //записываем без пауз
@@ -1187,21 +1193,16 @@ namespace SR_GMM
         {
             string gmmName = textBox26.Text;
             string path = textBox25.Text;
-
-            string[] list = System.IO.Directory.GetFiles(path, "*.wav");
-
-            //создаем mfcc файлы из wav
-
-            for (int i = 0; i < list.Count(); i++)
-            {
-
-            }
+            int gmmN = 0;
+            int.TryParse(textBox27.Text, out gmmN);
+                                   
             //создаем единый дата из всех mfcc
-             list = System.IO.Directory.GetFiles(path, "*.mcc");
-            learnData = new Data(learnList[0], learnLen);
-            
+            List<string> list = System.IO.Directory.GetFiles(path, "*.mcc",SearchOption.AllDirectories).ToList<string>();
+
+            //обучаем gmm-ubm
+            Data learnData = new Data(list);
             GMM ubm = new GMM(gmmN, learnData.dimension, learnData);
-            ubm.Train(learnData, "asdas", textBox12.Text + "\\" + "ubm.gmm", gmmN, 0.95, 0.01, 100, 1);
+            ubm.Train(learnData, "asdas", path + "\\" + gmmName, gmmN, 0.95, 0.01, 100, 1);
         }
     }
 }

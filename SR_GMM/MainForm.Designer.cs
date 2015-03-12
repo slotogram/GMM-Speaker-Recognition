@@ -98,11 +98,16 @@
             this.label15 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.textBox25 = new System.Windows.Forms.TextBox();
-            this.button17 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.textBox26 = new System.Windows.Forms.TextBox();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.button17 = new System.Windows.Forms.Button();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox27 = new System.Windows.Forms.TextBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -130,6 +135,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.checkBox5);
+            this.tabPage1.Controls.Add(this.checkBox4);
             this.tabPage1.Controls.Add(this.checkBox2);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.label1);
@@ -185,7 +192,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(141, 20);
             this.textBox1.TabIndex = 12;
-            this.textBox1.Text = "E:\\temp\\123";
+            this.textBox1.Text = "D:\\MIT mobile\\Enroll_Session1";
             // 
             // radioButton3
             // 
@@ -721,6 +728,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.checkBox6);
             this.tabPage5.Controls.Add(this.textBox24);
             this.tabPage5.Controls.Add(this.button16);
             this.tabPage5.Controls.Add(this.button13);
@@ -766,7 +774,7 @@
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(27, 74);
+            this.textBox21.Location = new System.Drawing.Point(29, 30);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(141, 20);
             this.textBox21.TabIndex = 37;
@@ -774,7 +782,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(174, 74);
+            this.button12.Location = new System.Drawing.Point(176, 30);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(37, 23);
             this.button12.TabIndex = 36;
@@ -801,6 +809,8 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.label18);
+            this.tabPage6.Controls.Add(this.textBox27);
             this.tabPage6.Controls.Add(this.button18);
             this.tabPage6.Controls.Add(this.label17);
             this.tabPage6.Controls.Add(this.textBox26);
@@ -812,24 +822,6 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "UBM creation";
             this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // textBox25
-            // 
-            this.textBox25.Location = new System.Drawing.Point(26, 15);
-            this.textBox25.Name = "textBox25";
-            this.textBox25.Size = new System.Drawing.Size(141, 20);
-            this.textBox25.TabIndex = 28;
-            this.textBox25.Text = "E:\\temp\\123\\12samples1d";
-            // 
-            // button17
-            // 
-            this.button17.Location = new System.Drawing.Point(173, 15);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(37, 23);
-            this.button17.TabIndex = 27;
-            this.button17.Text = "Dir";
-            this.button17.UseVisualStyleBackColor = true;
-            this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
             // button18
             // 
@@ -857,6 +849,73 @@
             this.textBox26.Size = new System.Drawing.Size(64, 20);
             this.textBox26.TabIndex = 39;
             this.textBox26.Text = "ubm.gmm";
+            // 
+            // textBox25
+            // 
+            this.textBox25.Location = new System.Drawing.Point(26, 15);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.Size = new System.Drawing.Size(141, 20);
+            this.textBox25.TabIndex = 28;
+            this.textBox25.Text = "E:\\temp\\123\\12samples1d";
+            // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(173, 15);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(37, 23);
+            this.button17.TabIndex = 27;
+            this.button17.Text = "Dir";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(6, 161);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(105, 17);
+            this.checkBox4.TabIndex = 29;
+            this.checkBox4.Text = "Поддиректории";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(6, 184);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(122, 17);
+            this.checkBox5.TabIndex = 30;
+            this.checkBox5.Text = "В отдельной папке";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(59, 98);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(92, 13);
+            this.label18.TabIndex = 48;
+            this.label18.Text = "Компонент GMM";
+            // 
+            // textBox27
+            // 
+            this.textBox27.Location = new System.Drawing.Point(26, 95);
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(25, 20);
+            this.textBox27.TabIndex = 47;
+            this.textBox27.Text = "128";
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Checked = true;
+            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox6.Location = new System.Drawing.Point(29, 66);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(105, 17);
+            this.checkBox6.TabIndex = 41;
+            this.checkBox6.Text = "Поддиректории";
+            this.checkBox6.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -960,6 +1019,11 @@
         private System.Windows.Forms.TextBox textBox26;
         private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox27;
+        private System.Windows.Forms.CheckBox checkBox6;
     }
 }
 
