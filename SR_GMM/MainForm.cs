@@ -795,7 +795,7 @@ namespace SR_GMM
             float.TryParse(textBox20.Text, out thr);
             string[] s;
             if (checkBox6.Checked) s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc",SearchOption.AllDirectories);
-            else s = s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
+            else s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
 
             //загружаем Data;
             //записываем без пауз

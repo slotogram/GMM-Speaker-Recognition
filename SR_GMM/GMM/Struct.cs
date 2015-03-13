@@ -43,6 +43,11 @@ namespace SR_GMM
         public float frame_rate;
         public int spkrID;
         //ushort dimension;
+
+        //private void LoadSingle(string Path)
+        //public static List<Data> JoinDataWLen(List<string> Paths, int Length)
+
+
         public Data()
         {
 
@@ -78,6 +83,117 @@ namespace SR_GMM
             }
 
         }
+
+        private void LoadDataToArray(string s,ref long counter, int dim, ref float[][] res)
+        {
+            FileStream stream = new FileStream(s, FileMode.Open);
+
+            long len = stream.Length - 10;
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+            
+            long n = (long)(len / (dimension * 4));
+
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+
+            /*TODO: Actions w flags
+
+             *E 1 bit -вектор содержит log E
+             *Z 2 bit - удалена средняя
+             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
+             *D 4 - есть дельты
+             *A 5 - есть 2 дельты (всегда с 4)
+             *R 6 - дисперсия нормализована (всегда с 2)
+            */
+
+            /*            bool gotE = false, gotD = false, gotA = false;
+
+                        if ((flag[0] & 0x01) != 0) gotE = true; 
+                        if ((flag[0] & 0x02) != 0) meanR = true;
+                        if ((flag[0] & 0x04) != 0) supE = true;
+                        if ((flag[0] & 0x08) != 0) gotD = true; 
+                        if ((flag[0] & 0x10) != 0) gotA = true; 
+                        if ((flag[0] & 0x20) != 0) normV = true;
+            */
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+
+            //frame_rate = BitConverter.ToSingle(buf, 0);
+
+            //------------------------------------
+            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+            //------------------------------------
+            //data = new float[n][];
+            //samples = n;
+
+            for (long i = counter; i < counter + n; i++)
+            {
+                //data[i] = new float[dimension];
+                for (int j = 0; j < dimension; j++)
+                {
+                    res[i][j] = ReadFloat(stream);
+                }
+
+            }
+            counter += n;
+            stream.Close();
+        }   
+
+        private float[][] LoadDataFromList(List<string> s, long samp, int dim)
+        {
+            float[][] res = new float[samp][];
+            long counter = 0;
+            //выделяем память
+            for (long i = 0; i < samp; i++)
+            {
+                res[i] = new float[dim];
+            }
+
+
+            foreach (string s1 in s)
+            {
+                Data d = new Data();// = new Data(s1,false);
+                //создаем отдельный метод загружающий дата в выделенный массив
+                LoadDataToArray(s1, ref counter, dim, ref res);
+
+            }
+            
+            return res;
+        }
+
+        public Data(string path, bool loadData, bool needMean)
+        {
+            if (loadData)
+            {
+                LoadSingle(path);
+
+                if (needMean) CalcMean();
+
+                //взять имя файла
+                string tmp = System.IO.Path.GetFileNameWithoutExtension(path);
+                //найти пробел
+
+                //вырезать с начала до пробела
+                //!!!!!!!!!!!!!!!!!!!!!
+                //Ставлю заглушку, если у нас другое имя, без пробелов
+                if (tmp.IndexOf(' ') > 0)
+                    tmp = tmp.Substring(0, tmp.IndexOf(' '));
+                int ind = 0;
+                //toInt
+                int.TryParse(tmp, out ind);
+                this.spkrID = ind;
+            }
+            else
+            {
+                LoadWithoutData(path);
+            }
+        }
+
+
         /// <summary>
         /// Создает единый дата из нескольких дата файлов
         /// </summary>
@@ -89,10 +205,11 @@ namespace SR_GMM
             List <float[][]> lst = new List<float[][]>();
             Data d = new Data();
             long samp = 0;
+            //узнаем статы и кол-во семплов
+            
             foreach (string s in Paths)
             {
-                d = new Data(s, false);
-                lst.Add(d.data);
+                d = new Data(s, false,false);
                 samp += d.samples;
             }
             //удилать ???
@@ -115,11 +232,18 @@ namespace SR_GMM
             }
             float flt = (float)count / d.samples;
             */
-            //
-            data = lst[0];
-            dimension = d.dimension;
+            //создаем новый дата, с кол-вом семлов samp, и список
             
-            for (int i = 1; i < lst.Count; i++) { data = data.Concat(lst[i]).ToArray(); }
+            //создаем флоатовский список
+
+            LoadDataFromList(Paths,samp, d.dimension);
+
+            //data = lst[0];
+            dimension = d.dimension;
+            frame_rate = d.frame_rate;
+            
+            
+            //for (int i = 1; i < lst.Count; i++) { data = data.Concat(lst[i]).ToArray(); }
             samples = samp;
           
             CalcMean();
@@ -366,6 +490,54 @@ namespace SR_GMM
             stream.Close();
         }
 
+        private void LoadWithoutData(string Path)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+
+            long len = stream.Length - 10;
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+            dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+            long n = (long)(len / (dimension * 4));
+
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+
+            /*TODO: Actions w flags
+
+             *E 1 bit -вектор содержит log E
+             *Z 2 bit - удалена средняя
+             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
+             *D 4 - есть дельты
+             *A 5 - есть 2 дельты (всегда с 4)
+             *R 6 - дисперсия нормализована (всегда с 2)
+            */
+
+            /*            bool gotE = false, gotD = false, gotA = false;
+
+                        if ((flag[0] & 0x01) != 0) gotE = true; 
+                        if ((flag[0] & 0x02) != 0) meanR = true;
+                        if ((flag[0] & 0x04) != 0) supE = true;
+                        if ((flag[0] & 0x08) != 0) gotD = true; 
+                        if ((flag[0] & 0x10) != 0) gotA = true; 
+                        if ((flag[0] & 0x20) != 0) normV = true;
+            */
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+
+            frame_rate = BitConverter.ToSingle(buf, 0);
+
+            //------------------------------------
+            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+            //------------------------------------
+            samples = n;
+            stream.Close();
+        }
+
         public float ReadFloat(FileStream stream)
         {
 
@@ -446,5 +618,6 @@ namespace SR_GMM
             }
             stream.Close();
         }
+        
 	};
 }
