@@ -153,7 +153,8 @@ namespace SR_GMM
                 res[i] = new float[dim];
             }
 
-
+            this.dimension = dim;
+            this.samples = samp;
             foreach (string s1 in s)
             {
                 Data d = new Data();// = new Data(s1,false);
@@ -236,15 +237,15 @@ namespace SR_GMM
             
             //создаем флоатовский список
 
-            LoadDataFromList(Paths,samp, d.dimension);
+            this.data = LoadDataFromList(Paths,samp, d.dimension);
 
             //data = lst[0];
-            dimension = d.dimension;
+            //dimension = d.dimension;
             frame_rate = d.frame_rate;
             
             
             //for (int i = 1; i < lst.Count; i++) { data = data.Concat(lst[i]).ToArray(); }
-            samples = samp;
+            //samples = samp;
           
             CalcMean();
                      
