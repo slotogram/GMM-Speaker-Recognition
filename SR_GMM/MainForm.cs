@@ -1063,13 +1063,110 @@ namespace SR_GMM
                     gmmList.Add(spkr);
                 }
 
+                //взять фразы по 10 секунд, вычислить счет и записать в файлик
+                //усреднить счет легальный и злоумышленника
+                StreamWriter fs2 = new StreamWriter(Environment.CurrentDirectory + "\\Thr_log.txt",true);
+                Random r = new Random(DateTime.Now.Millisecond);
+                List<float> trueList = new List<float>();
+                List<float> falseList = new List<float>();
+                float[] thr = new float[speakerList.Count];
+
+                for (int i = 1; i <= speakerList.Count; i++)
+                {
+                    //берем несколько записей i-го диктора
+                    //пока возьму 3 первых из ubm
+                    fs2.WriteLine("Диктор "+i+" результаты его отрезков");
+                    fs2.WriteLine();
+
+                    //схема с отдельными файлами
+                    /*for (int j = 1; j <= 10; j++)
+                    {
+                        Data d = new Data(textBox12.Text + "\\" + i + " (" + j + ").mcc");
+                        trueList.Add(gmmList[i-1].Classify(d, 1, null, ubm));
+                        fs2.WriteLine(trueList.Last());
+                    }*/
+
+                    //схема с 10 секундами
+                    //true speaker
+                    List<Data> dList = new List<Data>();
+                    List<string> dirList = new List<string>();
+                    float min = float.MaxValue;
+                    float avg = 0;
+                    trueList.Clear();
+                    falseList.Clear();
+
+                    for (int j = 1; j <= 10; j++)
+                    {
+                        dirList.Add(textBox12.Text + "\\" + i + " (" + j + ").mcc");
+                    }
+                    dList.AddRange(Data.JoinDataWLen(dirList, testLen));
+
+                    foreach (Data d in dList)
+                    {                      
+                        trueList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
+                        if (trueList.Last() < min) min = trueList.Last();
+                        avg += trueList.Last();
+                        fs2.WriteLine(trueList.Last());
+                    }
+                    //thr[i - 1] = min;
+                    thr[i - 1] = avg/trueList.Count;
+                    //thr[i - 1] = avg/trueList.Count + ((avg/trueList.Count) - min)/2;
+                    fs2.WriteLine();
+                    fs2.WriteLine("Диктор " + i + " результаты чужих отрезков");
+
+                    /*
+                    for (int k = 1; k <= speakerList.Count; k++)
+                    {
+                        if (k != i)
+                        {
+
+                            for (int j = 1; j <= 3; j++)
+                            {
+                                Data d = new Data(textBox12.Text + "\\" + k + " (" + j + ").mcc");
+                                falseList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
+                                fs2.WriteLine(falseList.Last());
+                            }
+                        }
+                    }
+                     */
+
+                    //переделал на схему с 10 секундами
+
+                    for (int k = 1; k <= speakerList.Count; k++)
+                    {
+                        if (k != i)
+                        {
+                            dirList.Clear();
+                            for (int j = 1; j <= 5; j++)
+                            {
+                                dirList.Add(textBox12.Text + "\\" + k + " (" + j + ").mcc");
+                            }
+                            dList.Clear();
+                            dList.AddRange(Data.JoinDataWLen(dirList, testLen));
+
+                            foreach (Data d in dList)
+                            {
+                                falseList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
+                                fs2.WriteLine(falseList.Last());
+                            }
+                            
+                        }
+                    }
+                    
+                    fs2.WriteLine("------------------------------------------");
+                    fs2.WriteLine();
+                }
+
+                fs2.Close();
+
                 //сформировать тестовую выборку и начать тестирование
                 int[] rSp = new int[gmmList.Count];
+                int[] rejected = new int[gmmList.Count];
                 int[] errSp = new int[gmmList.Count]; //1
                 int[] falseAlarm = new int[gmmList.Count]; //2
 
                 //создаем список обучающих сегментов
-                Random r = new Random(DateTime.Now.Millisecond);
+                
                 List<string> DirList;
                 List<Data> AllTestData = new List<Data>();
 
@@ -1113,8 +1210,8 @@ namespace SR_GMM
                             float.TryParse(textBox23.Text, out E);
                             d.deleteLowEnergySamples(E);*/
 
-                            //if (gmmList[i].Classify(d, 1, null, ubm) > thrsh)
-                            if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
+                            if (gmmList[i].Classify(d, 1, null, ubm) > thr[i])
+                            //if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
                             {
                                 if (d.spkrID == i + 1)
                                 {
@@ -1138,7 +1235,7 @@ namespace SR_GMM
                                 else
                                 {
                                     right++;
-                                    rSp[d.spkrID - 1]++;
+                                    rejected[d.spkrID - 1]++;
                                 }                               
                                 
                             }
@@ -1150,7 +1247,7 @@ namespace SR_GMM
                 total = right + error;
                 for (int i = 0; i < gmmList.Count; i++)
                 {
-                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (errSp[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i]);
+                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (errSp[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i] + "; отвергнуто - " + rejected[i]);
                 }
 
                 fs.WriteLine("Всего распознано верно - " + right.ToString());
