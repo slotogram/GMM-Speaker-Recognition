@@ -1065,7 +1065,7 @@ namespace SR_GMM
 
                 //взять фразы по 10 секунд, вычислить счет и записать в файлик
                 //усреднить счет легальный и злоумышленника
-                StreamWriter fs2 = new StreamWriter(Environment.CurrentDirectory + "\\Thr_log.txt",true);
+                StreamWriter fs2 = new StreamWriter(Environment.CurrentDirectory + "\\Thr_log.txt",false);
                 Random r = new Random(DateTime.Now.Millisecond);
                 List<float> trueList = new List<float>();
                 List<float> falseList = new List<float>();
@@ -1091,11 +1091,13 @@ namespace SR_GMM
                     List<Data> dList = new List<Data>();
                     List<string> dirList = new List<string>();
                     float min = float.MaxValue;
+                    float max2 = float.MinValue;
                     float avg = 0;
+                    float avg2 = 0;
                     trueList.Clear();
                     falseList.Clear();
 
-                    for (int j = 1; j <= 10; j++)
+                    for (int j = 1; j <= 15; j++)
                     {
                         dirList.Add(textBox12.Text + "\\" + i + " (" + j + ").mcc");
                     }
@@ -1109,8 +1111,8 @@ namespace SR_GMM
                         fs2.WriteLine(trueList.Last());
                     }
                     //thr[i - 1] = min;
-                    thr[i - 1] = avg/trueList.Count;
-                    //thr[i - 1] = avg/trueList.Count + ((avg/trueList.Count) - min)/2;
+                    //thr[i - 1] = avg/trueList.Count;
+                    //thr[i - 1] = avg/trueList.Count - ((avg/trueList.Count) - min)/2;
                     fs2.WriteLine();
                     fs2.WriteLine("Диктор " + i + " результаты чужих отрезков");
 
@@ -1147,12 +1149,17 @@ namespace SR_GMM
                             foreach (Data d in dList)
                             {
                                 falseList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
+                                if (falseList.Last() > max2) max2 = falseList.Last();
+                                avg2 += falseList.Last();
                                 fs2.WriteLine(falseList.Last());
                             }
                             
                         }
                     }
-                    
+
+                    thr[i - 1] = ((avg / trueList.Count - ((avg / trueList.Count) - min) / 2) + (avg2 / falseList.Count + (max2 - (avg2 / falseList.Count)) / 2))/2;
+
+
                     fs2.WriteLine("------------------------------------------");
                     fs2.WriteLine();
                 }
@@ -1247,7 +1254,7 @@ namespace SR_GMM
                 total = right + error;
                 for (int i = 0; i < gmmList.Count; i++)
                 {
-                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (errSp[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i] + "; отвергнуто - " + rejected[i]);
+                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (falseAlarm[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i] + "; отвергнуто - " + rejected[i] + " ; процентов - " + (rejected[i] * 100 / (rejected[i] + errSp[i])));
                 }
 
                 fs.WriteLine("Всего распознано верно - " + right.ToString());
