@@ -53,6 +53,36 @@ namespace SR_GMM
 
         }
 
+        public Data(bool isMFT, string path, bool loadData, bool needMean)
+        {
+            if (!isMFT) throw new Exception("not valid class creation");
+            else
+
+            if (loadData)
+            {
+                LoadSingleMFT(path);
+
+                if (needMean) CalcMean();
+
+                //взять имя файла
+                string tmp = System.IO.Path.GetFileNameWithoutExtension(path);
+                //найти пробел
+                //вырезать с начала до пробела
+                //!!!!!!!!!!!!!!!!!!!!!
+                //Ставлю заглушку, если у нас другое имя, без пробелов
+                if (tmp.IndexOf(' ') > 0)
+                    tmp = tmp.Substring(0, tmp.IndexOf(' '));
+                int ind = 0;
+                //toInt
+                int.TryParse(tmp, out ind);
+                this.spkrID = ind;
+            }
+            else
+            {
+                LoadWithoutDataMFT(path);
+            }
+        }
+
         public void deleteLowEnergySamples(float E)
         {
             List<float[]> fList = new List<float[]>();
@@ -539,6 +569,105 @@ namespace SR_GMM
             stream.Close();
         }
 
+        private void LoadSingleMFT(string Path)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+
+            dimension = (int)ReadFloat(stream);
+
+            long n = (long)ReadFloat(stream);
+                 
+            frame_rate = ReadFloat(stream);
+
+            //------------------------------------
+            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+            //------------------------------------
+            data = new float[n][];
+            samples = n;
+
+            for (long i = 0; i < n; i++)
+            {
+                data[i] = new float[dimension];
+                for (int j = 0; j < dimension; j++)
+                {
+                    data[i][j] = ReadFloat(stream);
+                }
+
+            }
+
+            stream.Close();
+        }
+
+        public FileStream getStreamtoDataMFCC(string Path)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+           
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+            byte[] buf = new byte[4];
+            stream.Read(buf, 0, 4);
+            return stream;
+        }
+
+        public FileStream getStreamtoDataMFT(string Path)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+            ReadFloat(stream);
+            ReadFloat(stream);
+            ReadFloat(stream);
+
+            return stream;
+        }
+
+        private void LoadWithoutDataMFT(string Path)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+
+            dimension = (int)ReadFloat(stream);
+
+            long n = (long)ReadFloat(stream);
+            frame_rate = ReadFloat(stream);
+
+            data = new float[n][];
+            samples = n;
+            stream.Close();
+        }
+
+
+        /// <summary>
+        /// Объединяем данный пустой Дата без данных, с ЧОТ, при условии что размерность одинакова.
+        /// </summary>
+        /// <param name="d"></param>
+        /// 
+        public void combine_mfcc_mft(Data d,string path1, string path2)
+        {
+            if (this.samples != d.samples) throw new Exception("number of samples is not equal");
+
+            FileStream str1 = this.getStreamtoDataMFCC(path1);
+            FileStream str2 = this.getStreamtoDataMFT(path2);
+
+            int new_dimension = this.dimension + d.dimension;
+
+            data = new float[this.samples][];
+            
+            for (long i = 0; i < samples; i++)
+            {
+                data[i] = new float[new_dimension];
+                for (int j = 0; j < dimension; j++)
+                {
+                    data[i][j] = ReadFloat(str1);
+                }
+                for (int j = dimension; j < new_dimension; j++)
+                {
+                    data[i][j] = ReadFloat(str2);
+                }
+            }
+            dimension = new_dimension;
+        }
+
         public float ReadFloat(FileStream stream)
         {
 
@@ -569,6 +698,33 @@ namespace SR_GMM
                 variance[i] = (variance[i] / samples) - (mean[i] * mean[i]);
                 if (variance[i] < 0.000001) variance[i] = 0.000001f;
             }
+        }
+
+        public void Save(string path)
+        {
+            FileStream stream = new FileStream(path, FileMode.Create);
+
+            stream.WriteByte((byte)dimension);
+            stream.WriteByte((byte)0);
+
+            stream.WriteByte((byte)0);
+            stream.WriteByte((byte)0);
+            stream.WriteByte((byte)0);
+            stream.WriteByte((byte)0);
+
+            stream.Write(BitConverter.GetBytes(frame_rate), 0, 4);
+
+            for (long i = 0; i < this.samples; i++)
+            {
+                    for (int j = 0; j < this.dimension; j++)
+                    {
+                        stream.Write(BitConverter.GetBytes(this.data[i][j]), 0, 4);
+                    }
+            }
+
+            stream.Close();
+
+
         }
         public void Save(string path, float thr)
         {

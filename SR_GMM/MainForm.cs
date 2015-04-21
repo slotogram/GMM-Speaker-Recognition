@@ -1308,5 +1308,78 @@ namespace SR_GMM
             GMM ubm = new GMM(gmmN, learnData.dimension, learnData);
             ubm.Train(learnData, "asdas", path + "\\" + gmmName, gmmN, 0.95, 0.01, 100, 1);
         }
+
+        /// <summary>
+        /// Создает ЧОТ для всех wav в папке
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button19_Click(object sender, EventArgs e)
+        {
+            int n = 0;
+            string[] s;
+            if (checkBox4.Checked)
+                s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav", SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav");
+
+
+            //int.TryParse(textBox2.Text, out n);
+            string dir = textBox1.Text;
+                string shortArgs = " ";
+
+            if (checkBox5.Checked) { dir+= "\\mft"; Directory.CreateDirectory(dir); }
+                if (radioButton2.Checked) { shortArgs += "-d "; dir += "1d"; }
+                if (radioButton3.Checked) { shortArgs += "-dd "; dir += "2d"; }
+                if (checkBox2.Checked) { shortArgs += "-n "; dir += "N"; }
+
+                
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = Environment.CurrentDirectory + "\\test.exe",
+                    WindowStyle = ProcessWindowStyle.Hidden
+
+                };
+                foreach (string s1 in s)
+                {
+                    if (checkBox5.Checked)
+                        startInfo.Arguments = "\"" + s1 + "\" \"" + dir + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mft\"" + shortArgs;
+                    else startInfo.Arguments = "\"" + s1 + "\" \"" + Path.GetDirectoryName(s1) + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mft\"" + shortArgs;
+                    Process.Start(startInfo).WaitForExit();
+                  
+
+                }
+
+            
+        }
+
+        /// <summary>
+        /// Объединяем характеристики в единый mfcc файл
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button20_Click(object sender, EventArgs e)
+        {
+            string dir = textBox1.Text;
+
+            string[] s;
+            if (checkBox6.Checked) s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc", SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
+
+            //загружаем Data;
+            //записываем без пауз
+
+            foreach (string s1 in s)
+            {
+                Data d1 = new Data(s1, false,false);
+                string s2 = Path.GetDirectoryName(s1)+"\\"+ Path.GetFileNameWithoutExtension(s1)+".mft";
+                Data d2 = new Data(true, s2, false, false);
+                d1.combine_mfcc_mft(d2, s1, s2);
+                
+                d1.Save(s1);
+
+
+            }
+
+        }
     }
 }
