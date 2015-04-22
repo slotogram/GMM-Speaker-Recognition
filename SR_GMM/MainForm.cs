@@ -1008,6 +1008,9 @@ namespace SR_GMM
             //int.TryParse(textBox11.Text, out learnLen);
             int.TryParse(textBox13.Text, out testLen);
 
+            bool cutMFT = false; int mft_num = 0;
+            if (checkBox9.Checked) { cutMFT = true; int.TryParse(textBox29.Text, out mft_num); }
+
             //Парсим текстбокс с номерами характеристик
             string[] numbers = textBox28.Text.Replace(',', ' ').Split(' ');
             List<int> feat_num = new List<int>();
@@ -1069,8 +1072,8 @@ namespace SR_GMM
                     
                     //сформировать Data из обучающих данных и создать модель UBM
                     learnData = new Data(learnList[0], learnLen,feat_num);
-                        
-                    
+
+                    if (cutMFT) learnData.CutMftSamples(mft_num);
                     
 
                     ubm = new GMM(gmmN, learnData.dimension, learnData);
@@ -1087,6 +1090,7 @@ namespace SR_GMM
                     }
 
                     learnData = new Data(learnList[i], learnLen,feat_num);
+                    if (cutMFT) learnData.CutMftSamples(mft_num);
                     GMM spkr = new GMM(gmmN, learnData.dimension, learnData);
                     spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,14, 0.95, 0.01, 1, 1);
                     gmmList.Add(spkr);
@@ -1133,7 +1137,8 @@ namespace SR_GMM
                     dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
 
                     foreach (Data d in dList)
-                    {                      
+                    {
+                        if (cutMFT) d.CutMftSamples(mft_num);
                         trueList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
                         if (trueList.Last() < min) min = trueList.Last();
                         avg += trueList.Last();
@@ -1177,6 +1182,7 @@ namespace SR_GMM
 
                             foreach (Data d in dList)
                             {
+                                if (cutMFT) d.CutMftSamples(mft_num);
                                 falseList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
                                 if (falseList.Last() > max2) max2 = falseList.Last();
                                 avg2 += falseList.Last();
@@ -1228,8 +1234,9 @@ namespace SR_GMM
                     AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen,feat_num));
                 }
                     //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
-                 
 
+                foreach (Data d in AllTestData)
+                if (cutMFT) d.CutMftSamples(mft_num);
 
                     for (int i = 0; i < speakerList.Count; i++)
                     {
@@ -1245,7 +1252,7 @@ namespace SR_GMM
                             /*float E = 0;
                             float.TryParse(textBox23.Text, out E);
                             d.deleteLowEnergySamples(E);*/
-
+                            
                             if (gmmList[i].Classify(d, 1, null, ubm) > thr[i])
                             //if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
                             {

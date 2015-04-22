@@ -114,6 +114,9 @@
             this.button17 = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.textBox28 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox29 = new System.Windows.Forms.TextBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -136,7 +139,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(693, 277);
+            this.tabControl1.Size = new System.Drawing.Size(684, 318);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -516,6 +519,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label20);
+            this.tabPage4.Controls.Add(this.textBox29);
+            this.tabPage4.Controls.Add(this.checkBox9);
             this.tabPage4.Controls.Add(this.label19);
             this.tabPage4.Controls.Add(this.textBox28);
             this.tabPage4.Controls.Add(this.button15);
@@ -548,7 +554,7 @@
             this.tabPage4.Controls.Add(this.button9);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(685, 251);
+            this.tabPage4.Size = new System.Drawing.Size(676, 292);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -988,11 +994,38 @@
             this.textBox28.TabIndex = 62;
             this.textBox28.Text = "0-12";
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(176, 267);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(197, 13);
+            this.label20.TabIndex = 66;
+            this.label20.Text = "Номер MFT в векторе характеристик";
+            // 
+            // textBox29
+            // 
+            this.textBox29.Location = new System.Drawing.Point(30, 264);
+            this.textBox29.Name = "textBox29";
+            this.textBox29.Size = new System.Drawing.Size(140, 20);
+            this.textBox29.TabIndex = 65;
+            this.textBox29.Text = "13";
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(30, 243);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(159, 17);
+            this.checkBox9.TabIndex = 64;
+            this.checkBox9.Text = "Удалять семплы без тона";
+            this.checkBox9.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 277);
+            this.ClientSize = new System.Drawing.Size(684, 318);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "GMM идентификация диктора";
@@ -1101,6 +1134,9 @@
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox textBox28;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox29;
+        private System.Windows.Forms.CheckBox checkBox9;
     }
 }
 

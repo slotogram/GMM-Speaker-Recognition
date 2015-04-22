@@ -233,7 +233,7 @@ namespace SR_GMM
         {
             
             //LoadSingle(Paths);
-            List <float[][]> lst = new List<float[][]>();
+            //List <float[][]> lst = new List<float[][]>();
             Data d = new Data();
             long samp = 0;
             //узнаем статы и кол-во семплов
@@ -776,6 +776,32 @@ namespace SR_GMM
                 variance[i] = (variance[i] / samples) - (mean[i] * mean[i]);
                 if (variance[i] < 0.000001) variance[i] = 0.000001f;
             }
+        }
+
+        /// <summary>
+        /// Убираем все семплы, значение feat_num которых == -1
+        /// </summary>
+        /// <param name="feat_num"></param>
+        public void CutMftSamples(int feat_num)
+        {
+            long counter = 0;
+            
+            if (feat_num >= this.dimension) throw new Exception("mft feature number is more than dimension of the data");
+            long start;
+            for (start = 0; start < this.samples; start++)
+                if (data[start][feat_num] != -1) counter++;
+                else break;
+            for (long i = start; i < this.samples; i++)
+            {
+                if (data[i][feat_num] != -1)
+                {
+                        data[counter] = data[i];
+                        counter++;
+                }
+            }
+            this.samples = counter;
+            //обрезаем все характеристики, что были после нашей ЧОТ.
+            this.dimension = feat_num;
         }
 
         public void Save(string path)

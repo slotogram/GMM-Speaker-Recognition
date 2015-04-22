@@ -39,7 +39,8 @@ namespace SR_GMM
         {
             const int INT_MIN = int.MinValue;
             int i,o,x=0;
-            t=Environment.ProcessorCount;
+            //t=Environment.ProcessorCount;
+            t = 1;
 	        float last=INT_MIN,llh;
     //Проверка аргументов и инициализация
             if(t>256||t<1) new Exception("Number of threads must be on the 1-256 range");
@@ -96,7 +97,8 @@ namespace SR_GMM
         {
             const int INT_MIN = int.MinValue;
             int i, x = 0;
-            t = Environment.ProcessorCount;
+            t = 1;
+            //t = Environment.ProcessorCount;
             float last = INT_MIN, llh;
             //Проверка аргументов и инициализация
             if (t > 256 || t < 1) new Exception("Number of threads must be on the 1-256 range");
