@@ -112,6 +112,8 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBox28 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -514,6 +516,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label19);
+            this.tabPage4.Controls.Add(this.textBox28);
             this.tabPage4.Controls.Add(this.button15);
             this.tabPage4.Controls.Add(this.label16);
             this.tabPage4.Controls.Add(this.textBox23);
@@ -784,7 +788,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(141, 20);
             this.textBox12.TabIndex = 35;
-            this.textBox12.Text = "D:\\reduced\\12samplesN - 2SR";
+            this.textBox12.Text = "E:\\temp\\123\\mft2dN";
             // 
             // button9
             // 
@@ -967,6 +971,23 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(176, 226);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(168, 13);
+            this.label19.TabIndex = 63;
+            this.label19.Text = "Используемые характеристики";
+            // 
+            // textBox28
+            // 
+            this.textBox28.Location = new System.Drawing.Point(30, 223);
+            this.textBox28.Name = "textBox28";
+            this.textBox28.Size = new System.Drawing.Size(140, 20);
+            this.textBox28.TabIndex = 62;
+            this.textBox28.Text = "0-12";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1078,6 +1099,8 @@
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox textBox28;
     }
 }
 

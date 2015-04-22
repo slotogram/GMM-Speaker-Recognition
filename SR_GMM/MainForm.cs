@@ -1008,6 +1008,33 @@ namespace SR_GMM
             //int.TryParse(textBox11.Text, out learnLen);
             int.TryParse(textBox13.Text, out testLen);
 
+            //Парсим текстбокс с номерами характеристик
+            string[] numbers = textBox28.Text.Replace(',', ' ').Split(' ');
+            List<int> feat_num = new List<int>();
+            foreach (string s1 in numbers)
+            {
+                if (!s1.Contains(' '))
+                {
+                    if (s1.Contains('-'))
+                    {
+                        int i1 = 0, i2 = 0;
+                        int.TryParse(s1.Split('-')[0], out i1);
+                        int.TryParse(s1.Split('-')[1], out i2);
+                        if (i2 != 0)
+                            for (int i = i1; i <= i2; i++) feat_num.Add(i);
+                    }
+                    else
+                    {
+                        int i = 0;
+                        int.TryParse(s1, out i);
+                        if (i != 0) feat_num.Add(i);
+                        if (s1 == "0") feat_num.Add(0);
+                    }
+                }
+            }
+            if (feat_num.Count == 0) feat_num = null;
+            else feat_num.Add(0);
+            
             //прогнать цикл по спикерам
             //выбрать тестовые данные
             //создать модель из тестовых данных
@@ -1039,8 +1066,10 @@ namespace SR_GMM
                         }
 
                     }
+                    
                     //сформировать Data из обучающих данных и создать модель UBM
-                    learnData = new Data(learnList[0], learnLen);
+                    learnData = new Data(learnList[0], learnLen,feat_num);
+                        
                     
                     
 
@@ -1057,7 +1086,7 @@ namespace SR_GMM
                         learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
                     }
 
-                    learnData = new Data(learnList[i], learnLen);
+                    learnData = new Data(learnList[i], learnLen,feat_num);
                     GMM spkr = new GMM(gmmN, learnData.dimension, learnData);
                     spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,14, 0.95, 0.01, 1, 1);
                     gmmList.Add(spkr);
@@ -1101,7 +1130,7 @@ namespace SR_GMM
                     {
                         dirList.Add(textBox12.Text + "\\" + i + " (" + j + ").mcc");
                     }
-                    dList.AddRange(Data.JoinDataWLen(dirList, testLen));
+                    dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
 
                     foreach (Data d in dList)
                     {                      
@@ -1144,7 +1173,7 @@ namespace SR_GMM
                                 dirList.Add(textBox12.Text + "\\" + k + " (" + j + ").mcc");
                             }
                             dList.Clear();
-                            dList.AddRange(Data.JoinDataWLen(dirList, testLen));
+                            dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
 
                             foreach (Data d in dList)
                             {
@@ -1196,7 +1225,7 @@ namespace SR_GMM
                         DirList[k] = DirList[n];
                         DirList[n] = tmp;
                     }*/
-                    AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen));
+                    AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen,feat_num));
                 }
                     //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
                  

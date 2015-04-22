@@ -282,11 +282,11 @@ namespace SR_GMM
 
         }
         /// <summary>
-        /// Создает Data из списка путей к mcc файлам Paths длиной Length
+        /// Создает Data из списка путей к mcc файлам Paths длиной Length, если есть список характеристик, то feat_list
         /// </summary>
         /// <param name="Paths"></param>
         /// <param name="Length"></param>
-        public Data(List<string> Paths, int Length)
+        public Data(List<string> Paths, int Length, List<int> feat_list=null)
         {
 
             //LoadSingle(Paths);
@@ -295,7 +295,8 @@ namespace SR_GMM
             long samp = 0;
             foreach (string s in Paths)
             {
-                d = new Data(s, false);
+                if (feat_list == null) d = new Data(s, false);
+                else d = new Data(s,false,feat_list);
                 samp += d.samples;
 
                 if ((samp / d.frame_rate) > Length)
@@ -323,7 +324,7 @@ namespace SR_GMM
 
         }
 
-        public static List<Data> JoinDataWLen(List<string> Paths, int Length)
+        public static List<Data> JoinDataWLen(List<string> Paths, int Length, List<int> feat_list=null)
         {
 
             //LoadSingle(Paths);
@@ -338,7 +339,7 @@ namespace SR_GMM
 
             foreach (string s in Paths)
             {
-                d = new Data(s, false); //поменял , можно брать только одного диктора данные
+                d = new Data(s, false,feat_list); //поменял , можно брать только одного диктора данные
                 samp += d.samples;
                 
                 if ((samp / d.frame_rate) > Length)
@@ -385,9 +386,10 @@ namespace SR_GMM
             return result;
         }
 
-        public Data(string Path, bool needMean)
+        public Data(string Path, bool needMean, List<int> feat_list=null)
         {
-            LoadSingle(Path);
+            if (feat_list == null) LoadSingle(Path);
+            else LoadSingle(Path, feat_list);
 
             if (needMean) CalcMean();
             
@@ -521,6 +523,77 @@ namespace SR_GMM
             stream.Close();
         }
 
+        private void LoadSingle(string Path,List<int> feat_list)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+
+            long len = stream.Length - 10;
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+            dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+            long n = (long)(len / (dimension * 4));
+
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+
+            /*TODO: Actions w flags
+
+             *E 1 bit -вектор содержит log E
+             *Z 2 bit - удалена средняя
+             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
+             *D 4 - есть дельты
+             *A 5 - есть 2 дельты (всегда с 4)
+             *R 6 - дисперсия нормализована (всегда с 2)
+            */
+
+            /*            bool gotE = false, gotD = false, gotA = false;
+
+                        if ((flag[0] & 0x01) != 0) gotE = true; 
+                        if ((flag[0] & 0x02) != 0) meanR = true;
+                        if ((flag[0] & 0x04) != 0) supE = true;
+                        if ((flag[0] & 0x08) != 0) gotD = true; 
+                        if ((flag[0] & 0x10) != 0) gotA = true; 
+                        if ((flag[0] & 0x20) != 0) normV = true;
+            */
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+            
+            frame_rate = BitConverter.ToSingle(buf, 0);
+
+            //------------------------------------
+            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+            //------------------------------------
+
+            int new_dimension = feat_list.Count;
+            
+            if (dimension < new_dimension-1) throw new Exception("Not enough features in "+Path);
+            data = new float[n][];
+            samples = n;
+            if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+            
+            int counter;
+            for (long i = 0; i < n; i++)
+            {
+                data[i] = new float[new_dimension];
+                counter=0;
+                for (int j = 0; j < dimension; j++)
+                {
+                    if (j == feat_list[counter]) { data[i][counter] = ReadFloat(stream); counter++; }
+                    else SkipBytes(stream,sizeof(float));
+                   
+                }
+                //stream.Position++;
+            }
+            
+            dimension = new_dimension;
+            stream.Close();
+        }
+
+
         private void LoadWithoutData(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
@@ -568,7 +641,10 @@ namespace SR_GMM
             samples = n;
             stream.Close();
         }
-
+        private void SkipBytes(FileStream str, int n)
+        {
+            str.Position += n;
+        }
         private void LoadSingleMFT(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
