@@ -644,7 +644,7 @@ namespace SR_GMM
         /// 
         public void combine_mfcc_mft(Data d,string path1, string path2)
         {
-            if (this.samples != d.samples) throw new Exception("number of samples is not equal");
+            if ((this.samples != d.samples)&&(d.samples != samples+1)) throw new Exception("number of samples is not equal");
 
             FileStream str1 = this.getStreamtoDataMFCC(path1);
             FileStream str2 = this.getStreamtoDataMFT(path2);
@@ -666,6 +666,8 @@ namespace SR_GMM
                 }
             }
             dimension = new_dimension;
+            str1.Close();
+            str2.Close();
         }
 
         public float ReadFloat(FileStream stream)

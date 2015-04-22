@@ -1327,11 +1327,11 @@ namespace SR_GMM
             string dir = textBox1.Text;
                 string shortArgs = " ";
 
-            if (checkBox5.Checked) { dir+= "\\mft"; Directory.CreateDirectory(dir); }
+            if (checkBox5.Checked) { dir+= "\\mft"; }
                 if (radioButton2.Checked) { shortArgs += "-d "; dir += "1d"; }
                 if (radioButton3.Checked) { shortArgs += "-dd "; dir += "2d"; }
                 if (checkBox2.Checked) { shortArgs += "-n "; dir += "N"; }
-
+                if (checkBox5.Checked) { Directory.CreateDirectory(dir); }
                 
                 var startInfo = new ProcessStartInfo
                 {
@@ -1362,8 +1362,8 @@ namespace SR_GMM
             string dir = textBox1.Text;
 
             string[] s;
-            if (checkBox6.Checked) s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc", SearchOption.AllDirectories);
-            else s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
+            if (checkBox4.Checked) s = System.IO.Directory.GetFiles(textBox1.Text, "*.mcc", SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*.mcc");
 
             //загружаем Data;
             //записываем без пауз

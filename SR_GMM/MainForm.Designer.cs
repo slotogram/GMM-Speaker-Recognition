@@ -31,6 +31,10 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -108,10 +112,6 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -162,6 +162,48 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Checked = true;
+            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox8.Location = new System.Drawing.Point(294, 38);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(99, 17);
+            this.checkBox8.TabIndex = 42;
+            this.checkBox8.Text = "Зачем то надо";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(294, 15);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(114, 17);
+            this.checkBox7.TabIndex = 33;
+            this.checkBox7.Text = "Сегментация вок";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(186, 190);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(120, 23);
+            this.button20.TabIndex = 32;
+            this.button20.Text = "ЧОТ && MFCC";
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(186, 161);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(120, 23);
+            this.button19.TabIndex = 31;
+            this.button19.Text = "Создание ЧОТ";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
             // checkBox5
             // 
@@ -924,48 +966,6 @@
             this.button17.Text = "Dir";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
-            // 
-            // button19
-            // 
-            this.button19.Location = new System.Drawing.Point(186, 161);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(120, 23);
-            this.button19.TabIndex = 31;
-            this.button19.Text = "Создание ЧОТ";
-            this.button19.UseVisualStyleBackColor = true;
-            this.button19.Click += new System.EventHandler(this.button19_Click);
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(186, 190);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(120, 23);
-            this.button20.TabIndex = 32;
-            this.button20.Text = "ЧОТ && MFCC";
-            this.button20.UseVisualStyleBackColor = true;
-            this.button20.Click += new System.EventHandler(this.button20_Click);
-            // 
-            // checkBox7
-            // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(294, 15);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(114, 17);
-            this.checkBox7.TabIndex = 33;
-            this.checkBox7.Text = "Сегментация вок";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Checked = true;
-            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox8.Location = new System.Drawing.Point(294, 38);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(105, 17);
-            this.checkBox8.TabIndex = 42;
-            this.checkBox8.Text = "Поддиректории";
-            this.checkBox8.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
