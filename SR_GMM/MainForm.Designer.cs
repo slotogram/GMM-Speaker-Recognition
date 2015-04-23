@@ -67,6 +67,11 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox29 = new System.Windows.Forms.TextBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBox28 = new System.Windows.Forms.TextBox();
             this.button15 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
@@ -112,11 +117,7 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.label19 = new System.Windows.Forms.Label();
-            this.textBox28 = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBox29 = new System.Windows.Forms.TextBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -163,7 +164,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(685, 251);
+            this.tabPage1.Size = new System.Drawing.Size(676, 292);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -345,7 +346,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(685, 251);
+            this.tabPage2.Size = new System.Drawing.Size(676, 292);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Создание модели диктора";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -450,7 +451,7 @@
             this.tabPage3.Controls.Add(this.button7);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(685, 251);
+            this.tabPage3.Size = new System.Drawing.Size(676, 292);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Проверка модели";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -519,6 +520,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBox10);
             this.tabPage4.Controls.Add(this.label20);
             this.tabPage4.Controls.Add(this.textBox29);
             this.tabPage4.Controls.Add(this.checkBox9);
@@ -558,6 +560,50 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(176, 267);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(197, 13);
+            this.label20.TabIndex = 66;
+            this.label20.Text = "Номер MFT в векторе характеристик";
+            // 
+            // textBox29
+            // 
+            this.textBox29.Location = new System.Drawing.Point(30, 264);
+            this.textBox29.Name = "textBox29";
+            this.textBox29.Size = new System.Drawing.Size(140, 20);
+            this.textBox29.TabIndex = 65;
+            this.textBox29.Text = "13";
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(30, 243);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(159, 17);
+            this.checkBox9.TabIndex = 64;
+            this.checkBox9.Text = "Удалять семплы без тона";
+            this.checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(176, 226);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(168, 13);
+            this.label19.TabIndex = 63;
+            this.label19.Text = "Используемые характеристики";
+            // 
+            // textBox28
+            // 
+            this.textBox28.Location = new System.Drawing.Point(30, 223);
+            this.textBox28.Name = "textBox28";
+            this.textBox28.Size = new System.Drawing.Size(140, 20);
+            this.textBox28.TabIndex = 62;
+            this.textBox28.Text = "0-12";
             // 
             // button15
             // 
@@ -819,7 +865,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(685, 251);
+            this.tabPage5.Size = new System.Drawing.Size(676, 292);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Silence remove";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -910,7 +956,7 @@
             this.tabPage6.Controls.Add(this.button17);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(685, 251);
+            this.tabPage6.Size = new System.Drawing.Size(676, 292);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "UBM creation";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -977,49 +1023,15 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // label19
+            // checkBox10
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(176, 226);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(168, 13);
-            this.label19.TabIndex = 63;
-            this.label19.Text = "Используемые характеристики";
-            // 
-            // textBox28
-            // 
-            this.textBox28.Location = new System.Drawing.Point(30, 223);
-            this.textBox28.Name = "textBox28";
-            this.textBox28.Size = new System.Drawing.Size(140, 20);
-            this.textBox28.TabIndex = 62;
-            this.textBox28.Text = "0-12";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(176, 267);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(197, 13);
-            this.label20.TabIndex = 66;
-            this.label20.Text = "Номер MFT в векторе характеристик";
-            // 
-            // textBox29
-            // 
-            this.textBox29.Location = new System.Drawing.Point(30, 264);
-            this.textBox29.Name = "textBox29";
-            this.textBox29.Size = new System.Drawing.Size(140, 20);
-            this.textBox29.TabIndex = 65;
-            this.textBox29.Text = "13";
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(30, 243);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(159, 17);
-            this.checkBox9.TabIndex = 64;
-            this.checkBox9.Text = "Удалять семплы без тона";
-            this.checkBox9.UseVisualStyleBackColor = true;
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(195, 243);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(203, 17);
+            this.checkBox10.TabIndex = 67;
+            this.checkBox10.Text = "Удалять характеристики после mft";
+            this.checkBox10.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1137,6 +1149,7 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox textBox29;
         private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox10;
     }
 }
 

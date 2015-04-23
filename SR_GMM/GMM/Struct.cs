@@ -779,10 +779,10 @@ namespace SR_GMM
         }
 
         /// <summary>
-        /// Убираем все семплы, значение feat_num которых == -1
+        /// Убираем все семплы, значение feat_num которых == -1. Если установлено delete_mft, то вектор характеристик обрезается до feat_num.
         /// </summary>
         /// <param name="feat_num"></param>
-        public void CutMftSamples(int feat_num)
+        public void CutMftSamples(int feat_num, bool delete_mft)
         {
             long counter = 0;
             
@@ -801,7 +801,7 @@ namespace SR_GMM
             }
             this.samples = counter;
             //обрезаем все характеристики, что были после нашей ЧОТ.
-            this.dimension = feat_num;
+            if (delete_mft) this.dimension = feat_num;
         }
 
         public void Save(string path)
