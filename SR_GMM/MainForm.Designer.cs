@@ -67,6 +67,7 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox29 = new System.Windows.Forms.TextBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -117,7 +118,8 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.button21 = new System.Windows.Forms.Button();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -520,6 +522,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBox11);
+            this.tabPage4.Controls.Add(this.button21);
             this.tabPage4.Controls.Add(this.checkBox10);
             this.tabPage4.Controls.Add(this.label20);
             this.tabPage4.Controls.Add(this.textBox29);
@@ -560,6 +564,16 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(195, 243);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(203, 17);
+            this.checkBox10.TabIndex = 67;
+            this.checkBox10.Text = "Удалять характеристики после mft";
+            this.checkBox10.UseVisualStyleBackColor = true;
             // 
             // label20
             // 
@@ -611,7 +625,7 @@
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(103, 42);
             this.button15.TabIndex = 61;
-            this.button15.Text = "UBM 1 раз";
+            this.button15.Text = "UBM 1 раз вер";
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click_1);
             // 
@@ -1023,15 +1037,25 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // checkBox10
+            // button21
             // 
-            this.checkBox10.AutoSize = true;
-            this.checkBox10.Location = new System.Drawing.Point(195, 243);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(203, 17);
-            this.checkBox10.TabIndex = 67;
-            this.checkBox10.Text = "Удалять характеристики после mft";
-            this.checkBox10.UseVisualStyleBackColor = true;
+            this.button21.Location = new System.Drawing.Point(514, 245);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(103, 42);
+            this.button21.TabIndex = 68;
+            this.button21.Text = "1 раз идентиф";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Location = new System.Drawing.Point(440, 259);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(65, 17);
+            this.checkBox11.TabIndex = 69;
+            this.checkBox11.Text = "не UBM";
+            this.checkBox11.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1150,6 +1174,8 @@
         private System.Windows.Forms.TextBox textBox29;
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.CheckBox checkBox11;
     }
 }
 
