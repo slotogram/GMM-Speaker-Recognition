@@ -67,6 +67,8 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.button21 = new System.Windows.Forms.Button();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox29 = new System.Windows.Forms.TextBox();
@@ -118,8 +120,10 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.button21 = new System.Windows.Forms.Button();
-            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox30 = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox31 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -522,6 +526,10 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label22);
+            this.tabPage4.Controls.Add(this.textBox31);
+            this.tabPage4.Controls.Add(this.label21);
+            this.tabPage4.Controls.Add(this.textBox30);
             this.tabPage4.Controls.Add(this.checkBox11);
             this.tabPage4.Controls.Add(this.button21);
             this.tabPage4.Controls.Add(this.checkBox10);
@@ -564,6 +572,26 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Location = new System.Drawing.Point(440, 259);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(65, 17);
+            this.checkBox11.TabIndex = 69;
+            this.checkBox11.Text = "не UBM";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            // 
+            // button21
+            // 
+            this.button21.Location = new System.Drawing.Point(514, 245);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(103, 42);
+            this.button21.TabIndex = 68;
+            this.button21.Text = "1 раз идентиф";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
             // checkBox10
             // 
@@ -1037,25 +1065,39 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // button21
+            // label21
             // 
-            this.button21.Location = new System.Drawing.Point(514, 245);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(103, 42);
-            this.button21.TabIndex = 68;
-            this.button21.Text = "1 раз идентиф";
-            this.button21.UseVisualStyleBackColor = true;
-            this.button21.Click += new System.EventHandler(this.button21_Click);
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(233, 181);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(101, 13);
+            this.label21.TabIndex = 71;
+            this.label21.Text = "Циклов адаптации";
             // 
-            // checkBox11
+            // textBox30
             // 
-            this.checkBox11.AutoSize = true;
-            this.checkBox11.Location = new System.Drawing.Point(440, 259);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(65, 17);
-            this.checkBox11.TabIndex = 69;
-            this.checkBox11.Text = "не UBM";
-            this.checkBox11.UseVisualStyleBackColor = true;
+            this.textBox30.Location = new System.Drawing.Point(179, 178);
+            this.textBox30.Name = "textBox30";
+            this.textBox30.Size = new System.Drawing.Size(38, 20);
+            this.textBox30.TabIndex = 70;
+            this.textBox30.Text = "1";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(233, 206);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(33, 13);
+            this.label22.TabIndex = 73;
+            this.label22.Text = "alpha";
+            // 
+            // textBox31
+            // 
+            this.textBox31.Location = new System.Drawing.Point(179, 203);
+            this.textBox31.Name = "textBox31";
+            this.textBox31.Size = new System.Drawing.Size(38, 20);
+            this.textBox31.TabIndex = 72;
+            this.textBox31.Text = "14";
             // 
             // MainForm
             // 
@@ -1176,6 +1218,10 @@
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox textBox30;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox textBox31;
     }
 }
 

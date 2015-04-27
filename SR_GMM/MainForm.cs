@@ -1007,6 +1007,10 @@ namespace SR_GMM
             int learnLen = int.MaxValue, testLen;
             //int.TryParse(textBox11.Text, out learnLen);
             int.TryParse(textBox13.Text, out testLen);
+            int iter_num = 1;
+            int.TryParse(textBox30.Text, out iter_num);
+            int alpha = 14;
+            int.TryParse(textBox31.Text, out alpha);
 
             bool cutMFT = false, delete_mft = checkBox10.Checked; int mft_num = 0;
             if (checkBox9.Checked) { cutMFT = true; int.TryParse(textBox29.Text, out mft_num); }
@@ -1055,7 +1059,7 @@ namespace SR_GMM
                 //проверить, есть ли gmm?
                 if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
                 {
-                    ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm");
+                    ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm", feat_num);
                 }
                 else
                 {
@@ -1092,7 +1096,7 @@ namespace SR_GMM
                     learnData = new Data(learnList[i], learnLen,feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num,delete_mft);
                     GMM spkr = new GMM(gmmN, learnData.dimension, learnData);
-                    spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,14, 0.95, 0.01, 1, 1);
+                    spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,14, 0.95, 0.01,iter_num, 1);
                     gmmList.Add(spkr);
                 }
 
@@ -1470,6 +1474,8 @@ namespace SR_GMM
             int learnLen = int.MaxValue, testLen;
             //int.TryParse(textBox11.Text, out learnLen);
             int.TryParse(textBox13.Text, out testLen);
+            int iter_num = 1;
+            int.TryParse(textBox30.Text, out iter_num);
 
             bool cutMFT = false, delete_mft = checkBox10.Checked; int mft_num = 0;
             if (checkBox9.Checked) { cutMFT = true; int.TryParse(textBox29.Text, out mft_num); }
@@ -1518,7 +1524,7 @@ namespace SR_GMM
                 //проверить, есть ли gmm?
                 if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
                 {
-                    ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm");
+                    ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm", feat_num);
                 }
                 else
                 {
@@ -1563,7 +1569,7 @@ namespace SR_GMM
                     }
                     else
                     {
-                        spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 14, 0.95, 0.01, 1, 1);                       
+                        spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 14, 0.95, 0.01, iter_num, 1);                       
                     }
                     gmmList.Add(spkr);
                 }

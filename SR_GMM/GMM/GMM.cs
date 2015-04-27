@@ -137,17 +137,18 @@ namespace SR_GMM
                     //MapOccDep Algorithm
                     MapOccDep(world, reg, feas.samples);
 
-                    //change other params to world model
-                    for (int j = 0; j < this.num; j++)
-                    {
-                        world.mix[j].dcov.CopyTo(this.mix[j].dcov, 0);
-                        this.mix[j].prior = world.mix[j].prior;
-                        //and reverse covariance matrix
-                        for (int k = 0; k < this.dimension; k++)
-                            this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
-                    }                    
+                    
                 }
-                
+                //change other params to world model
+                for (int j = 0; j < this.num; j++)
+                {
+                    world.mix[j].dcov.CopyTo(this.mix[j].dcov, 0);
+                    this.mix[j].prior = world.mix[j].prior;
+                    //and reverse covariance matrix
+                    for (int k = 0; k < this.dimension; k++)
+                        this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
+                }                    
+
             Gmm_init_classifier(); /* Pre-compute the non-data dependant part of classifier. */
             Gmm_save(fnm); /* Save the model with the pre-computed part for fast classify.  */
             //gmm_delete(gmix);
@@ -397,35 +398,74 @@ namespace SR_GMM
             stream.Close();
         }
 
-        public GMM(string filename)
+        public GMM(string filename, List<int> num_list = null)
         {
 
             BinaryReader stream = new BinaryReader(File.Open(filename, FileMode.Open));
             //StreamWriter stream = new StreamWriter(filename);
-
-            int m;
-
-
-            dimension = stream.ReadInt32();
-            num = stream.ReadInt32();
-            mcov = new float[dimension];
-            mix = new gauss[num];
-
-            for (int i = 0; i < dimension; i++)
-                mcov[i] = stream.ReadSingle();
-           
-            for (m = 0; m < num; m++)
+            if (num_list == null)
             {
-                mix[m] = new gauss(dimension);
-                mix[m].prior = stream.ReadSingle();
-                mix[m].cgauss = stream.ReadSingle();
+                int m;
+                dimension = stream.ReadInt32();
+                num = stream.ReadInt32();
+                mcov = new float[dimension];
+                mix = new gauss[num];
+
                 for (int i = 0; i < dimension; i++)
+                    mcov[i] = stream.ReadSingle();
+
+                for (m = 0; m < num; m++)
                 {
-                    mix[m].mean[i] = stream.ReadSingle();
-                    mix[m].dcov[i] = stream.ReadSingle();
+                    mix[m] = new gauss(dimension);
+                    mix[m].prior = stream.ReadSingle();
+                    mix[m].cgauss = stream.ReadSingle();
+                    for (int i = 0; i < dimension; i++)
+                    {
+                        mix[m].mean[i] = stream.ReadSingle();
+                        mix[m].dcov[i] = stream.ReadSingle();
+                    }
                 }
             }
+            else loadCutted(stream,num_list);
             stream.Close();
+        }
+
+        private void loadCutted(BinaryReader stream, List<int> feat_list)
+        {
+            int m;
+            dimension = stream.ReadInt32();
+            num = stream.ReadInt32();
+           
+            mix = new gauss[num];
+
+            int new_dimension = feat_list.Count;
+
+            if (dimension < new_dimension - 1) throw new Exception("Not enough features in GMM stream");
+            if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+            int counter = 0;
+
+
+            mcov = new float[new_dimension];
+            for (int i = 0; i < dimension; i++)
+            {
+                if (i == feat_list[counter]) { mcov[counter] = stream.ReadSingle(); counter++; }
+                else stream.ReadSingle();
+            }
+            
+            for (m = 0; m < num; m++)
+            {
+                mix[m] = new gauss(new_dimension);
+                mix[m].prior = stream.ReadSingle();
+                mix[m].cgauss = stream.ReadSingle();
+                counter = 0;
+                for (int i = 0; i < dimension; i++)
+                {
+                    if (i == feat_list[counter]) { mix[m].mean[counter] = stream.ReadSingle(); mix[m].dcov[counter] = stream.ReadSingle(); counter++; }
+                    else { stream.ReadSingle(); stream.ReadSingle();}                   
+                }
+            }
+            dimension = new_dimension;
+            
         }
 
         void Gmm_init_classifier()
