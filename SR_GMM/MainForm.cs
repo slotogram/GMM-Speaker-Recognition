@@ -1219,6 +1219,9 @@ namespace SR_GMM
                 fs.WriteLine("Используемые характеристики: " + textBox28.Text);
                 fs.WriteLine("Удалять семплы без тона: " + checkBox9.Checked);
                 fs.WriteLine("Удалять характеристики после mft: " + checkBox10.Checked);
+                fs.WriteLine("Циклов адаптации UBM: " + textBox30.Text);
+                fs.WriteLine("Параметр адаптации UBM alpha: " + textBox31.Text);
+
                 fs.WriteLine("-------------------------------------------------------------");
 
                 //создаем список обучающих сегментов
@@ -1562,15 +1565,18 @@ namespace SR_GMM
 
                     learnData = new Data(learnList[i], learnLen, feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
-                    GMM spkr = new GMM(gmmN, learnData.dimension, learnData);
+                    GMM spkr;
                     if (checkBox11.Checked) 
                     {
+                        spkr = new GMM(gmmN, learnData.dimension, learnData);
                         spkr.Train(learnData, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 0.95, 0.01, 100,1);
                         //spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 14, 0.95, 0.01, 1, 1);
                         
                     }
                     else
                     {
+                        spkr = new GMM(ubm,true);
+                        //spkr = new GMM(gmmN, learnData.dimension, learnData);
                         spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,alpha, 0.95, 0.01, iter_num, 1);                       
                     }
                     gmmList.Add(spkr);
@@ -1590,6 +1596,9 @@ namespace SR_GMM
                 fs.WriteLine("Используемые характеристики: " + textBox28.Text);
                 fs.WriteLine("Удалять семплы без тона: " + checkBox9.Checked);
                 fs.WriteLine("Удалять характеристики после mft: " + checkBox10.Checked);
+                fs.WriteLine("Циклов адаптации UBM: " + textBox30.Text);
+                fs.WriteLine("Параметр адаптации UBM alpha: " + textBox31.Text);
+
                 fs.WriteLine("-------------------------------------------------------------");
 
                 //создаем список обучающих сегментов
@@ -1668,7 +1677,7 @@ namespace SR_GMM
                     rejected[gmmList.Count] += rejected[i];
                 }
 
-                fs.WriteLine("Ошибка 1 рода - " + ((float)errSp[gmmList.Count] / (errSp[gmmList.Count] + rejected[gmmList.Count])).ToString("0.0000"));
+                 fs.WriteLine("Ошибка 1 рода - " + ((float)errSp[gmmList.Count] / (errSp[gmmList.Count] + rejected[gmmList.Count])).ToString("0.0000"));
                 fs.WriteLine("Ошибка 2 рода - " + ((float)falseAlarm[gmmList.Count] / (falseAlarm[gmmList.Count] + rSp[gmmList.Count])).ToString("0.0000"));
 
                 fs.WriteLine("Всего распознано верно - " + right.ToString());

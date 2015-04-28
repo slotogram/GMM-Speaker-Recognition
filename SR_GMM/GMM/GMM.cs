@@ -127,7 +127,7 @@ namespace SR_GMM
             //fprintf(stdout,"Number of Components: %06i\n",gmix->num);
 
             //задаем число итераций
-
+            
                 for (i = 1; i <= imax; i++)
                 {
                     llh = gmm_EMtrain(feas, t); /* Compute one iteration of EM algorithm.   */
@@ -169,7 +169,7 @@ namespace SR_GMM
                     this.mix[i].mean[j] = ((1 - alpha) * world.getMean(i, j) + alpha * this.mix[i].mean[j]);
                 }
             }
-        }
+        } 
         /* Parallel implementation of the E Step of the EM algorithm. */
         void Thread_trainer(Data feas, long ini, long end)
         {
@@ -517,7 +517,7 @@ namespace SR_GMM
                 }
             }
         }
-        public GMM (GMM gmm)
+        public GMM (GMM gmm, bool swap_cov = false)
         {
             this.dimension = gmm.dimension;
             this.num = gmm.num;
@@ -528,8 +528,20 @@ namespace SR_GMM
             for (int ii = 0; ii < num; ii++)
             {
                 mix[ii] = new gauss(dimension);
+                mix[ii].cgauss = gmm.mix[ii].cgauss;
+                gmm.mix[ii].dcov.CopyTo(this.mix[ii].dcov, 0);
+                if (swap_cov)
+                    for (int j = 0; j < dimension; j++)
+                        mix[ii].dcov[j] = 1 / mix[ii].dcov[j];
+                gmm.mix[ii].mean.CopyTo(this.mix[ii].mean, 0);
+                mix[ii].prior = gmm.mix[ii].prior;
+                
+
             }
-            gmm.mix.CopyTo(this.mix, 0);
+            
+
+            
+            
             
 
 
