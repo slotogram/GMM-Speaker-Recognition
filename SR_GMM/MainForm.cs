@@ -1095,7 +1095,7 @@ namespace SR_GMM
 
                     learnData = new Data(learnList[i], learnLen,feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num,delete_mft);
-                    GMM spkr = new GMM(gmmN, learnData.dimension, learnData);
+                    GMM spkr = new GMM(ubm,true);
                     spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,alpha, 0.95, 0.01,iter_num, 1);
                     gmmList.Add(spkr);
                 }

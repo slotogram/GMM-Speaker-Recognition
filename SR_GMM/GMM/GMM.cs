@@ -136,18 +136,29 @@ namespace SR_GMM
 
                     //MapOccDep Algorithm
                     MapOccDep(world, reg, feas.samples);
+                    //change other params to world model - 1-st variant, when we change stats to UBM every cycle
+                    /*for (int j = 0; j < this.num; j++)
+                    {
+                        world.mix[j].dcov.CopyTo(this.mix[j].dcov, 0);
+                        this.mix[j].prior = world.mix[j].prior;
+                        //and reverse covariance matrix
+                        if (i == imax)
+                        for (int k = 0; k < this.dimension; k++)
+                            this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
+                    } */                   
 
                     
                 }
+
                 //change other params to world model
                 for (int j = 0; j < this.num; j++)
                 {
                     world.mix[j].dcov.CopyTo(this.mix[j].dcov, 0);
                     this.mix[j].prior = world.mix[j].prior;
                     //and reverse covariance matrix
-                    for (int k = 0; k < this.dimension; k++)
-                        this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
-                }                    
+                        for (int k = 0; k < this.dimension; k++)
+                            this.mix[j].dcov[k] = 1 / this.mix[j].dcov[k];
+                }                
 
             Gmm_init_classifier(); /* Pre-compute the non-data dependant part of classifier. */
             Gmm_save(fnm); /* Save the model with the pre-computed part for fast classify.  */
@@ -222,7 +233,7 @@ namespace SR_GMM
 
 
         /* Perform one iteration of the EM algorithm with the data and the mixture indicated. */
-        float gmm_EMtrain(Data feas, int t)
+        float gmm_EMtrain(Data feas, int t, bool init=true)
         {
 	int m,i,n; float tz,x;
     long inc, ini, end;
@@ -231,7 +242,7 @@ namespace SR_GMM
 	//workers_mutex *mutex=workers_mutex_create();
 	//trainer *t=(trainer*)calloc(n,sizeof(trainer));
 	/* Calculate expected value and accumulate the counts (E Step). */
-	Gmm_init_classifier();
+	if (init) Gmm_init_classifier();
 	for(m=0;m<num;m++)
 		mix[m]._cfreq=0;
 	inc=feas.samples/n;
