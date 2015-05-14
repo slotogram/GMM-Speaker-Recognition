@@ -1387,15 +1387,17 @@ namespace SR_GMM
             else s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav");
 
 
-            //int.TryParse(textBox2.Text, out n);
+            int.TryParse(textBox2.Text, out n);
             string dir = textBox1.Text;
                 string shortArgs = " ";
 
             if (checkBox5.Checked) { dir+= "\\mft"; }
+            if (n != 0) { shortArgs += "-X " + n + " "; dir += n + "X"; }
                 if (radioButton2.Checked) { shortArgs += "-d "; dir += "1d"; }
                 if (radioButton3.Checked) { shortArgs += "-dd "; dir += "2d"; }
                 if (checkBox2.Checked) { shortArgs += "-n "; dir += "N"; }
                 if (checkBox5.Checked) { Directory.CreateDirectory(dir); }
+
                 
                 var startInfo = new ProcessStartInfo
                 {
