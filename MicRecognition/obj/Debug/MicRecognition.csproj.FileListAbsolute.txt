@@ -19,3 +19,14 @@ E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\obj\D
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.pdb
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\bin\Debug\SR_GMM.exe
 E:\work\Aspirant\SpeakerRecognition\GMM-Speaker-Recognition\MicRecognition\bin\Debug\SR_GMM.pdb
+D:\git\GMM-Speaker-Recognition\MicRecognition\bin\Debug\MicRecognition.exe.config
+D:\git\GMM-Speaker-Recognition\MicRecognition\bin\Debug\MicRecognition.exe
+D:\git\GMM-Speaker-Recognition\MicRecognition\bin\Debug\MicRecognition.pdb
+D:\git\GMM-Speaker-Recognition\MicRecognition\bin\Debug\SR_GMM.exe
+D:\git\GMM-Speaker-Recognition\MicRecognition\bin\Debug\SR_GMM.pdb
+D:\git\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.csprojResolveAssemblyReference.cache
+D:\git\GMM-Speaker-Recognition\MicRecognition\obj\Debug\SR_GMM.RecordForm.resources
+D:\git\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.Properties.Resources.resources
+D:\git\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.csproj.GenerateResource.Cache
+D:\git\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.exe
+D:\git\GMM-Speaker-Recognition\MicRecognition\obj\Debug\MicRecognition.pdb
