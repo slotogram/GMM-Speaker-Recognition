@@ -114,7 +114,7 @@ namespace SR_GMM
 
         }
 
-        private void LoadDataToArray(string s,ref long counter, int dim, ref float[][] res)
+        private void LoadDataToArray(string s,ref long counter, ref float[][] res)
         {
             FileStream stream = new FileStream(s, FileMode.Open);
 
@@ -128,41 +128,14 @@ namespace SR_GMM
 
             stream.Read(flag, 0, 4);
 
-            /*TODO: Actions w flags
-
-             *E 1 bit -вектор содержит log E
-             *Z 2 bit - удалена средняя
-             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
-             *D 4 - есть дельты
-             *A 5 - есть 2 дельты (всегда с 4)
-             *R 6 - дисперсия нормализована (всегда с 2)
-            */
-
-            /*            bool gotE = false, gotD = false, gotA = false;
-
-                        if ((flag[0] & 0x01) != 0) gotE = true; 
-                        if ((flag[0] & 0x02) != 0) meanR = true;
-                        if ((flag[0] & 0x04) != 0) supE = true;
-                        if ((flag[0] & 0x08) != 0) gotD = true; 
-                        if ((flag[0] & 0x10) != 0) gotA = true; 
-                        if ((flag[0] & 0x20) != 0) normV = true;
-            */
-
+           
             byte[] buf = new byte[4];
 
             stream.Read(buf, 0, 4);
 
-            //frame_rate = BitConverter.ToSingle(buf, 0);
-
-            //------------------------------------
-            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
-            //------------------------------------
-            //data = new float[n][];
-            //samples = n;
-
             for (long i = counter; i < counter + n; i++)
             {
-                //data[i] = new float[dimension];
+                data[i] = new float[dimension];
                 for (int j = 0; j < dimension; j++)
                 {
                     res[i][j] = ReadFloat(stream);
@@ -171,28 +144,146 @@ namespace SR_GMM
             }
             counter += n;
             stream.Close();
+        }
+
+        private void LoadDataToArray(string s, ref long counter, ref float[][] res, ref long need_samp)
+        {
+            FileStream stream = new FileStream(s, FileMode.Open);
+
+            long len = stream.Length - 10;
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+
+            long n = (long)(len / (dimension * 4));
+
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+            if (need_samp < n) { n = need_samp; }
+
+            for (long i = counter; i < counter + n; i++)
+            {
+                data[i] = new float[dimension];
+                for (int j = 0; j < dimension; j++)
+                {
+                    res[i][j] = ReadFloat(stream);
+                }
+
+            }
+            counter += n;
+            need_samp -= n;
+            stream.Close();
+        }
+
+        private void LoadDataToArray_f(string s, ref long Counter, ref float[][] res, List<int> feat_list)
+        {
+            FileStream stream = new FileStream(s, FileMode.Open);
+
+            long len = stream.Length - 10;
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+            int dim = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+            long n = (long)(len / (dim * 4));
+
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+
+            int new_dimension = feat_list.Count;
+
+            if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
+
+            if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+
+            int counter;
+            for (long i = Counter; i < Counter + n; i++)
+            {
+                res[i] = new float[new_dimension];
+                counter = 0;
+                for (int j = 0; j < dim; j++)
+                {
+                    if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
+                    else SkipBytes(stream, sizeof(float));
+
+                }
+                //stream.Position++;
+            }
+            Counter += n;
+           
+            dimension = new_dimension;
+            stream.Close();
+        }
+
+        private void LoadDataToArray_f(string s, ref long Counter, ref float[][] res, List<int> feat_list, ref long need_samp)
+        {
+            FileStream stream = new FileStream(s, FileMode.Open);
+
+            long len = stream.Length - 10;
+            byte Lb = (byte)stream.ReadByte();
+            byte Hb = (byte)stream.ReadByte();
+            int dim = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+            long n = (long)(len / (dim * 4));
+
+            byte[] flag = new byte[4];
+
+            stream.Read(flag, 0, 4);
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+
+            int new_dimension = feat_list.Count;
+
+            if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
+
+            if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+
+            if (need_samp < n) { n = need_samp; }
+
+            int counter;
+            for (long i = Counter; i < Counter + n; i++)
+            {
+                res[i] = new float[new_dimension];
+                counter = 0;
+                for (int j = 0; j < dim; j++)
+                {
+                    if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
+                    else SkipBytes(stream, sizeof(float));
+
+                }
+                //stream.Position++;
+            }
+            Counter += n;
+            need_samp -= n;
+            dimension = new_dimension;
+            stream.Close();
         }   
 
-        private float[][] LoadDataFromList(List<string> s, long samp, int dim)
+        private float[][] LoadDataFromList(List<string> s, long samp, int dim, List<int> feat_list = null)
         {
             float[][] res = new float[samp][];
             long counter = 0;
-            //выделяем память
-            for (long i = 0; i < samp; i++)
-            {
-                res[i] = new float[dim];
-            }
 
-            this.dimension = dim;
             this.samples = samp;
             foreach (string s1 in s)
             {
-                Data d = new Data();// = new Data(s1,false);
                 //создаем отдельный метод загружающий дата в выделенный массив
-                LoadDataToArray(s1, ref counter, dim, ref res);
+                if (feat_list == null) LoadDataToArray(s1, ref counter, ref res);
+                else LoadDataToArray_f(s1, ref counter, ref res, feat_list);
 
             }
-            
+
             return res;
         }
 
@@ -229,7 +320,7 @@ namespace SR_GMM
         /// Создает единый дата из нескольких дата файлов
         /// </summary>
         /// <param name="Paths">список путей к файлам mcc с параметрами</param>
-        public Data(List<string> Paths)
+        public Data(List<string> Paths, List<int> feat_list = null)
         {
             
             //LoadSingle(Paths);
@@ -267,7 +358,7 @@ namespace SR_GMM
             
             //создаем флоатовский список
 
-            this.data = LoadDataFromList(Paths,samp, d.dimension);
+            this.data = LoadDataFromList(Paths,samp, d.dimension, feat_list);
 
             //data = lst[0];
             //dimension = d.dimension;
@@ -290,9 +381,31 @@ namespace SR_GMM
         {
 
             //LoadSingle(Paths);
+           
             List<float[][]> lst = new List<float[][]>();
-            Data d = new Data();
-            long samp = 0;
+            Data d = new Data(Paths[0],false,false);
+            long need_samp = (int)d.frame_rate*Length;
+            long samp = need_samp;
+            frame_rate = d.frame_rate;
+
+            float[][] res = new float[samp][];
+            long counter = 0;
+
+            this.samples = samp;
+            foreach (string s1 in Paths)
+            {
+                
+                //создаем отдельный метод загружающий дата в выделенный массив
+                if (feat_list == null) LoadDataToArray(s1, ref counter,ref res,ref need_samp);
+                else LoadDataToArray_f(s1, ref counter, ref res, feat_list, ref need_samp);
+
+            }
+
+
+
+            CalcMean();
+
+            /*long samp = 0;
             foreach (string s in Paths)
             {
                 if (feat_list == null) d = new Data(s, false);
@@ -321,7 +434,7 @@ namespace SR_GMM
             samples = samp;
 
             CalcMean();
-
+            */
         }
 
         public static List<Data> JoinDataWLen(List<string> Paths, int Length, List<int> feat_list=null)
@@ -331,22 +444,43 @@ namespace SR_GMM
             List<Data> result = new List<Data>();
 
             List<float[][]> lst = new List<float[][]>();
-            Data d = new Data();
+            Data d = new Data(Paths[0], false, feat_list);
             long samp = 0;
-            long frames = 0;
-            
-            float[][] buffer = null;
+            long frames = (long)(Length * d.frame_rate);
+            long counter = 0;
+            float[][] buffer = new float[frames][];
+            for (long i = 0; i < frames; i++) buffer[i] = new float[d.dimension];
 
             foreach (string s in Paths)
             {
                 d = new Data(s, false,feat_list); //поменял , можно брать только одного диктора данные
                 samp += d.samples;
-                
-                if ((samp / d.frame_rate) > Length)
-                {
-                    if (buffer != null) buffer = buffer.Concat(d.data).ToArray();
-                    else buffer = d.data;
 
+                if (samp > frames)
+                {
+                    long add_samp = samp - frames;
+                    long break_samp = frames-(samp-d.samples);
+                    for (long i = 0; i <break_samp ; i++)
+                    {
+                        buffer[i + counter].CopyTo(d.data[i], 0);
+                    }
+                    counter = 0;
+                    d.data = buffer;
+                    d.samples = frames;
+                    d.CalcMean();
+                    result.Add(d);
+                    for (long i = 0; i < frames; i++) buffer[i] = new float[d.dimension];
+
+                    
+
+                    for (long i = 0; i < add_samp; i++)
+                    {
+                        buffer[i].CopyTo(d.data[i+break_samp], 0);
+                    }
+                    samp = add_samp;
+                    /*if (buffer != null) buffer = buffer.Concat(d.data).ToArray();
+                    else buffer = d.data;
+                    
                     frames = (long)(Length * d.frame_rate);
                     float[][] newD = new float[frames][];
 
@@ -368,11 +502,18 @@ namespace SR_GMM
                         buffer[i+frames].CopyTo(newD[i], 0);
                     }
                     buffer = newD;
-                    samp = diff;
+                    samp = diff;*/
                 }
                 else //lst.Add(d.data);
-                    if (buffer != null) buffer = buffer.Concat(d.data).ToArray(); 
-                            else buffer = d.data;
+                {
+                    for (long i = 0; i < d.samples; i++)
+                    {
+                        buffer[i + counter].CopyTo(d.data[i],0);
+                    }
+                    counter += d.samples;
+                }
+                 /*   if (buffer != null) buffer = buffer.Concat(d.data).ToArray(); 
+                            else buffer = d.data;*/
                     
             }
             /*data = lst[0];

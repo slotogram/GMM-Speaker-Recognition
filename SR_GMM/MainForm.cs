@@ -1075,7 +1075,7 @@ namespace SR_GMM
                     }
                     
                     //сформировать Data из обучающих данных и создать модель UBM
-                    learnData = new Data(learnList[0], learnLen,feat_num);
+                    learnData = new Data(learnList[0],feat_num);
 
                     if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
                     
@@ -1093,7 +1093,7 @@ namespace SR_GMM
                         learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
                     }
 
-                    learnData = new Data(learnList[i], learnLen,feat_num);
+                    learnData = new Data(learnList[i],feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num,delete_mft);
                     GMM spkr = new GMM(ubm,true);
                     spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,alpha, 0.95, 0.01,iter_num, 1);
@@ -1397,7 +1397,7 @@ namespace SR_GMM
                 if (radioButton3.Checked) { shortArgs += "-dd "; dir += "2d"; }
                 if (checkBox2.Checked) { shortArgs += "-n "; dir += "N"; }
                 if (checkBox5.Checked) { Directory.CreateDirectory(dir); }
-
+                if (checkBox7.Checked) { shortArgs += "-seg ";  }
                 
                 var startInfo = new ProcessStartInfo
                 {
@@ -1547,7 +1547,7 @@ namespace SR_GMM
                     }
 
                     //сформировать Data из обучающих данных и создать модель UBM
-                    learnData = new Data(learnList[0], learnLen, feat_num);
+                    learnData = new Data(learnList[0], feat_num);
 
                     if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
 
@@ -1565,7 +1565,7 @@ namespace SR_GMM
                         learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
                     }
 
-                    learnData = new Data(learnList[i], learnLen, feat_num);
+                    learnData = new Data(learnList[i],  feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
                     GMM spkr;
                     if (checkBox11.Checked) 
