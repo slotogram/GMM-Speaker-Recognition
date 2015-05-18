@@ -67,6 +67,10 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox31 = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox30 = new System.Windows.Forms.TextBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.button21 = new System.Windows.Forms.Button();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
@@ -76,7 +80,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.textBox28 = new System.Windows.Forms.TextBox();
             this.button15 = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox22 = new System.Windows.Forms.TextBox();
             this.button14 = new System.Windows.Forms.Button();
@@ -120,10 +123,7 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBox30 = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.textBox31 = new System.Windows.Forms.TextBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -526,6 +526,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBox12);
             this.tabPage4.Controls.Add(this.label22);
             this.tabPage4.Controls.Add(this.textBox31);
             this.tabPage4.Controls.Add(this.label21);
@@ -539,7 +540,6 @@
             this.tabPage4.Controls.Add(this.label19);
             this.tabPage4.Controls.Add(this.textBox28);
             this.tabPage4.Controls.Add(this.button15);
-            this.tabPage4.Controls.Add(this.label16);
             this.tabPage4.Controls.Add(this.textBox23);
             this.tabPage4.Controls.Add(this.textBox22);
             this.tabPage4.Controls.Add(this.button14);
@@ -572,6 +572,40 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(233, 206);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(33, 13);
+            this.label22.TabIndex = 73;
+            this.label22.Text = "alpha";
+            // 
+            // textBox31
+            // 
+            this.textBox31.Location = new System.Drawing.Point(179, 203);
+            this.textBox31.Name = "textBox31";
+            this.textBox31.Size = new System.Drawing.Size(38, 20);
+            this.textBox31.TabIndex = 72;
+            this.textBox31.Text = "14";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(233, 181);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(101, 13);
+            this.label21.TabIndex = 71;
+            this.label21.Text = "Циклов адаптации";
+            // 
+            // textBox30
+            // 
+            this.textBox30.Location = new System.Drawing.Point(179, 178);
+            this.textBox30.Name = "textBox30";
+            this.textBox30.Size = new System.Drawing.Size(38, 20);
+            this.textBox30.TabIndex = 70;
+            this.textBox30.Text = "1";
             // 
             // checkBox11
             // 
@@ -657,20 +691,11 @@
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click_1);
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(511, 127);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(57, 13);
-            this.label16.TabIndex = 60;
-            this.label16.Text = "Фильтр E";
-            // 
             // textBox23
             // 
             this.textBox23.Location = new System.Drawing.Point(365, 124);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(140, 20);
+            this.textBox23.Size = new System.Drawing.Size(33, 20);
             this.textBox23.TabIndex = 59;
             this.textBox23.Text = "0";
             // 
@@ -1065,39 +1090,15 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // label21
+            // checkBox12
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(233, 181);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(101, 13);
-            this.label21.TabIndex = 71;
-            this.label21.Text = "Циклов адаптации";
-            // 
-            // textBox30
-            // 
-            this.textBox30.Location = new System.Drawing.Point(179, 178);
-            this.textBox30.Name = "textBox30";
-            this.textBox30.Size = new System.Drawing.Size(38, 20);
-            this.textBox30.TabIndex = 70;
-            this.textBox30.Text = "1";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(233, 206);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(33, 13);
-            this.label22.TabIndex = 73;
-            this.label22.Text = "alpha";
-            // 
-            // textBox31
-            // 
-            this.textBox31.Location = new System.Drawing.Point(179, 203);
-            this.textBox31.Name = "textBox31";
-            this.textBox31.Size = new System.Drawing.Size(38, 20);
-            this.textBox31.TabIndex = 72;
-            this.textBox31.Text = "14";
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(414, 127);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(76, 17);
+            this.checkBox12.TabIndex = 74;
+            this.checkBox12.Text = "Фильтр E";
+            this.checkBox12.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1190,7 +1191,6 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.TextBox textBox22;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox23;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
@@ -1222,6 +1222,7 @@
         private System.Windows.Forms.TextBox textBox30;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox textBox31;
+        private System.Windows.Forms.CheckBox checkBox12;
     }
 }
 

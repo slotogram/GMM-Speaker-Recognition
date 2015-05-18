@@ -458,26 +458,41 @@ namespace SR_GMM
 
                 if (samp > frames)
                 {
-                    long add_samp = samp - frames;
                     long break_samp = frames-(samp-d.samples);
+                    long add_samp = d.samples - break_samp;
                     for (long i = 0; i <break_samp ; i++)
                     {
-                        buffer[i + counter].CopyTo(d.data[i], 0);
+                        d.data[i].CopyTo(buffer[i + counter], 0);
                     }
                     counter = 0;
-                    d.data = buffer;
+                    /*d.data = buffer;
                     d.samples = frames;
                     d.CalcMean();
-                    result.Add(d);
-                    for (long i = 0; i < frames; i++) buffer[i] = new float[d.dimension];
+                    result.Add(d);*/
+                    Data k = new Data();
+                    k.dimension = d.dimension; k.frame_rate = d.frame_rate; k.spkrID = d.spkrID; k.samples = frames;
+                    k.data = buffer; k.CalcMean(); result.Add(k);
 
-                    
 
-                    for (long i = 0; i < add_samp; i++)
+                    do
                     {
-                        buffer[i].CopyTo(d.data[i+break_samp], 0);
-                    }
-                    samp = add_samp;
+                        for (long i = 0; i < frames; i++) buffer[i] = new float[d.dimension];
+                        long ctr = add_samp; samp = add_samp; 
+                        if (samp > frames) { ctr = frames;  }
+                        for (long i = 0; i < ctr; i++)
+                        {
+                            d.data[i + break_samp].CopyTo(buffer[i], 0);
+                        }
+                        add_samp -= frames;
+                        if (samp > frames) 
+                        {                                                        
+                            break_samp += frames;
+                            k = new Data();
+                            k.dimension = d.dimension; k.frame_rate = d.frame_rate; k.spkrID = d.spkrID; k.samples = frames;
+                            k.data = buffer; k.CalcMean(); result.Add(k);
+                        }
+                    } while (add_samp > 0);
+                    counter = samp;
                     /*if (buffer != null) buffer = buffer.Concat(d.data).ToArray();
                     else buffer = d.data;
                     
@@ -508,7 +523,7 @@ namespace SR_GMM
                 {
                     for (long i = 0; i < d.samples; i++)
                     {
-                        buffer[i + counter].CopyTo(d.data[i],0);
+                        d.data[i].CopyTo(buffer[i + counter], 0);
                     }
                     counter += d.samples;
                 }
@@ -943,6 +958,7 @@ namespace SR_GMM
             this.samples = counter;
             //обрезаем все характеристики, что были после нашей ЧОТ.
             if (delete_mft) this.dimension = feat_num;
+            CalcMean();
         }
 
         public void Save(string path)

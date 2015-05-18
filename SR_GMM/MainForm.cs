@@ -919,9 +919,12 @@ namespace SR_GMM
                         //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
                         float max = -(float.MaxValue - 1);
                         int numb = 0;
-                        float E = 0;
-                        float.TryParse(textBox23.Text, out E);
-                        d.deleteLowEnergySamples(E);
+                        if (checkBox12.Checked)
+                        {
+                            float E = 0;
+                            float.TryParse(textBox23.Text, out E);
+                            d.deleteLowEnergySamples(E);
+                        }
                         for (int j = 0; j < gmmList.Count; j++)
                         {
                             res[j] = gmmList[j].Classify(d);
@@ -1643,9 +1646,12 @@ namespace SR_GMM
                          //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
                         float max = -(float.MaxValue - 1);
                         int numb = 0;
-                        float E = 0;
-                        float.TryParse(textBox23.Text, out E);
-                        d.deleteLowEnergySamples(E);
+                        if (checkBox12.Checked)
+                        {
+                            float E = 0;
+                            float.TryParse(textBox23.Text, out E);
+                            d.deleteLowEnergySamples(E);
+                        }
                         for (int j = 0; j < gmmList.Count; j++)
                         {
                             res[j] = gmmList[j].Classify(d);

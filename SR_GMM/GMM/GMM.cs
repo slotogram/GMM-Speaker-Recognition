@@ -329,7 +329,7 @@ namespace SR_GMM
             }
            for (i = 0; i < n; i++)
                 result += res[i];
-            
+           if (float.IsNaN(result)) throw new Exception("NaN");
             return result / fd.samples;
 
         }
