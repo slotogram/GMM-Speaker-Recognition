@@ -1532,31 +1532,34 @@ namespace SR_GMM
                 int gmmN = 0;
                 int.TryParse(textBox15.Text, out gmmN);
                 //проверить, есть ли gmm?
-                if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
+                if (!checkBox11.Checked||checkBox13.Checked)
                 {
-                    ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm", feat_num);
-                }
-                else
-                {
-                    for (int i = 0; i < speakerList.Count; i++)
+                    if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
                     {
-
-                        //Создание списка обучающих сегментов
-                        for (int k = 1; k <= 20; k++)
+                        ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm", feat_num);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < speakerList.Count; i++)
                         {
-                            learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+
+                            //Создание списка обучающих сегментов
+                            for (int k = 1; k <= 20; k++)
+                            {
+                                learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                            }
+
                         }
 
-                    }
+                        //сформировать Data из обучающих данных и создать модель UBM
+                        learnData = new Data(learnList[0], feat_num);
 
-                    //сформировать Data из обучающих данных и создать модель UBM
-                    learnData = new Data(learnList[0], feat_num);
-
-                    if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
+                        if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
 
                         ubm = new GMM(gmmN, learnData.dimension, learnData);
                         ubm.Train(learnData, "asdas", textBox12.Text + "\\" + "ubm.gmm", gmmN, 0.95, 0.01, 100, 1);
-                    
+
+                    }
                 }
                 //адаптировать модели дикторов
                 for (int i = 0; i < speakerList.Count; i++)
@@ -1573,7 +1576,9 @@ namespace SR_GMM
                     GMM spkr;
                     if (checkBox11.Checked) 
                     {
+                        if (checkBox13.Checked) spkr = new GMM(ubm, true); else
                         spkr = new GMM(gmmN, learnData.dimension, learnData);
+                        
                         spkr.Train(learnData, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 0.95, 0.01, 100,1);
                         //spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 14, 0.95, 0.01, 1, 1);
                         
@@ -1603,6 +1608,10 @@ namespace SR_GMM
                 fs.WriteLine("Удалять характеристики после mft: " + checkBox10.Checked);
                 fs.WriteLine("Циклов адаптации UBM: " + textBox30.Text);
                 fs.WriteLine("Параметр адаптации UBM alpha: " + textBox31.Text);
+                if (checkBox13.Checked) fs.WriteLine("Идентификация без UBM, но с инициализацией через UBM: " + checkBox13.Checked);
+                if (checkBox11.Checked) fs.WriteLine("Идентификация без UBM с нуля: " + checkBox11.Checked);
+                if (checkBox12.Checked) fs.WriteLine("Использовать порог энергии (может быть и не энергия): " + textBox23.Text);
+                if (checkBox14.Checked) fs.WriteLine("Счет вычисляется с UBM: " + checkBox14.Checked);
 
                 fs.WriteLine("-------------------------------------------------------------");
 
@@ -1632,8 +1641,10 @@ namespace SR_GMM
                     }*/
                     AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen, feat_num));
                 }
-                //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
 
+                if (!checkBox14.Checked) ubm = null;
+                //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
+                
                 foreach (Data d in AllTestData)
                     if (cutMFT) d.CutMftSamples(mft_num, delete_mft);
          
@@ -1654,7 +1665,7 @@ namespace SR_GMM
                         }
                         for (int j = 0; j < gmmList.Count; j++)
                         {
-                            res[j] = gmmList[j].Classify(d);
+                            res[j] = gmmList[j].Classify(d,1,null,ubm);
                             if (res[j] > max) { max = res[j]; numb = j; }
                         }
 
