@@ -1723,5 +1723,51 @@ namespace SR_GMM
 
             fs.Close();
         }
+
+        /// <summary>
+        /// Создаем файл с ЧОТ, не используем окна, берем только вокализованные.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button22_Click(object sender, EventArgs e)
+        {
+            int n = 0;
+            string[] s;
+            if (checkBox4.Checked)
+                s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav", SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav");
+
+
+            int.TryParse(textBox2.Text, out n);
+            string dir = textBox1.Text;
+            string shortArgs = " ";
+
+            if (checkBox5.Checked) { dir += "\\mft"; }
+            if (n != 0) { shortArgs += "-X " + n + " "; dir += n + "X"; }
+            if (radioButton2.Checked) { shortArgs += "-d "; dir += "1d"; }
+            if (radioButton3.Checked) { shortArgs += "-dd "; dir += "2d"; }
+            if (checkBox2.Checked) { shortArgs += "-n "; dir += "N"; }
+            if (checkBox5.Checked) { dir += "Nw"; Directory.CreateDirectory(dir); }
+            shortArgs += "-nw ";
+            if (checkBox7.Checked) { shortArgs += "-seg "; }
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = Environment.CurrentDirectory + "\\test.exe",
+                WindowStyle = ProcessWindowStyle.Hidden
+
+            };
+            foreach (string s1 in s)
+            {
+                if (checkBox5.Checked)
+                    startInfo.Arguments = "\"" + s1 + "\" \"" + dir + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mcc\"" + shortArgs;
+                else startInfo.Arguments = "\"" + s1 + "\" \"" + Path.GetDirectoryName(s1) + "\\" + Path.GetFileNameWithoutExtension(s1) + ".mcc\"" + shortArgs;
+                Process.Start(startInfo).WaitForExit();
+
+
+            }
+
+            
+        }
     }
 }
