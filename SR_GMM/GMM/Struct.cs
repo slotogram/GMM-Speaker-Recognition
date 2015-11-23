@@ -114,173 +114,192 @@ namespace SR_GMM
 
         }
 
-        private void LoadDataToArray(string s,ref long counter, ref float[][] res)
-        {
-            FileStream stream = new FileStream(s, FileMode.Open);
-
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-            
-            long n = (long)(len / (dimension * 4));
-
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-
-           
-            byte[] buf = new byte[4];
-
-            stream.Read(buf, 0, 4);
-
-            for (long i = counter; i < counter + n; i++)
-            {
-                data[i] = new float[dimension];
-                for (int j = 0; j < dimension; j++)
-                {
-                    res[i][j] = ReadFloat(stream);
-                }
-
-            }
-            counter += n;
-            stream.Close();
-        }
-
+ 
+        /// <summary>
+        /// Загружает в готовый массив данные из файла с фичами, передвигает счетчик counter и если надо, уменьшает число необходимых семплов
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="counter"></param>
+        /// <param name="res"></param>
+        /// <param name="need_samp">если long.MaxValue, то не используется</param>
         private void LoadDataToArray(string s, ref long counter, ref float[][] res, ref long need_samp)
         {
-            FileStream stream = new FileStream(s, FileMode.Open);
-
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-
-            long n = (long)(len / (dimension * 4));
-
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-
-
-            byte[] buf = new byte[4];
-
-            stream.Read(buf, 0, 4);
-            if (need_samp < n) { n = need_samp; }
-
-            for (long i = counter; i < counter + n; i++)
+            if (s[s.Length - 3] == 'h') LoadDataToArrayHtk(s, ref counter, ref res, ref need_samp);
+            else
             {
-                data[i] = new float[dimension];
-                for (int j = 0; j < dimension; j++)
-                {
-                    res[i][j] = ReadFloat(stream);
-                }
+                FileStream stream = new FileStream(s, FileMode.Open);
 
+                long len = stream.Length - 10;
+                byte Lb = (byte)stream.ReadByte();
+                byte Hb = (byte)stream.ReadByte();
+
+                long n = (long)(len / (dimension * 4));
+
+                byte[] flag = new byte[4];
+
+                stream.Read(flag, 0, 4);
+
+
+                byte[] buf = new byte[4];
+
+                stream.Read(buf, 0, 4);
+
+                if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
+
+                for (long i = counter; i < counter + n; i++)
+                {
+                    data[i] = new float[dimension];
+                    for (int j = 0; j < dimension; j++)
+                    {
+                        res[i][j] = ReadFloat(stream);
+                    }
+
+                }
+                counter += n;
+                if (need_samp != long.MaxValue) need_samp -= n;
+                stream.Close();
             }
-            counter += n;
-            need_samp -= n;
-            stream.Close();
         }
 
-        private void LoadDataToArray_f(string s, ref long Counter, ref float[][] res, List<int> feat_list)
+
+        private void LoadDataToArrayHtk(string s, ref long counter, ref float[][] res, ref long need_samp)
         {
-            FileStream stream = new FileStream(s, FileMode.Open);
+                FileStream stream = new FileStream(s, FileMode.Open);
 
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-            int dim = (int)((ushort)(Hb * byte.MaxValue + Lb));
+                int samp = ReadInt(stream);
+                ReadInt(stream); 
+                stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
+                short flags = ReadShort(stream); //разбор флагов, надо ли?
+                //вычисляем, сколько у нас фич:
+                int dim = (int)((stream.Length - 12) / samples);
+                long n = samp;
+                
+                if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
 
-            long n = (long)(len / (dim * 4));
-
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-
-            byte[] buf = new byte[4];
-
-            stream.Read(buf, 0, 4);
-
-            int new_dimension = feat_list.Count;
-
-            if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
-
-            if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
-
-            int counter;
-            for (long i = Counter; i < Counter + n; i++)
-            {
-                res[i] = new float[new_dimension];
-                counter = 0;
-                for (int j = 0; j < dim; j++)
+                for (long i = counter; i < counter + n; i++)
                 {
-                    if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
-                    else SkipBytes(stream, sizeof(float));
+                    data[i] = new float[dimension];
+                    for (int j = 0; j < dimension; j++)
+                    {
+                        res[i][j] = ReadFloat(stream);
+                    }
 
                 }
-                //stream.Position++;
+                counter += n;
+                if (need_samp != long.MaxValue) need_samp -= n;
+                stream.Close();
             }
-            Counter += n;
-           
-            dimension = new_dimension;
-            stream.Close();
-        }
+        
 
+        /// <summary>
+        /// Загружает в готовый массив данные из файла с фичами, передвигает счетчик counter и если надо, уменьшает число необходимых семплов. Учитывается список нужных фич.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="Counter"></param>
+        /// <param name="res"></param>
+        /// <param name="feat_list"></param>
+        /// <param name="need_samp">если long.MaxValue, то не используется</param>
         private void LoadDataToArray_f(string s, ref long Counter, ref float[][] res, List<int> feat_list, ref long need_samp)
         {
-            FileStream stream = new FileStream(s, FileMode.Open);
-
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-            int dim = (int)((ushort)(Hb * byte.MaxValue + Lb));
-
-            long n = (long)(len / (dim * 4));
-
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-
-            byte[] buf = new byte[4];
-
-            stream.Read(buf, 0, 4);
-
-            int new_dimension = feat_list.Count;
-
-            if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
-
-            if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
-
-            if (need_samp < n) { n = need_samp; }
-
-            int counter;
-            for (long i = Counter; i < Counter + n; i++)
+            if (s[s.Length - 3] == 'h') LoadDataToArrayHtk_f(s, ref Counter, ref res, feat_list, ref need_samp);
+            else
             {
-                res[i] = new float[new_dimension];
-                counter = 0;
-                for (int j = 0; j < dim; j++)
-                {
-                    if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
-                    else SkipBytes(stream, sizeof(float));
+                FileStream stream = new FileStream(s, FileMode.Open);
 
+                long len = stream.Length - 10;
+                byte Lb = (byte)stream.ReadByte();
+                byte Hb = (byte)stream.ReadByte();
+                int dim = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+                long n = (long)(len / (dim * 4));
+
+                byte[] flag = new byte[4];
+
+                stream.Read(flag, 0, 4);
+
+                byte[] buf = new byte[4];
+
+                stream.Read(buf, 0, 4);
+
+                int new_dimension = feat_list.Count;
+
+                if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
+
+                if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+
+                if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
+
+                int counter;
+                for (long i = Counter; i < Counter + n; i++)
+                {
+                    res[i] = new float[new_dimension];
+                    counter = 0;
+                    for (int j = 0; j < dim; j++)
+                    {
+                        if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
+                        else SkipBytes(stream, sizeof(float));
+
+                    }
+                    //stream.Position++;
                 }
-                //stream.Position++;
+                Counter += n;
+                if (need_samp != long.MaxValue) need_samp -= n;
+                dimension = new_dimension;
+                stream.Close();
             }
-            Counter += n;
-            need_samp -= n;
-            dimension = new_dimension;
-            stream.Close();
-        }   
+        }
+
+        private void LoadDataToArrayHtk_f(string s, ref long Counter, ref float[][] res, List<int> feat_list, ref long need_samp)
+        {
+           
+                FileStream stream = new FileStream(s, FileMode.Open);
+
+                int samp = ReadInt(stream);
+                ReadInt(stream);
+                stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
+                short flags = ReadShort(stream); //разбор флагов, надо ли?
+                //вычисляем, сколько у нас фич:
+                int dim = (int)((stream.Length - 12) / samples);
+                long n = samp;
+
+                int new_dimension = feat_list.Count;
+
+                if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
+
+                if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+
+                if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
+
+                int counter;
+                for (long i = Counter; i < Counter + n; i++)
+                {
+                    res[i] = new float[new_dimension];
+                    counter = 0;
+                    for (int j = 0; j < dim; j++)
+                    {
+                        if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
+                        else SkipBytes(stream, sizeof(float));
+
+                    }
+                    //stream.Position++;
+                }
+                Counter += n;
+                if (need_samp != long.MaxValue) need_samp -= n;
+                dimension = new_dimension;
+                stream.Close();
+            }
 
         private float[][] LoadDataFromList(List<string> s, long samp, int dim, List<int> feat_list = null)
         {
-            float[][] res = new float[samp][];
+            float[][] res = new float[samp][]; long t=long.MaxValue;
             long counter = 0;
-
+            
             this.samples = samp;
             foreach (string s1 in s)
             {
                 //создаем отдельный метод загружающий дата в выделенный массив
-                if (feat_list == null) LoadDataToArray(s1, ref counter, ref res);
-                else LoadDataToArray_f(s1, ref counter, ref res, feat_list);
+                if (feat_list == null) LoadDataToArray(s1, ref counter, ref res, ref t);
+                else LoadDataToArray_f(s1, ref counter, ref res, feat_list, ref t);
 
             }
 
@@ -618,55 +637,20 @@ namespace SR_GMM
             }
         }
 
- 
-        private void LoadSingle(string Path)
+        private void LoadSingleHtk(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
+            this.samples = (long)ReadInt(stream);
+            this.frame_rate = 10000000 / (ReadInt(stream)); //переводим из периода (100) нс в частоту
+            stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
+            short flags = ReadShort(stream); //разбор флагов, надо ли?
+            //вычисляем, сколько у нас фич:
+            this.dimension = (int)((stream.Length - 12) / samples);
 
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-            dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
+            //считываем данные
+            data = new float[samples][];
 
-            long n = (long)(len / (dimension * 4));
-
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-
-            /*TODO: Actions w flags
-
-             *E 1 bit -вектор содержит log E
-             *Z 2 bit - удалена средняя
-             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
-             *D 4 - есть дельты
-             *A 5 - есть 2 дельты (всегда с 4)
-             *R 6 - дисперсия нормализована (всегда с 2)
-            */
-
-            /*            bool gotE = false, gotD = false, gotA = false;
-
-                        if ((flag[0] & 0x01) != 0) gotE = true; 
-                        if ((flag[0] & 0x02) != 0) meanR = true;
-                        if ((flag[0] & 0x04) != 0) supE = true;
-                        if ((flag[0] & 0x08) != 0) gotD = true; 
-                        if ((flag[0] & 0x10) != 0) gotA = true; 
-                        if ((flag[0] & 0x20) != 0) normV = true;
-            */
-
-            byte[] buf = new byte[4];
-
-            stream.Read(buf, 0, 4);
-
-            frame_rate = BitConverter.ToSingle(buf, 0);
-
-            //------------------------------------
-            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
-            //------------------------------------
-            data = new float[n][];
-            samples = n;
-
-            for (long i = 0; i < n; i++)
+            for (long i = 0; i < samples; i++)
             {
                 data[i] = new float[dimension];
                 for (int j = 0; j < dimension; j++)
@@ -675,127 +659,243 @@ namespace SR_GMM
                 }
 
             }
-
             stream.Close();
         }
 
-        private void LoadSingle(string Path,List<int> feat_list)
+        private void LoadSingle(string Path)
+        {
+            if (Path[Path.Length - 3] == 'h') LoadSingleHtk(Path);
+            else
+            {
+                FileStream stream = new FileStream(Path, FileMode.Open);
+
+                long len = stream.Length - 10;
+                byte Lb = (byte)stream.ReadByte();
+                byte Hb = (byte)stream.ReadByte();
+                dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+                long n = (long)(len / (dimension * 4));
+
+                byte[] flag = new byte[4];
+
+                stream.Read(flag, 0, 4);
+
+                /*TODO: Actions w flags
+
+                 *E 1 bit -вектор содержит log E
+                 *Z 2 bit - удалена средняя
+                 *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
+                 *D 4 - есть дельты
+                 *A 5 - есть 2 дельты (всегда с 4)
+                 *R 6 - дисперсия нормализована (всегда с 2)
+                */
+
+                /*            bool gotE = false, gotD = false, gotA = false;
+
+                            if ((flag[0] & 0x01) != 0) gotE = true; 
+                            if ((flag[0] & 0x02) != 0) meanR = true;
+                            if ((flag[0] & 0x04) != 0) supE = true;
+                            if ((flag[0] & 0x08) != 0) gotD = true; 
+                            if ((flag[0] & 0x10) != 0) gotA = true; 
+                            if ((flag[0] & 0x20) != 0) normV = true;
+                */
+
+                byte[] buf = new byte[4];
+
+                stream.Read(buf, 0, 4);
+
+                frame_rate = BitConverter.ToSingle(buf, 0);
+
+                //------------------------------------
+                // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+                //------------------------------------
+                data = new float[n][];
+                samples = n;
+
+                for (long i = 0; i < n; i++)
+                {
+                    data[i] = new float[dimension];
+                    for (int j = 0; j < dimension; j++)
+                    {
+                        data[i][j] = ReadFloat(stream);
+                    }
+
+                }
+
+                stream.Close();
+            }
+        }
+
+        private void LoadSingleHtk(string Path, List<int> feat_list)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
-
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-            dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
-
-            long n = (long)(len / (dimension * 4));
-
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-
-            /*TODO: Actions w flags
-
-             *E 1 bit -вектор содержит log E
-             *Z 2 bit - удалена средняя
-             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
-             *D 4 - есть дельты
-             *A 5 - есть 2 дельты (всегда с 4)
-             *R 6 - дисперсия нормализована (всегда с 2)
-            */
-
-            /*            bool gotE = false, gotD = false, gotA = false;
-
-                        if ((flag[0] & 0x01) != 0) gotE = true; 
-                        if ((flag[0] & 0x02) != 0) meanR = true;
-                        if ((flag[0] & 0x04) != 0) supE = true;
-                        if ((flag[0] & 0x08) != 0) gotD = true; 
-                        if ((flag[0] & 0x10) != 0) gotA = true; 
-                        if ((flag[0] & 0x20) != 0) normV = true;
-            */
-
-            byte[] buf = new byte[4];
-
-            stream.Read(buf, 0, 4);
-            
-            frame_rate = BitConverter.ToSingle(buf, 0);
-
-            //------------------------------------
-            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
-            //------------------------------------
+            this.samples = (long)ReadInt(stream);
+            this.frame_rate = 10000000 / (ReadInt(stream)); //переводим из периода (100) нс в частоту
+            stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
+            short flags = ReadShort(stream); //разбор флагов, надо ли?
+            //вычисляем, сколько у нас фич:
+            this.dimension = (int)((stream.Length - 12) / samples);
 
             int new_dimension = feat_list.Count;
-            
-            if (dimension < new_dimension-1) throw new Exception("Not enough features in "+Path);
-            data = new float[n][];
-            samples = n;
+            if (dimension < new_dimension - 1) throw new Exception("Not enough features in " + Path);
+
+            //считываем данные
+            data = new float[samples][];
             if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
-            
+
             int counter;
-            for (long i = 0; i < n; i++)
+            for (long i = 0; i < samples; i++)
             {
-                data[i] = new float[new_dimension];
-                counter=0;
+                data[i] = new float[dimension];
+                counter = 0;
                 for (int j = 0; j < dimension; j++)
                 {
                     if (j == feat_list[counter]) { data[i][counter] = ReadFloat(stream); counter++; }
-                    else SkipBytes(stream,sizeof(float));
-                   
+                    else SkipBytes(stream, sizeof(float));
                 }
-                //stream.Position++;
-            }
-            
+
+            } 
             dimension = new_dimension;
+            stream.Close();
+        }
+
+        private void LoadSingle(string Path, List<int> feat_list)
+        {
+            if (Path[Path.Length - 3] == 'h') LoadSingleHtk(Path,feat_list);
+            else
+            {
+                FileStream stream = new FileStream(Path, FileMode.Open);
+
+                long len = stream.Length - 10;
+                byte Lb = (byte)stream.ReadByte();
+                byte Hb = (byte)stream.ReadByte();
+                dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
+
+                long n = (long)(len / (dimension * 4));
+
+                byte[] flag = new byte[4];
+
+                stream.Read(flag, 0, 4);
+
+                /*TODO: Actions w flags
+
+                 *E 1 bit -вектор содержит log E
+                 *Z 2 bit - удалена средняя
+                 *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
+                 *D 4 - есть дельты
+                 *A 5 - есть 2 дельты (всегда с 4)
+                 *R 6 - дисперсия нормализована (всегда с 2)
+                */
+
+                /*            bool gotE = false, gotD = false, gotA = false;
+
+                            if ((flag[0] & 0x01) != 0) gotE = true; 
+                            if ((flag[0] & 0x02) != 0) meanR = true;
+                            if ((flag[0] & 0x04) != 0) supE = true;
+                            if ((flag[0] & 0x08) != 0) gotD = true; 
+                            if ((flag[0] & 0x10) != 0) gotA = true; 
+                            if ((flag[0] & 0x20) != 0) normV = true;
+                */
+
+                byte[] buf = new byte[4];
+
+                stream.Read(buf, 0, 4);
+
+                frame_rate = BitConverter.ToSingle(buf, 0);
+
+                //------------------------------------
+                // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+                //------------------------------------
+
+                int new_dimension = feat_list.Count;
+
+                if (dimension < new_dimension - 1) throw new Exception("Not enough features in " + Path);
+                data = new float[n][];
+                samples = n;
+                if (feat_list[new_dimension - 1] == 0) new_dimension--; //убираем выравниватель
+
+                int counter;
+                for (long i = 0; i < n; i++)
+                {
+                    data[i] = new float[new_dimension];
+                    counter = 0;
+                    for (int j = 0; j < dimension; j++)
+                    {
+                        if (j == feat_list[counter]) { data[i][counter] = ReadFloat(stream); counter++; }
+                        else SkipBytes(stream, sizeof(float));
+
+                    }
+                    //stream.Position++;
+                }
+
+                dimension = new_dimension;
+                stream.Close();
+            }
+        }
+        private void LoadWithoutDataHtk(string Path)
+        {
+            FileStream stream = new FileStream(Path, FileMode.Open);
+            this.samples = (long)ReadInt(stream);
+            this.frame_rate = 10000000 / (ReadInt(stream)); //переводим из периода (100) нс в частоту
+            stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
+            short flags = ReadShort(stream); //разбор флагов, надо ли?
+            //вычисляем, сколько у нас фич:
+            this.dimension = (int)((stream.Length - 12) / samples);
             stream.Close();
         }
 
 
         private void LoadWithoutData(string Path)
         {
-            FileStream stream = new FileStream(Path, FileMode.Open);
+            //string ext = System.IO.Path.GetExtension(Path);
+            if (Path[Path.Length-3] == 'h') LoadWithoutDataHtk(Path);
+            else
+            {
+                FileStream stream = new FileStream(Path, FileMode.Open);
 
-            long len = stream.Length - 10;
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-            dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
+                long len = stream.Length - 10;
+                byte Lb = (byte)stream.ReadByte();
+                byte Hb = (byte)stream.ReadByte();
+                dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
 
-            long n = (long)(len / (dimension * 4));
+                long n = (long)(len / (dimension * 4));
 
-            byte[] flag = new byte[4];
+                byte[] flag = new byte[4];
 
-            stream.Read(flag, 0, 4);
+                stream.Read(flag, 0, 4);
 
-            /*TODO: Actions w flags
+                /*TODO: Actions w flags
 
-             *E 1 bit -вектор содержит log E
-             *Z 2 bit - удалена средняя
-             *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
-             *D 4 - есть дельты
-             *A 5 - есть 2 дельты (всегда с 4)
-             *R 6 - дисперсия нормализована (всегда с 2)
-            */
+                 *E 1 bit -вектор содержит log E
+                 *Z 2 bit - удалена средняя
+                 *N 3 - удалена статическая составляющая E (всегда с 4 и 1)
+                 *D 4 - есть дельты
+                 *A 5 - есть 2 дельты (всегда с 4)
+                 *R 6 - дисперсия нормализована (всегда с 2)
+                */
 
-            /*            bool gotE = false, gotD = false, gotA = false;
+                /*            bool gotE = false, gotD = false, gotA = false;
 
-                        if ((flag[0] & 0x01) != 0) gotE = true; 
-                        if ((flag[0] & 0x02) != 0) meanR = true;
-                        if ((flag[0] & 0x04) != 0) supE = true;
-                        if ((flag[0] & 0x08) != 0) gotD = true; 
-                        if ((flag[0] & 0x10) != 0) gotA = true; 
-                        if ((flag[0] & 0x20) != 0) normV = true;
-            */
+                            if ((flag[0] & 0x01) != 0) gotE = true; 
+                            if ((flag[0] & 0x02) != 0) meanR = true;
+                            if ((flag[0] & 0x04) != 0) supE = true;
+                            if ((flag[0] & 0x08) != 0) gotD = true; 
+                            if ((flag[0] & 0x10) != 0) gotA = true; 
+                            if ((flag[0] & 0x20) != 0) normV = true;
+                */
 
-            byte[] buf = new byte[4];
+                byte[] buf = new byte[4];
 
-            stream.Read(buf, 0, 4);
+                stream.Read(buf, 0, 4);
 
-            frame_rate = BitConverter.ToSingle(buf, 0);
+                frame_rate = BitConverter.ToSingle(buf, 0);
 
-            //------------------------------------
-            // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
-            //------------------------------------
-            samples = n;
-            stream.Close();
+                //------------------------------------
+                // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
+                //------------------------------------
+                samples = n;
+                stream.Close();
+            }
         }
         private void SkipBytes(FileStream str, int n)
         {
@@ -910,6 +1010,24 @@ namespace SR_GMM
             stream.Read(buf, 0, 4);
 
             return BitConverter.ToSingle(buf, 0);
+        }
+        public int ReadInt(FileStream stream)
+        {
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+
+            return BitConverter.ToInt32(buf, 0);
+        }
+        public short ReadShort(FileStream stream)
+        {
+
+            byte[] buf = new byte[2];
+
+            stream.Read(buf, 0, 2);
+           
+            return BitConverter.ToInt16(buf, 0);
         }
         public Data(float[][] dat , long s, int d)
         {
