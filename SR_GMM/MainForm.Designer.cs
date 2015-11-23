@@ -294,7 +294,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(141, 20);
             this.textBox1.TabIndex = 12;
-            this.textBox1.Text = "D:\\MIT mobile\\Enroll_Session1";
+            this.textBox1.Text = "E:\\temp\\tst";
             // 
             // radioButton3
             // 
@@ -1148,7 +1148,7 @@
             this.textBoxConf.Name = "textBoxConf";
             this.textBoxConf.Size = new System.Drawing.Size(141, 20);
             this.textBoxConf.TabIndex = 44;
-            this.textBoxConf.Text = "frm.conf";
+            this.textBoxConf.Text = "frm2.conf";
             // 
             // textBoxExtensionSmile
             // 

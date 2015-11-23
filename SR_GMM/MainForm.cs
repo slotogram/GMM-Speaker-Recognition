@@ -29,7 +29,8 @@ namespace SR_GMM
             
             //для каждого файла прогоняем смайл с конфигом из tbConf
 
-            string confPath = "\"" +textBoxConf.Text+"\"";
+            string confPath = textBoxConf.Text;
+            if (Path.GetDirectoryName(confPath).Length != 0) confPath = "\"" + textBoxConf.Text + "\"";
             string extension = textBoxExtensionSmile.Text;
             string newDir = textBox1.Text + "\\Smile";
             string Dir = textBox1.Text;
@@ -37,7 +38,7 @@ namespace SR_GMM
 
             int n = 0;
 
-            string shortArgs = "-C "+confPath+ "-I ";
+            string shortArgs = "-C "+confPath+ " -I ";
 
             var startInfo = new ProcessStartInfo
             {
@@ -49,7 +50,7 @@ namespace SR_GMM
             {
                 
                   startInfo.Arguments = shortArgs + "\"" + s1 + "\"" 
-                        + "-O " + "\"" + Dir +"\\"+  Path.GetFileNameWithoutExtension(s1) +extension+ "\"";
+                        + " -O " + "\"" + Dir +"\\"+  Path.GetFileNameWithoutExtension(s1) +extension+ "\"";
                
                   Process.Start(startInfo).WaitForExit();
 

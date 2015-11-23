@@ -1,0 +1,30 @@
+[ 23.11.2015 - 17:14:35 ]
+    (MSG) [2] in SMILExtract : openSMILE starting!
+[ 23.11.2015 - 17:14:35 ]
+    (MSG) [2] in SMILExtract : config file is: frm2.conf
+[ 23.11.2015 - 17:14:35 ]
+    (MSG) [2] in cComponentManager : successfully registered 95 component types.
+[ 23.11.2015 - 17:14:35 ]
+    (ERROR) [1] in instance 'formant' : lpGain not found as input field, cannot compute formant frame intensity, disabling it now!
+==> LEVEL 'wave'  +++  Buffersize(frames) = 16001  +++  nReaders = 1
+==> LEVEL 'frames'  +++  Buffersize(frames) = 1000  +++  nReaders = 2
+==> LEVEL 'framespe'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'winframe'  +++  Buffersize(frames) = 1000  +++  nReaders = 2
+==> LEVEL 'fftc'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'fftmag'  +++  Buffersize(frames) = 1000  +++  nReaders = 3
+==> LEVEL 'mspec1'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'mfcc1'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'acf'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'cepstrum'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'pitch'  +++  Buffersize(frames) = 1000  +++  nReaders = 2
+==> LEVEL 'lpc'  +++  Buffersize(frames) = 1000  +++  nReaders = 2
+==> LEVEL 'formant'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'energy'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'formantSm'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+[ 23.11.2015 - 17:14:35 ]
+    (MSG) [2] in cComponentManager : successfully finished createInstances
+                                 (16 component instances were finalised, 1 data memories were finalised)
+[ 23.11.2015 - 17:14:35 ]
+    (MSG) [2] in cComponentManager : starting single thread processing loop
+[ 23.11.2015 - 17:14:35 ]
+    (MSG) [2] in cComponentManager : Processing finished! System ran for 719 ticks.
