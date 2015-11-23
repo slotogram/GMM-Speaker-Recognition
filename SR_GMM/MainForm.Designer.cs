@@ -31,6 +31,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button22 = new System.Windows.Forms.Button();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.button20 = new System.Windows.Forms.Button();
@@ -126,7 +127,9 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.button22 = new System.Windows.Forms.Button();
+            this.textBoxConf = new System.Windows.Forms.TextBox();
+            this.textBoxExtensionSmile = new System.Windows.Forms.TextBox();
+            this.button23 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -154,6 +157,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button23);
+            this.tabPage1.Controls.Add(this.textBoxExtensionSmile);
+            this.tabPage1.Controls.Add(this.textBoxConf);
             this.tabPage1.Controls.Add(this.button22);
             this.tabPage1.Controls.Add(this.checkBox8);
             this.tabPage1.Controls.Add(this.checkBox7);
@@ -178,6 +184,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(186, 219);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(120, 35);
+            this.button22.TabIndex = 43;
+            this.button22.Text = "Создание ЧОТ и гармоник без окон";
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
             // 
             // checkBox8
             // 
@@ -255,11 +271,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(559, 115);
+            this.button1.Location = new System.Drawing.Point(524, 80);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(93, 40);
             this.button1.TabIndex = 10;
-            this.button1.Text = "Test";
+            this.button1.Text = "Create SMILE LLd";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -1126,15 +1142,31 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // button22
+            // textBoxConf
             // 
-            this.button22.Location = new System.Drawing.Point(186, 219);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(120, 35);
-            this.button22.TabIndex = 43;
-            this.button22.Text = "Создание ЧОТ и гармоник без окон";
-            this.button22.UseVisualStyleBackColor = true;
-            this.button22.Click += new System.EventHandler(this.button22_Click);
+            this.textBoxConf.Location = new System.Drawing.Point(476, 15);
+            this.textBoxConf.Name = "textBoxConf";
+            this.textBoxConf.Size = new System.Drawing.Size(141, 20);
+            this.textBoxConf.TabIndex = 44;
+            this.textBoxConf.Text = "frm.conf";
+            // 
+            // textBoxExtensionSmile
+            // 
+            this.textBoxExtensionSmile.Location = new System.Drawing.Point(476, 41);
+            this.textBoxExtensionSmile.Name = "textBoxExtensionSmile";
+            this.textBoxExtensionSmile.Size = new System.Drawing.Size(141, 20);
+            this.textBoxExtensionSmile.TabIndex = 45;
+            this.textBoxExtensionSmile.Text = ".htk";
+            // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(623, 15);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(37, 23);
+            this.button23.TabIndex = 46;
+            this.button23.Text = "Dir";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
             // MainForm
             // 
@@ -1262,6 +1294,9 @@
         private System.Windows.Forms.CheckBox checkBox13;
         private System.Windows.Forms.CheckBox checkBox14;
         private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.TextBox textBoxConf;
+        private System.Windows.Forms.TextBox textBoxExtensionSmile;
+        private System.Windows.Forms.Button button23;
     }
 }
 

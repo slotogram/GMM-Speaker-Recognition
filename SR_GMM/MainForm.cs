@@ -22,25 +22,38 @@ namespace SR_GMM
         //Test method for creating and reading MFC for test audio file
         private void button1_Click(object sender, EventArgs e)
         {
-            string dir = System.Environment.CurrentDirectory;
+            string[] s;
+            if (checkBox4.Checked)
+                s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav", SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*.wav");
+            
+            //для каждого файла прогоняем смайл с конфигом из tbConf
+
+            string confPath = "\"" +textBoxConf.Text+"\"";
+            string extension = textBoxExtensionSmile.Text;
+            string newDir = textBox1.Text + "\\Smile";
+            string Dir = textBox1.Text;
+            if (checkBox5.Checked) { Directory.CreateDirectory(newDir); Dir = newDir; }
+
+            int n = 0;
+
+            string shortArgs = "-C "+confPath+ "-I ";
+
             var startInfo = new ProcessStartInfo
             {
-                FileName =  dir + "\\sfbcep.exe",
-                Arguments = "-e -D "+dir + "\\12.wav out.txt",
+                FileName = Environment.CurrentDirectory + "\\smilextract.exe",
                 WindowStyle = ProcessWindowStyle.Hidden
 
             };
-            Process.Start(startInfo);
+            foreach (string s1 in s)
+            {
+                
+                  startInfo.Arguments = shortArgs + "\"" + s1 + "\"" 
+                        + "-O " + "\"" + Dir +"\\"+  Path.GetFileNameWithoutExtension(s1) +extension+ "\"";
+               
+                  Process.Start(startInfo).WaitForExit();
 
-            Data mcc = new Data(dir + "\\out.txt");
-            GMM g = new GMM(24, mcc.dimension, mcc);
-            g.Train(mcc, "asdas", "model.txt", 24, 0.95, 0.01, 100, 1);
-
-            Data mcc1 = new Data(dir + "\\out.txt");
-            this.Text = g.Classify((dir + "\\out.txt")).ToString();
-
-            //MCC tmp = new MCC(dir + "\\out.txt");
-                        
+            }               
 
         }
 
@@ -1768,6 +1781,12 @@ namespace SR_GMM
             }
 
             
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                textBoxConf.Text = folderBrowserDialog1.SelectedPath;
         }
     }
 }
