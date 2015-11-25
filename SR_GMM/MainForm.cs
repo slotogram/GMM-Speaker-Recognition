@@ -870,7 +870,7 @@ namespace SR_GMM
                     //Создание списка обучающих сегментов
                     for (int k = 1; k <= 20; k++)
                     {
-                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + (k+ii*10) + ").mcc");
+                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + (k+ii*10) + ")"+textBoxFeatureExtension.Text);
                     }
                     
                     //сформировать Data из обучающих данных и создать модель
@@ -891,7 +891,7 @@ namespace SR_GMM
 
                 for (int i = 0; i < speakerList.Count; i++)
                 {
-                    string[] s = System.IO.Directory.GetFiles(textBox12.Text, (i + 1) + " (*.mcc");
+                    string[] s = System.IO.Directory.GetFiles(textBox12.Text, (i + 1) + " (*" + textBoxFeatureExtension.Text);
                     Random r = new Random(DateTime.Now.Millisecond);
                     bool[] used = new bool[s.Length];
                     float[] len = new float[s.Length];
@@ -1088,7 +1088,7 @@ namespace SR_GMM
                         //Создание списка обучающих сегментов
                         for (int k = 1; k <= 20; k++)
                         {
-                            learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                            learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")" + textBoxFeatureExtension.Text);
                         }
 
                     }
@@ -1109,7 +1109,7 @@ namespace SR_GMM
                     //Создание списка обучающих сегментов
                     for (int k = 21; k <= 30; k++)
                     {
-                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")" + textBoxFeatureExtension.Text);
                     }
 
                     learnData = new Data(learnList[i],feat_num);
@@ -1155,7 +1155,7 @@ namespace SR_GMM
 
                     for (int j = 1; j <= 15; j++)
                     {
-                        dirList.Add(textBox12.Text + "\\" + i + " (" + j + ").mcc");
+                        dirList.Add(textBox12.Text + "\\" + i + " (" + j + ")" + textBoxFeatureExtension.Text);
                     }
                     dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
 
@@ -1198,7 +1198,7 @@ namespace SR_GMM
                             dirList.Clear();
                             for (int j = 1; j <= 5; j++)
                             {
-                                dirList.Add(textBox12.Text + "\\" + k + " (" + j + ").mcc");
+                                dirList.Add(textBox12.Text + "\\" + k + " (" + j + ")" + textBoxFeatureExtension.Text);
                             }
                             dList.Clear();
                             dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
@@ -1254,7 +1254,7 @@ namespace SR_GMM
                     //Создание списка обучающих сегментов
                     for (int k = 31; k <= 50; k++)
                     {
-                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ").mcc");
+                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ")" + textBoxFeatureExtension.Text);
                     }
 
                     // не надо перемешать список!
@@ -1363,7 +1363,7 @@ namespace SR_GMM
 
         private void button16_Click(object sender, EventArgs e)
         {
-            string[] s = System.IO.Directory.GetFiles(textBox21.Text, "*.mcc");
+            string[] s = System.IO.Directory.GetFiles(textBox21.Text, "*" + textBoxFeatureExtension.Text);
 
             //загружаем Data;
 
@@ -1384,7 +1384,7 @@ namespace SR_GMM
             int.TryParse(textBox27.Text, out gmmN);
                                    
             //создаем единый дата из всех mfcc
-            List<string> list = System.IO.Directory.GetFiles(path, "*.mcc",SearchOption.AllDirectories).ToList<string>();
+            List<string> list = System.IO.Directory.GetFiles(path, "*"+textBoxFeatureExtension.Text,SearchOption.AllDirectories).ToList<string>();
 
             //обучаем gmm-ubm
             Data learnData = new Data(list);
@@ -1562,7 +1562,7 @@ namespace SR_GMM
                             //Создание списка обучающих сегментов
                             for (int k = 1; k <= 20; k++)
                             {
-                                learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                                learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")"+textBoxFeatureExtension.Text);
                             }
 
                         }
@@ -1584,7 +1584,7 @@ namespace SR_GMM
                     //Создание списка обучающих сегментов
                     for (int k = 21; k <= 30; k++)
                     {
-                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ").mcc");
+                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
                     learnData = new Data(learnList[i],  feat_num);
@@ -1642,7 +1642,7 @@ namespace SR_GMM
                     //Создание списка обучающих сегментов
                     for (int k = 31; k <= 50; k++)
                     {
-                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ").mcc");
+                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
                     // не надо перемешать список!

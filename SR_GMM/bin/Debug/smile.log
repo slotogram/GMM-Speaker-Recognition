@@ -1,14 +1,10 @@
-[ 25.11.2015 - 17:54:25 ]
+[ 25.11.2015 - 20:09:41 ]
     (MSG) [2] in SMILExtract : openSMILE starting!
-[ 25.11.2015 - 17:54:25 ]
+[ 25.11.2015 - 20:09:41 ]
     (MSG) [2] in SMILExtract : config file is: frm3.conf
-[ 25.11.2015 - 17:54:25 ]
+[ 25.11.2015 - 20:09:41 ]
     (MSG) [2] in cComponentManager : successfully registered 95 component types.
-[ 25.11.2015 - 17:54:25 ]
-    (ERROR) [1] in configManager : array index [] specified for non-array element 'usePower'
-[ 25.11.2015 - 17:54:25 ]
-    (ERROR) [1] in configManager : array index [] specified for non-array element 'usePower'
-[ 25.11.2015 - 17:54:25 ]
+[ 25.11.2015 - 20:09:41 ]
     (ERROR) [1] in instance 'formant' : lpGain not found as input field, cannot compute formant frame intensity, disabling it now!
 ==> LEVEL 'wave'  +++  Buffersize(frames) = 16001  +++  nReaders = 1
 ==> LEVEL 'frames'  +++  Buffersize(frames) = 1000  +++  nReaders = 3
@@ -26,10 +22,10 @@
 ==> LEVEL 'energy'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
 ==> LEVEL 'formantSm'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
 ==> LEVEL 'mfccM'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-[ 25.11.2015 - 17:54:25 ]
+[ 25.11.2015 - 20:09:41 ]
     (MSG) [2] in cComponentManager : successfully finished createInstances
                                  (17 component instances were finalised, 1 data memories were finalised)
-[ 25.11.2015 - 17:54:25 ]
+[ 25.11.2015 - 20:09:41 ]
     (MSG) [2] in cComponentManager : starting single thread processing loop
-[ 25.11.2015 - 17:54:26 ]
+[ 25.11.2015 - 20:09:41 ]
     (MSG) [2] in cComponentManager : Processing finished! System ran for 1440 ticks.

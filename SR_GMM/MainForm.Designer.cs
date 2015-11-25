@@ -130,6 +130,9 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
+            this.textBoxFeatureExtension = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -152,7 +155,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(684, 318);
+            this.tabControl1.Size = new System.Drawing.Size(792, 318);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -572,6 +575,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label16);
+            this.tabPage4.Controls.Add(this.textBoxFeatureExtension);
             this.tabPage4.Controls.Add(this.checkBox14);
             this.tabPage4.Controls.Add(this.checkBox13);
             this.tabPage4.Controls.Add(this.checkBox12);
@@ -616,7 +621,7 @@
             this.tabPage4.Controls.Add(this.button9);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(676, 292);
+            this.tabPage4.Size = new System.Drawing.Size(784, 292);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1092,6 +1097,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.label23);
             this.tabPage6.Controls.Add(this.label18);
             this.tabPage6.Controls.Add(this.textBox27);
             this.tabPage6.Controls.Add(this.button18);
@@ -1101,7 +1107,7 @@
             this.tabPage6.Controls.Add(this.button17);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(676, 292);
+            this.tabPage6.Size = new System.Drawing.Size(784, 292);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "UBM creation";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1168,11 +1174,37 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
+            // textBoxFeatureExtension
+            // 
+            this.textBoxFeatureExtension.Location = new System.Drawing.Point(623, 73);
+            this.textBoxFeatureExtension.Name = "textBoxFeatureExtension";
+            this.textBoxFeatureExtension.Size = new System.Drawing.Size(47, 20);
+            this.textBoxFeatureExtension.TabIndex = 77;
+            this.textBoxFeatureExtension.Text = ".htk";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(676, 76);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(92, 13);
+            this.label16.TabIndex = 78;
+            this.label16.Text = "Расширение фич";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(182, 98);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(303, 13);
+            this.label23.TabIndex = 49;
+            this.label23.Text = "Расширение дата файлов берется из табы Проверка с КВ";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 318);
+            this.ClientSize = new System.Drawing.Size(792, 318);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "GMM идентификация диктора";
@@ -1297,6 +1329,9 @@
         private System.Windows.Forms.TextBox textBoxConf;
         private System.Windows.Forms.TextBox textBoxExtensionSmile;
         private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBoxFeatureExtension;
+        private System.Windows.Forms.Label label23;
     }
 }
 
