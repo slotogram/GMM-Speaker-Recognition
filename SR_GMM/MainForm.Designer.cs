@@ -31,6 +31,9 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button23 = new System.Windows.Forms.Button();
+            this.textBoxExtensionSmile = new System.Windows.Forms.TextBox();
+            this.textBoxConf = new System.Windows.Forms.TextBox();
             this.button22 = new System.Windows.Forms.Button();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
@@ -127,9 +130,6 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.textBoxConf = new System.Windows.Forms.TextBox();
-            this.textBoxExtensionSmile = new System.Windows.Forms.TextBox();
-            this.button23 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -184,6 +184,32 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(623, 15);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(37, 23);
+            this.button23.TabIndex = 46;
+            this.button23.Text = "Dir";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
+            // textBoxExtensionSmile
+            // 
+            this.textBoxExtensionSmile.Location = new System.Drawing.Point(476, 41);
+            this.textBoxExtensionSmile.Name = "textBoxExtensionSmile";
+            this.textBoxExtensionSmile.Size = new System.Drawing.Size(141, 20);
+            this.textBoxExtensionSmile.TabIndex = 45;
+            this.textBoxExtensionSmile.Text = ".htk";
+            // 
+            // textBoxConf
+            // 
+            this.textBoxConf.Location = new System.Drawing.Point(476, 15);
+            this.textBoxConf.Name = "textBoxConf";
+            this.textBoxConf.Size = new System.Drawing.Size(141, 20);
+            this.textBoxConf.TabIndex = 44;
+            this.textBoxConf.Text = "frm3.conf";
             // 
             // button22
             // 
@@ -1141,32 +1167,6 @@
             this.button17.Text = "Dir";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
-            // 
-            // textBoxConf
-            // 
-            this.textBoxConf.Location = new System.Drawing.Point(476, 15);
-            this.textBoxConf.Name = "textBoxConf";
-            this.textBoxConf.Size = new System.Drawing.Size(141, 20);
-            this.textBoxConf.TabIndex = 44;
-            this.textBoxConf.Text = "frm2.conf";
-            // 
-            // textBoxExtensionSmile
-            // 
-            this.textBoxExtensionSmile.Location = new System.Drawing.Point(476, 41);
-            this.textBoxExtensionSmile.Name = "textBoxExtensionSmile";
-            this.textBoxExtensionSmile.Size = new System.Drawing.Size(141, 20);
-            this.textBoxExtensionSmile.TabIndex = 45;
-            this.textBoxExtensionSmile.Text = ".htk";
-            // 
-            // button23
-            // 
-            this.button23.Location = new System.Drawing.Point(623, 15);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(37, 23);
-            this.button23.TabIndex = 46;
-            this.button23.Text = "Dir";
-            this.button23.UseVisualStyleBackColor = true;
-            this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
             // MainForm
             // 

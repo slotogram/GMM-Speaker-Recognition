@@ -128,22 +128,16 @@ namespace SR_GMM
             else
             {
                 FileStream stream = new FileStream(s, FileMode.Open);
+                BinaryReader reader = new BinaryReader(stream);
 
                 long len = stream.Length - 10;
-                byte Lb = (byte)stream.ReadByte();
-                byte Hb = (byte)stream.ReadByte();
+                reader.ReadByte();
+                reader.ReadByte();
 
                 long n = (long)(len / (dimension * 4));
 
-                byte[] flag = new byte[4];
-
-                stream.Read(flag, 0, 4);
-
-
-                byte[] buf = new byte[4];
-
-                stream.Read(buf, 0, 4);
-
+                reader.ReadSingle(); reader.ReadSingle(); 
+                
                 if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
 
                 for (long i = counter; i < counter + n; i++)
@@ -151,13 +145,13 @@ namespace SR_GMM
                     data[i] = new float[dimension];
                     for (int j = 0; j < dimension; j++)
                     {
-                        res[i][j] = ReadFloat(stream);
+                        res[i][j] = reader.ReadSingle();
                     }
 
                 }
                 counter += n;
                 if (need_samp != long.MaxValue) need_samp -= n;
-                stream.Close();
+                reader.Close();
             }
         }
 
@@ -165,13 +159,13 @@ namespace SR_GMM
         private void LoadDataToArrayHtk(string s, ref long counter, ref float[][] res, ref long need_samp)
         {
                 FileStream stream = new FileStream(s, FileMode.Open);
-
-                int samp = ReadInt(stream);
-                ReadInt(stream); 
+                BinaryReader reader = new BinaryReader(stream);
+                int samp = reader.ReadInt32();
+                reader.ReadInt32();
                 stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
-                short flags = ReadShort(stream); //разбор флагов, надо ли?
+                short flags = reader.ReadInt16(); //разбор флагов, надо ли?
                 //вычисляем, сколько у нас фич:
-                int dim = (int)((stream.Length - 12) / samples);
+                int dim = (int)((stream.Length - 12) / (4*samples));
                 long n = samp;
                 
                 if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
@@ -181,13 +175,13 @@ namespace SR_GMM
                     data[i] = new float[dimension];
                     for (int j = 0; j < dimension; j++)
                     {
-                        res[i][j] = ReadFloat(stream);
+                        res[i][j] = reader.ReadSingle();
                     }
 
                 }
                 counter += n;
                 if (need_samp != long.MaxValue) need_samp -= n;
-                stream.Close();
+                reader.Close();
             }
         
 
@@ -205,7 +199,7 @@ namespace SR_GMM
             else
             {
                 FileStream stream = new FileStream(s, FileMode.Open);
-
+                BinaryReader reader = new BinaryReader(stream);
                 long len = stream.Length - 10;
                 byte Lb = (byte)stream.ReadByte();
                 byte Hb = (byte)stream.ReadByte();
@@ -213,14 +207,8 @@ namespace SR_GMM
 
                 long n = (long)(len / (dim * 4));
 
-                byte[] flag = new byte[4];
-
-                stream.Read(flag, 0, 4);
-
-                byte[] buf = new byte[4];
-
-                stream.Read(buf, 0, 4);
-
+                reader.ReadSingle(); reader.ReadSingle();
+                
                 int new_dimension = feat_list.Count;
 
                 if (dim < new_dimension - 1) throw new Exception("Not enough features in " + s);
@@ -236,7 +224,7 @@ namespace SR_GMM
                     counter = 0;
                     for (int j = 0; j < dim; j++)
                     {
-                        if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
+                        if (j == feat_list[counter]) { res[i][counter] = reader.ReadSingle(); counter++; }
                         else SkipBytes(stream, sizeof(float));
 
                     }
@@ -245,7 +233,7 @@ namespace SR_GMM
                 Counter += n;
                 if (need_samp != long.MaxValue) need_samp -= n;
                 dimension = new_dimension;
-                stream.Close();
+                reader.Close();
             }
         }
 
@@ -253,13 +241,13 @@ namespace SR_GMM
         {
            
                 FileStream stream = new FileStream(s, FileMode.Open);
-
-                int samp = ReadInt(stream);
-                ReadInt(stream);
+                BinaryReader reader = new BinaryReader(stream);
+                int samp = reader.ReadInt32();
+                reader.ReadInt32();
                 stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
-                short flags = ReadShort(stream); //разбор флагов, надо ли?
+                short flags = reader.ReadInt16(); //разбор флагов, надо ли?
                 //вычисляем, сколько у нас фич:
-                int dim = (int)((stream.Length - 12) / samples);
+                int dim = (int)((stream.Length - 12) / (4 * samples));
                 long n = samp;
 
                 int new_dimension = feat_list.Count;
@@ -277,7 +265,7 @@ namespace SR_GMM
                     counter = 0;
                     for (int j = 0; j < dim; j++)
                     {
-                        if (j == feat_list[counter]) { res[i][counter] = ReadFloat(stream); counter++; }
+                        if (j == feat_list[counter]) { res[i][counter] = reader.ReadSingle(); counter++; }
                         else SkipBytes(stream, sizeof(float));
 
                     }
@@ -286,7 +274,7 @@ namespace SR_GMM
                 Counter += n;
                 if (need_samp != long.MaxValue) need_samp -= n;
                 dimension = new_dimension;
-                stream.Close();
+                reader.Close();
             }
 
         private float[][] LoadDataFromList(List<string> s, long samp, int dim, List<int> feat_list = null)
@@ -640,12 +628,14 @@ namespace SR_GMM
         private void LoadSingleHtk(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
-            this.samples = (long)ReadInt(stream);
-            this.frame_rate = 10000000 / (ReadInt(stream)); //переводим из периода (100) нс в частоту
-            stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
-            short flags = ReadShort(stream); //разбор флагов, надо ли?
+            BinaryReader reader = new BinaryReader(stream);
+            
+            this.samples = (long)reader.ReadInt32();
+            this.frame_rate = 10000000 / (reader.ReadInt32()); //переводим из периода (100) нс в частоту
+            reader.ReadByte(); reader.ReadByte(); //тут длина семпла - у нас всегда флоат
+            short flags = reader.ReadInt16(); //разбор флагов, надо ли?
             //вычисляем, сколько у нас фич:
-            this.dimension = (int)((stream.Length - 12) / samples);
+            this.dimension = (int)((stream.Length - 12) / (4*samples));
 
             //считываем данные
             data = new float[samples][];
@@ -655,11 +645,13 @@ namespace SR_GMM
                 data[i] = new float[dimension];
                 for (int j = 0; j < dimension; j++)
                 {
-                    data[i][j] = ReadFloat(stream);
+                    data[i][j] = reader.ReadSingle();
                 }
 
             }
-            stream.Close();
+            reader.Close();
+            //stream.Close();
+            
         }
 
         private void LoadSingle(string Path)
@@ -668,10 +660,10 @@ namespace SR_GMM
             else
             {
                 FileStream stream = new FileStream(Path, FileMode.Open);
-
+                BinaryReader reader = new BinaryReader(stream);
                 long len = stream.Length - 10;
-                byte Lb = (byte)stream.ReadByte();
-                byte Hb = (byte)stream.ReadByte();
+                byte Lb = reader.ReadByte();
+                byte Hb = reader.ReadByte();
                 dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
 
                 long n = (long)(len / (dimension * 4));
@@ -700,11 +692,7 @@ namespace SR_GMM
                             if ((flag[0] & 0x20) != 0) normV = true;
                 */
 
-                byte[] buf = new byte[4];
-
-                stream.Read(buf, 0, 4);
-
-                frame_rate = BitConverter.ToSingle(buf, 0);
+                frame_rate = reader.ReadSingle();
 
                 //------------------------------------
                 // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
@@ -717,24 +705,26 @@ namespace SR_GMM
                     data[i] = new float[dimension];
                     for (int j = 0; j < dimension; j++)
                     {
-                        data[i][j] = ReadFloat(stream);
+                        data[i][j] = reader.ReadSingle();
                     }
 
                 }
 
-                stream.Close();
+                reader.Close();
             }
         }
 
         private void LoadSingleHtk(string Path, List<int> feat_list)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
-            this.samples = (long)ReadInt(stream);
-            this.frame_rate = 10000000 / (ReadInt(stream)); //переводим из периода (100) нс в частоту
-            stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
-            short flags = ReadShort(stream); //разбор флагов, надо ли?
+            BinaryReader reader = new BinaryReader(stream);
+
+            this.samples = (long)reader.ReadInt32();
+            this.frame_rate = 10000000 / (reader.ReadInt32()); //переводим из периода (100) нс в частоту
+            reader.ReadByte(); reader.ReadByte(); //тут длина семпла - у нас всегда флоат
+            short flags = reader.ReadInt16(); //разбор флагов, надо ли?
             //вычисляем, сколько у нас фич:
-            this.dimension = (int)((stream.Length - 12) / samples);
+            this.dimension = (int)((stream.Length - 12) / (4 * samples));
 
             int new_dimension = feat_list.Count;
             if (dimension < new_dimension - 1) throw new Exception("Not enough features in " + Path);
@@ -750,13 +740,13 @@ namespace SR_GMM
                 counter = 0;
                 for (int j = 0; j < dimension; j++)
                 {
-                    if (j == feat_list[counter]) { data[i][counter] = ReadFloat(stream); counter++; }
+                    if (j == feat_list[counter]) { data[i][counter] = reader.ReadSingle(); ; counter++; }
                     else SkipBytes(stream, sizeof(float));
                 }
 
             } 
             dimension = new_dimension;
-            stream.Close();
+            reader.Close();
         }
 
         private void LoadSingle(string Path, List<int> feat_list)
@@ -765,10 +755,10 @@ namespace SR_GMM
             else
             {
                 FileStream stream = new FileStream(Path, FileMode.Open);
-
+                BinaryReader reader = new BinaryReader(stream);
                 long len = stream.Length - 10;
-                byte Lb = (byte)stream.ReadByte();
-                byte Hb = (byte)stream.ReadByte();
+                byte Lb = reader.ReadByte();
+                byte Hb = reader.ReadByte();
                 dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
 
                 long n = (long)(len / (dimension * 4));
@@ -797,11 +787,7 @@ namespace SR_GMM
                             if ((flag[0] & 0x20) != 0) normV = true;
                 */
 
-                byte[] buf = new byte[4];
-
-                stream.Read(buf, 0, 4);
-
-                frame_rate = BitConverter.ToSingle(buf, 0);
+                frame_rate = reader.ReadSingle();
 
                 //------------------------------------
                 // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
@@ -821,7 +807,7 @@ namespace SR_GMM
                     counter = 0;
                     for (int j = 0; j < dimension; j++)
                     {
-                        if (j == feat_list[counter]) { data[i][counter] = ReadFloat(stream); counter++; }
+                        if (j == feat_list[counter]) { data[i][counter] = reader.ReadSingle(); counter++; }
                         else SkipBytes(stream, sizeof(float));
 
                     }
@@ -829,19 +815,20 @@ namespace SR_GMM
                 }
 
                 dimension = new_dimension;
-                stream.Close();
+                reader.Close();
             }
         }
         private void LoadWithoutDataHtk(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
-            this.samples = (long)ReadInt(stream);
-            this.frame_rate = 10000000 / (ReadInt(stream)); //переводим из периода (100) нс в частоту
-            stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
-            short flags = ReadShort(stream); //разбор флагов, надо ли?
+            BinaryReader reader = new BinaryReader(stream);
+            this.samples = (long)reader.ReadInt32();
+            this.frame_rate = 10000000 / (reader.ReadInt32()); //переводим из периода (100) нс в частоту
+            reader.ReadByte(); reader.ReadByte(); //тут длина семпла - у нас всегда флоат
+            short flags = reader.ReadInt16(); //разбор флагов, надо ли?
             //вычисляем, сколько у нас фич:
-            this.dimension = (int)((stream.Length - 12) / samples);
-            stream.Close();
+            this.dimension = (int)((stream.Length - 12) / (4 * samples));
+            reader.Close();
         }
 
 
@@ -852,10 +839,10 @@ namespace SR_GMM
             else
             {
                 FileStream stream = new FileStream(Path, FileMode.Open);
-
+                BinaryReader reader = new BinaryReader(stream);
                 long len = stream.Length - 10;
-                byte Lb = (byte)stream.ReadByte();
-                byte Hb = (byte)stream.ReadByte();
+                byte Lb = reader.ReadByte();
+                byte Hb = reader.ReadByte();
                 dimension = (int)((ushort)(Hb * byte.MaxValue + Lb));
 
                 long n = (long)(len / (dimension * 4));
@@ -884,17 +871,13 @@ namespace SR_GMM
                             if ((flag[0] & 0x20) != 0) normV = true;
                 */
 
-                byte[] buf = new byte[4];
-
-                stream.Read(buf, 0, 4);
-
-                frame_rate = BitConverter.ToSingle(buf, 0);
+                frame_rate = reader.ReadSingle();
 
                 //------------------------------------
                 // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
                 //------------------------------------
                 samples = n;
-                stream.Close();
+                reader.Close();
             }
         }
         private void SkipBytes(FileStream str, int n)
@@ -904,12 +887,12 @@ namespace SR_GMM
         private void LoadSingleMFT(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
+            BinaryReader reader = new BinaryReader(stream);
+            dimension = (int)reader.ReadSingle();
 
-            dimension = (int)ReadFloat(stream);
+            long n = (long)reader.ReadSingle();
 
-            long n = (long)ReadFloat(stream);
-                 
-            frame_rate = ReadFloat(stream);
+            frame_rate = reader.ReadSingle();
 
             //------------------------------------
             // Можно оптимизировать, если убрать все условия и сделать отдельные циклы, пока не надо
@@ -922,50 +905,41 @@ namespace SR_GMM
                 data[i] = new float[dimension];
                 for (int j = 0; j < dimension; j++)
                 {
-                    data[i][j] = ReadFloat(stream);
+                    data[i][j] = reader.ReadSingle();
                 }
 
             }
 
-            stream.Close();
+            reader.Close();
         }
 
         public FileStream getStreamtoDataMFCC(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
-            byte Lb = (byte)stream.ReadByte();
-            byte Hb = (byte)stream.ReadByte();
-           
-            byte[] flag = new byte[4];
-
-            stream.Read(flag, 0, 4);
-            byte[] buf = new byte[4];
-            stream.Read(buf, 0, 4);
+            BinaryReader reader = new BinaryReader(stream);
+            reader.ReadBytes(10);
             return stream;
         }
 
         public FileStream getStreamtoDataMFT(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
-            ReadFloat(stream);
-            ReadFloat(stream);
-            ReadFloat(stream);
-
+            SkipBytes(stream, 12);
             return stream;
         }
 
         private void LoadWithoutDataMFT(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
+            BinaryReader reader = new BinaryReader(stream);
 
-            dimension = (int)ReadFloat(stream);
+            dimension = (int)reader.ReadSingle();
 
-            long n = (long)ReadFloat(stream);
-            frame_rate = ReadFloat(stream);
+            long n = (long)reader.ReadSingle();
+            frame_rate = reader.ReadSingle();
 
-            data = new float[n][];
             samples = n;
-            stream.Close();
+            reader.Close();
         }
 
 
@@ -1011,13 +985,33 @@ namespace SR_GMM
 
             return BitConverter.ToSingle(buf, 0);
         }
+        public float ReadFloatHtk(FileStream stream)
+        {
+
+            byte[] buf = new byte[4];
+
+            stream.Read(buf, 0, 4);
+            buf.Reverse();
+            return BitConverter.ToSingle(buf, 0);
+        }
         public int ReadInt(FileStream stream)
         {
 
             byte[] buf = new byte[4];
 
             stream.Read(buf, 0, 4);
+            
 
+            return BitConverter.ToInt32(buf, 0);
+        }
+        public int ReadIntHtk(FileStream stream)
+        {
+
+            byte[] buf = new byte[4];
+            
+            stream.Read(buf, 0, 4);
+            buf.Reverse<byte>();
+            
             return BitConverter.ToInt32(buf, 0);
         }
         public short ReadShort(FileStream stream)
@@ -1027,6 +1021,16 @@ namespace SR_GMM
 
             stream.Read(buf, 0, 2);
            
+            return BitConverter.ToInt16(buf, 0);
+        }
+        public short ReadShortHtk(FileStream stream)
+        {
+
+            byte[] buf = new byte[2];
+
+            stream.Read(buf, 0, 2);
+            buf.Reverse();
+
             return BitConverter.ToInt16(buf, 0);
         }
         public Data(float[][] dat , long s, int d)
@@ -1082,42 +1086,41 @@ namespace SR_GMM
         public void Save(string path)
         {
             FileStream stream = new FileStream(path, FileMode.Create);
-
-            stream.WriteByte((byte)dimension);
+            BinaryWriter writer = new BinaryWriter(stream);
+            writer.Write((short)dimension);
+            
+            stream.WriteByte((byte)0);
+            stream.WriteByte((byte)0);
+            stream.WriteByte((byte)0);
             stream.WriteByte((byte)0);
 
-            stream.WriteByte((byte)0);
-            stream.WriteByte((byte)0);
-            stream.WriteByte((byte)0);
-            stream.WriteByte((byte)0);
-
-            stream.Write(BitConverter.GetBytes(frame_rate), 0, 4);
+            writer.Write(frame_rate);
 
             for (long i = 0; i < this.samples; i++)
             {
                     for (int j = 0; j < this.dimension; j++)
                     {
-                        stream.Write(BitConverter.GetBytes(this.data[i][j]), 0, 4);
+                        writer.Write(this.data[i][j]);
                     }
             }
 
-            stream.Close();
+            writer.Close();
 
 
         }
         public void Save(string path, float thr)
         {
             FileStream stream = new FileStream(path, FileMode.Create);
-                        
-            stream.WriteByte((byte)dimension);
-            stream.WriteByte((byte)0);
+
+            BinaryWriter writer = new BinaryWriter(stream);
+            writer.Write((short)dimension);
 
             stream.WriteByte((byte)0);
             stream.WriteByte((byte)0);
             stream.WriteByte((byte)0);
             stream.WriteByte((byte)0);
 
-            stream.Write(BitConverter.GetBytes(frame_rate), 0, 4);
+            writer.Write(frame_rate);
 
             for (long i = 0; i < this.samples; i++)
             {
@@ -1125,11 +1128,11 @@ namespace SR_GMM
 
                 for (int j=0; j<this.dimension; j++)
                 {
-                    stream.Write(BitConverter.GetBytes(this.data[i][j]), 0, 4);
+                    writer.Write(this.data[i][j]);
                 }
             }
 
-            stream.Close();
+            writer.Close();
 
 
         }

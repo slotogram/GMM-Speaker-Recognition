@@ -54,6 +54,8 @@ namespace SR_GMM
                
                   Process.Start(startInfo).WaitForExit();
 
+                //test purposes only
+                //  Data dt = new Data(Dir + "\\" + Path.GetFileNameWithoutExtension(s1) + extension);
             }               
 
         }
