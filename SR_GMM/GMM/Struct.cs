@@ -165,14 +165,14 @@ namespace SR_GMM
                 stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
                 short flags = reader.ReadInt16(); //разбор флагов, надо ли?
                 //вычисляем, сколько у нас фич:
-                int dim = (int)((stream.Length - 12) / (4*samples));
+                int dim = (int)((stream.Length - 12) / (4*samples)); //!!!!!!!! 25.11.2015
                 long n = samp;
                 
                 if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
 
                 for (long i = counter; i < counter + n; i++)
                 {
-                    data[i] = new float[dimension];
+                    res[i] = new float[dimension]; //!!!!!!!!!!!!!!! 25.11.2015 поменял data на res
                     for (int j = 0; j < dimension; j++)
                     {
                         res[i][j] = reader.ReadSingle();
@@ -364,7 +364,7 @@ namespace SR_GMM
             //создаем новый дата, с кол-вом семлов samp, и список
             
             //создаем флоатовский список
-
+            if (feat_list == null) dimension = d.dimension;
             this.data = LoadDataFromList(Paths,samp, d.dimension, feat_list);
 
             //data = lst[0];

@@ -1020,8 +1020,8 @@ namespace SR_GMM
             float thrsh = 0;
             float.TryParse(textBox18.Text, out thrsh);
 
-            List<int> speakerList = new List<int>();
-            for (int i = 1; i <= 50; i++) speakerList.Add(i);
+            //List<int> speakerList = new List<int>();
+            //for (int i = 1; i <= 50; i++) speakerList.Add(i);
             List<string>[] learnList = new List<string>[50];
             int learnLen = int.MaxValue, testLen;
             //int.TryParse(textBox11.Text, out learnLen);
@@ -1035,32 +1035,15 @@ namespace SR_GMM
             if (checkBox9.Checked) { cutMFT = true; int.TryParse(textBox29.Text, out mft_num); }
 
             //Парсим текстбокс с номерами характеристик
-            string[] numbers = textBox28.Text.Replace(',', ' ').Split(' ');
-            List<int> feat_num = new List<int>();
-            foreach (string s1 in numbers)
-            {
-                if (!s1.Contains(' '))
-                {
-                    if (s1.Contains('-'))
-                    {
-                        int i1 = 0, i2 = 0;
-                        int.TryParse(s1.Split('-')[0], out i1);
-                        int.TryParse(s1.Split('-')[1], out i2);
-                        if (i2 != 0)
-                            for (int i = i1; i <= i2; i++) feat_num.Add(i);
-                    }
-                    else
-                    {
-                        int i = 0;
-                        int.TryParse(s1, out i);
-                        if (i != 0) feat_num.Add(i);
-                        if (s1 == "0") feat_num.Add(0);
-                    }
-                }
-            }
-            if (feat_num.Count == 0) feat_num = null;
-            else feat_num.Add(0);
-            
+            List<int> feat_num = stringNumParse(textBox28.Text,true);
+            //Парсим текстбокс со списком файлов, используемых для обучения моделей дикторов
+            List<int> learn_num = stringNumParse(textBoxLearnPhrases.Text,false);
+            //Парсим текстбокс со списком файлов, используемых для тестирования моделей дикторов
+            List<int> test_num = stringNumParse(textBoxTestPhrases.Text, false);
+            //Парсим текстбокс со списком файлов, используемых для создания UBM
+            List<int> UBM_num = stringNumParse(textBoxUBMPhrases.Text, false);
+            //Парсим текстбокс со списком файлов, используемых для создания UBM
+            List<int> Speakers = stringNumParse(textBoxSpeakerSet.Text, false);
             //прогнать цикл по спикерам
             //выбрать тестовые данные
             //создать модель из тестовых данных
@@ -1082,13 +1065,13 @@ namespace SR_GMM
                 }
                 else
                 {
-                    for (int i = 0; i < speakerList.Count; i++)
+                    foreach (int i in Speakers)
                     {
 
                         //Создание списка обучающих сегментов
-                        for (int k = 1; k <= 20; k++)
+                        foreach (int k in UBM_num)
                         {
-                            learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")" + textBoxFeatureExtension.Text);
+                            learnList[0].Add(textBox12.Text + "\\" + (i) + " (" + k + ")" + textBoxFeatureExtension.Text);
                         }
 
                     }
@@ -1103,19 +1086,19 @@ namespace SR_GMM
                     ubm.Train(learnData, "asdas", textBox12.Text + "\\" + "ubm.gmm", gmmN, 0.95, 0.01, 100, 1);
                 }
                 //адаптировать модели дикторов
-                for (int i = 0; i < speakerList.Count; i++)
+                foreach (int i in Speakers)
                 {
-                    learnList[i] = new List<string>();
+                    learnList[i-1] = new List<string>();
                     //Создание списка обучающих сегментов
-                    for (int k = 21; k <= 30; k++)
+                    foreach (int k in learn_num)
                     {
-                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")" + textBoxFeatureExtension.Text);
+                        learnList[i-1].Add(textBox12.Text + "\\" + (i) + " (" + k + ")" + textBoxFeatureExtension.Text);
                     }
 
-                    learnData = new Data(learnList[i],feat_num);
+                    learnData = new Data(learnList[i-1],feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num,delete_mft);
                     GMM spkr = new GMM(ubm,true);
-                    spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,alpha, 0.95, 0.01,iter_num, 1);
+                    spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + i.ToString() + ".gmm", gmmN,alpha, 0.95, 0.01,iter_num, 1);
                     gmmList.Add(spkr);
                 }
 
@@ -1125,13 +1108,14 @@ namespace SR_GMM
                 Random r = new Random(DateTime.Now.Millisecond);
                 List<float> trueList = new List<float>();
                 List<float> falseList = new List<float>();
-                float[] thr = new float[speakerList.Count];
+                float[] thr = new float[Speakers.Count];
 
-                for (int i = 1; i <= speakerList.Count; i++)
+                //foreach (int i in Speakers)
+                for (int i = 0; i < Speakers.Count; i++)
                 {
                     //берем несколько записей i-го диктора
                     //пока возьму 3 первых из ubm
-                    fs2.WriteLine("Диктор "+i+" результаты его отрезков");
+                    fs2.WriteLine("Диктор " + (Speakers[i]) + " результаты его отрезков");
                     fs2.WriteLine();
 
                     //схема с отдельными файлами
@@ -1155,14 +1139,14 @@ namespace SR_GMM
 
                     for (int j = 1; j <= 15; j++)
                     {
-                        dirList.Add(textBox12.Text + "\\" + i + " (" + j + ")" + textBoxFeatureExtension.Text);
+                        dirList.Add(textBox12.Text + "\\" + Speakers[i] + " (" + j + ")" + textBoxFeatureExtension.Text);
                     }
-                    dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
+                    dList.AddRange(Data.JoinDataWLen(dirList, testLen, feat_num));
 
                     foreach (Data d in dList)
                     {
-                        if (cutMFT) d.CutMftSamples(mft_num,delete_mft);
-                        trueList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
+                        if (cutMFT) d.CutMftSamples(mft_num, delete_mft);
+                        trueList.Add(gmmList[i].Classify(d, 1, null, ubm));
                         if (trueList.Last() < min) min = trueList.Last();
                         avg += trueList.Last();
                         fs2.WriteLine(trueList.Last());
@@ -1171,7 +1155,7 @@ namespace SR_GMM
                     //thr[i - 1] = avg/trueList.Count;
                     //thr[i - 1] = avg/trueList.Count - ((avg/trueList.Count) - min)/2;
                     fs2.WriteLine();
-                    fs2.WriteLine("Диктор " + i + " результаты чужих отрезков");
+                    fs2.WriteLine("Диктор " + Speakers[i] + " результаты чужих отрезков");
 
                     /*
                     for (int k = 1; k <= speakerList.Count; k++)
@@ -1191,31 +1175,31 @@ namespace SR_GMM
 
                     //переделал на схему с 10 секундами
 
-                    for (int k = 1; k <= speakerList.Count; k++)
+                    for (int k=0; k<Speakers.Count; k++)
                     {
                         if (k != i)
                         {
                             dirList.Clear();
                             for (int j = 1; j <= 5; j++)
                             {
-                                dirList.Add(textBox12.Text + "\\" + k + " (" + j + ")" + textBoxFeatureExtension.Text);
+                                dirList.Add(textBox12.Text + "\\" + Speakers[k] + " (" + j + ")" + textBoxFeatureExtension.Text);
                             }
                             dList.Clear();
-                            dList.AddRange(Data.JoinDataWLen(dirList, testLen,feat_num));
+                            dList.AddRange(Data.JoinDataWLen(dirList, testLen, feat_num));
 
                             foreach (Data d in dList)
                             {
-                                if (cutMFT) d.CutMftSamples(mft_num,delete_mft);
-                                falseList.Add(gmmList[i - 1].Classify(d, 1, null, ubm));
+                                if (cutMFT) d.CutMftSamples(mft_num, delete_mft);
+                                falseList.Add(gmmList[i].Classify(d, 1, null, ubm));
                                 if (falseList.Last() > max2) max2 = falseList.Last();
                                 avg2 += falseList.Last();
                                 fs2.WriteLine(falseList.Last());
                             }
-                            
+
                         }
                     }
 
-                    thr[i - 1] = ((avg / trueList.Count - ((avg / trueList.Count) - min) / 2) + (avg2 / falseList.Count + (max2 - (avg2 / falseList.Count)) / 2))/2;
+                    thr[i] = ((avg / trueList.Count - ((avg / trueList.Count) - min) / 2) + (avg2 / falseList.Count + (max2 - (avg2 / falseList.Count)) / 2)) / 2;
 
 
                     fs2.WriteLine("------------------------------------------");
@@ -1240,7 +1224,8 @@ namespace SR_GMM
                 fs.WriteLine("Удалять характеристики после mft: " + checkBox10.Checked);
                 fs.WriteLine("Циклов адаптации UBM: " + textBox30.Text);
                 fs.WriteLine("Параметр адаптации UBM alpha: " + textBox31.Text);
-
+                fs.WriteLine("Речевые сегменты, используемые для обучения модели диктора: " + textBoxLearnPhrases.Text);
+                foreach (string s in textBoxComment.Lines) fs.WriteLine(s);
                 fs.WriteLine("-------------------------------------------------------------");
 
                 //создаем список обучающих сегментов
@@ -1248,13 +1233,13 @@ namespace SR_GMM
                 List<string> DirList;
                 List<Data> AllTestData = new List<Data>();
 
-                for (int l = 0; l < speakerList.Count; l++)
+                foreach (int l in Speakers)
                 {
                     DirList = new List<string>();
                     //Создание списка обучающих сегментов
-                    for (int k = 31; k <= 50; k++)
+                    foreach (int k in test_num)
                     {
-                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ")" + textBoxFeatureExtension.Text);
+                        DirList.Add(textBox12.Text + "\\" + (l) + " (" + k + ")" + textBoxFeatureExtension.Text);
                     }
 
                     // не надо перемешать список!
@@ -1274,7 +1259,7 @@ namespace SR_GMM
                 foreach (Data d in AllTestData)
                 if (cutMFT) d.CutMftSamples(mft_num,delete_mft);
 
-                    for (int i = 0; i < speakerList.Count; i++)
+                    for (int i = 0; i < Speakers.Count; i++)
                     {
                         //bool[] used = new bool[s.Length];
 
@@ -1292,10 +1277,10 @@ namespace SR_GMM
                             if (gmmList[i].Classify(d, 1, null, ubm) > thr[i])
                             //if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
                             {
-                                if (d.spkrID == i + 1)
+                                if (d.spkrID == Speakers[i])
                                 {
                                     right++;
-                                    rSp[d.spkrID - 1]++;
+                                    rSp[i]++;
                                 }
                                 else
                                 {
@@ -1305,7 +1290,7 @@ namespace SR_GMM
                             }
                             else
                             {
-                                if (d.spkrID == i + 1)
+                                if (d.spkrID == Speakers[i])
                                 {
                                     error++;
                                     falseAlarm[i]++;
@@ -1314,7 +1299,7 @@ namespace SR_GMM
                                 else
                                 {
                                     right++;
-                                    rejected[d.spkrID - 1]++;
+                                    rejected[Speakers.IndexOf(d.spkrID)]++;
                                 }                               
                                 
                             }
@@ -1467,6 +1452,37 @@ namespace SR_GMM
 
         }
 
+        private List<int> stringNumParse(string s, bool needZeroEnd)
+        {
+            string[] numbers = s.Replace(',', ' ').Split(' ');
+            List<int> feat_num = new List<int>();
+            foreach (string s1 in numbers)
+            {
+                if (!s1.Contains(' '))
+                {
+                    if (s1.Contains('-'))
+                    {
+                        int i1 = 0, i2 = 0;
+                        int.TryParse(s1.Split('-')[0], out i1);
+                        int.TryParse(s1.Split('-')[1], out i2);
+                        if (i2 != 0)
+                            for (int i = i1; i <= i2; i++) feat_num.Add(i);
+                    }
+                    else
+                    {
+                        int i = 0;
+                        int.TryParse(s1, out i);
+                        if (i != 0) feat_num.Add(i);
+                        if (s1 == "0") feat_num.Add(0);
+                    }
+                }
+            }
+            if (feat_num.Count == 0) feat_num = null;
+            else if (needZeroEnd) feat_num.Add(0);
+
+            return feat_num;
+        }
+
         private void button21_Click(object sender, EventArgs e)
         {
             /* Что тут делается:
@@ -1492,8 +1508,8 @@ namespace SR_GMM
             float thrsh = 0;
             float.TryParse(textBox18.Text, out thrsh);
 
-            List<int> speakerList = new List<int>();
-            for (int i = 1; i <= 50; i++) speakerList.Add(i);
+            //List<int> speakerList = new List<int>();
+            //for (int i = 1; i <= 50; i++) speakerList.Add(i);
             List<string>[] learnList = new List<string>[50];
             int learnLen = int.MaxValue, testLen;
             //int.TryParse(textBox11.Text, out learnLen);
@@ -1507,32 +1523,17 @@ namespace SR_GMM
             if (checkBox9.Checked) { cutMFT = true; int.TryParse(textBox29.Text, out mft_num); }
 
             //Парсим текстбокс с номерами характеристик
-            string[] numbers = textBox28.Text.Replace(',', ' ').Split(' ');
-            List<int> feat_num = new List<int>();
-            foreach (string s1 in numbers)
-            {
-                if (!s1.Contains(' '))
-                {
-                    if (s1.Contains('-'))
-                    {
-                        int i1 = 0, i2 = 0;
-                        int.TryParse(s1.Split('-')[0], out i1);
-                        int.TryParse(s1.Split('-')[1], out i2);
-                        if (i2 != 0)
-                            for (int i = i1; i <= i2; i++) feat_num.Add(i);
-                    }
-                    else
-                    {
-                        int i = 0;
-                        int.TryParse(s1, out i);
-                        if (i != 0) feat_num.Add(i);
-                        if (s1 == "0") feat_num.Add(0);
-                    }
-                }
-            }
-            if (feat_num.Count == 0) feat_num = null;
-            else feat_num.Add(0);
+            List<int> feat_num = stringNumParse(textBox28.Text,true);
 
+            //Парсим текстбокс со списком файлов, используемых для обучения моделей дикторов
+            List<int> learn_num = stringNumParse(textBoxLearnPhrases.Text,false);
+            //Парсим текстбокс со списком файлов, используемых для тестирования моделей дикторов
+            List<int> test_num = stringNumParse(textBoxTestPhrases.Text, false);
+            //Парсим текстбокс со списком файлов, используемых для создания UBM
+            List<int> UBM_num = stringNumParse(textBoxUBMPhrases.Text, false);
+            //Парсим текстбокс со списком файлов, используемых для создания UBM
+            List<int> Speakers = stringNumParse(textBoxSpeakerSet.Text, false);
+            
             //прогнать цикл по спикерам
             //выбрать тестовые данные
             //создать модель из тестовых данных
@@ -1556,13 +1557,13 @@ namespace SR_GMM
                     }
                     else
                     {
-                        for (int i = 0; i < speakerList.Count; i++)
+                        foreach (int i in Speakers)
                         {
 
                             //Создание списка обучающих сегментов
-                            for (int k = 1; k <= 20; k++)
+                            foreach(int k in UBM_num)
                             {
-                                learnList[0].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")"+textBoxFeatureExtension.Text);
+                                learnList[0].Add(textBox12.Text + "\\" + (Speakers[i]) + " (" + k + ")"+textBoxFeatureExtension.Text);
                             }
 
                         }
@@ -1578,13 +1579,13 @@ namespace SR_GMM
                     }
                 }
                 //адаптировать модели дикторов
-                for (int i = 0; i < speakerList.Count; i++)
+                foreach (int i in Speakers)
                 {
                     learnList[i] = new List<string>();
                     //Создание списка обучающих сегментов
-                    for (int k = 21; k <= 30; k++)
+                    foreach(int k in learn_num)
                     {
-                        learnList[i].Add(textBox12.Text + "\\" + (i + 1) + " (" + k + ")"+textBoxFeatureExtension.Text);
+                        learnList[i].Add(textBox12.Text + "\\" + (Speakers[i]) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
                     learnData = new Data(learnList[i],  feat_num);
@@ -1595,7 +1596,7 @@ namespace SR_GMM
                         if (checkBox13.Checked) spkr = new GMM(ubm, true); else
                         spkr = new GMM(gmmN, learnData.dimension, learnData);
                         
-                        spkr.Train(learnData, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 0.95, 0.01, 100,1);
+                        spkr.Train(learnData, "asdas", textBox12.Text + "\\" + i.ToString() + ".gmm", gmmN, 0.95, 0.01, 100,1);
                         //spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 14, 0.95, 0.01, 1, 1);
                         
                     }
@@ -1603,7 +1604,7 @@ namespace SR_GMM
                     {
                         spkr = new GMM(ubm,true);
                         //spkr = new GMM(gmmN, learnData.dimension, learnData);
-                        spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN,alpha, 0.95, 0.01, iter_num, 1);                       
+                        spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + i.ToString() + ".gmm", gmmN,alpha, 0.95, 0.01, iter_num, 1);                       
                     }
                     gmmList.Add(spkr);
                 }
@@ -1628,21 +1629,22 @@ namespace SR_GMM
                 if (checkBox11.Checked) fs.WriteLine("Идентификация без UBM с нуля: " + checkBox11.Checked);
                 if (checkBox12.Checked) fs.WriteLine("Использовать порог энергии (может быть и не энергия): " + textBox23.Text);
                 if (checkBox14.Checked) fs.WriteLine("Счет вычисляется с UBM: " + checkBox14.Checked);
-
+                fs.WriteLine("Речевые сегменты, используемые для обучения модели диктора: " + textBoxLearnPhrases.Text);
+                foreach (string s in textBoxComment.Lines) fs.WriteLine(s);
                 fs.WriteLine("-------------------------------------------------------------");
 
-                //создаем список обучающих сегментов
+                //создаем список тестовых сегментов
 
                 List<string> DirList;
                 List<Data> AllTestData = new List<Data>();
 
-                for (int l = 0; l < speakerList.Count; l++)
+                foreach (int l in Speakers)
                 {
                     DirList = new List<string>();
-                    //Создание списка обучающих сегментов
-                    for (int k = 31; k <= 50; k++)
+                    //Создание списка тестовых сегментов
+                    foreach (int k in test_num)
                     {
-                        DirList.Add(textBox12.Text + "\\" + (l + 1) + " (" + k + ")"+textBoxFeatureExtension.Text);
+                        DirList.Add(textBox12.Text + "\\" + (Speakers[l]) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
                     // не надо перемешать список!
@@ -1687,7 +1689,7 @@ namespace SR_GMM
 
                         //вывести инфу
 
-                        if (numb +1 == d.spkrID)
+                        if (Speakers[numb] == d.spkrID)
                         {
                             right++;
                             rSp[numb]++;
@@ -1695,7 +1697,7 @@ namespace SR_GMM
                         else
                         {
                             error++;
-                            falseAlarm[d.spkrID-1]++;
+                            falseAlarm[Speakers.IndexOf(d.spkrID)]++;
                             errSp[numb]++;
                         }
 

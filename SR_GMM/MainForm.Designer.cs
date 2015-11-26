@@ -71,6 +71,10 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxFeatureExtension = new System.Windows.Forms.TextBox();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
@@ -123,6 +127,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label23 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.button18 = new System.Windows.Forms.Button();
@@ -130,9 +135,15 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.textBoxFeatureExtension = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
+            this.textBoxComment = new System.Windows.Forms.TextBox();
+            this.textBoxLearnPhrases = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBoxTestPhrases = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.textBoxUBMPhrases = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBoxSpeakerSet = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -155,7 +166,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(792, 318);
+            this.tabControl1.Size = new System.Drawing.Size(945, 369);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -183,7 +194,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(676, 292);
+            this.tabPage1.Size = new System.Drawing.Size(784, 292);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -401,7 +412,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(676, 292);
+            this.tabPage2.Size = new System.Drawing.Size(784, 292);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Создание модели диктора";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -506,7 +517,7 @@
             this.tabPage3.Controls.Add(this.button7);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(676, 292);
+            this.tabPage3.Size = new System.Drawing.Size(784, 292);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Проверка модели";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -575,6 +586,17 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label29);
+            this.tabPage4.Controls.Add(this.textBoxSpeakerSet);
+            this.tabPage4.Controls.Add(this.label28);
+            this.tabPage4.Controls.Add(this.textBoxUBMPhrases);
+            this.tabPage4.Controls.Add(this.label27);
+            this.tabPage4.Controls.Add(this.textBoxTestPhrases);
+            this.tabPage4.Controls.Add(this.label26);
+            this.tabPage4.Controls.Add(this.textBoxLearnPhrases);
+            this.tabPage4.Controls.Add(this.textBoxComment);
+            this.tabPage4.Controls.Add(this.label25);
+            this.tabPage4.Controls.Add(this.label24);
             this.tabPage4.Controls.Add(this.label16);
             this.tabPage4.Controls.Add(this.textBoxFeatureExtension);
             this.tabPage4.Controls.Add(this.checkBox14);
@@ -621,10 +643,45 @@
             this.tabPage4.Controls.Add(this.button9);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(784, 292);
+            this.tabPage4.Size = new System.Drawing.Size(937, 343);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(583, 49);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(185, 13);
+            this.label25.TabIndex = 80;
+            this.label25.Text = "КВ чистая - папка без обрезания Е";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(428, 31);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(44, 13);
+            this.label24.TabIndex = 79;
+            this.label24.Text = "SVM dir";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(676, 76);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(92, 13);
+            this.label16.TabIndex = 78;
+            this.label16.Text = "Расширение фич";
+            // 
+            // textBoxFeatureExtension
+            // 
+            this.textBoxFeatureExtension.Location = new System.Drawing.Point(623, 73);
+            this.textBoxFeatureExtension.Name = "textBoxFeatureExtension";
+            this.textBoxFeatureExtension.Size = new System.Drawing.Size(47, 20);
+            this.textBoxFeatureExtension.TabIndex = 77;
+            this.textBoxFeatureExtension.Text = ".htk";
             // 
             // checkBox14
             // 
@@ -990,7 +1047,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(141, 20);
             this.textBox12.TabIndex = 35;
-            this.textBox12.Text = "E:\\temp\\123\\mft2dN";
+            this.textBox12.Text = "E:\\temp\\123\\Smile";
             // 
             // button9
             // 
@@ -1015,7 +1072,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(676, 292);
+            this.tabPage5.Size = new System.Drawing.Size(784, 292);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Silence remove";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1112,6 +1169,15 @@
             this.tabPage6.Text = "UBM creation";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(182, 98);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(303, 13);
+            this.label23.TabIndex = 49;
+            this.label23.Text = "Расширение дата файлов берется из табы Проверка с КВ";
+            // 
             // label18
             // 
             this.label18.AutoSize = true;
@@ -1174,37 +1240,88 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // textBoxFeatureExtension
+            // textBoxComment
             // 
-            this.textBoxFeatureExtension.Location = new System.Drawing.Point(623, 73);
-            this.textBoxFeatureExtension.Name = "textBoxFeatureExtension";
-            this.textBoxFeatureExtension.Size = new System.Drawing.Size(47, 20);
-            this.textBoxFeatureExtension.TabIndex = 77;
-            this.textBoxFeatureExtension.Text = ".htk";
+            this.textBoxComment.Location = new System.Drawing.Point(30, 293);
+            this.textBoxComment.Multiline = true;
+            this.textBoxComment.Name = "textBoxComment";
+            this.textBoxComment.Size = new System.Drawing.Size(587, 41);
+            this.textBoxComment.TabIndex = 81;
+            this.textBoxComment.Text = "Комментарий";
             // 
-            // label16
+            // textBoxLearnPhrases
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(676, 76);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(92, 13);
-            this.label16.TabIndex = 78;
-            this.label16.Text = "Расширение фич";
+            this.textBoxLearnPhrases.Location = new System.Drawing.Point(623, 101);
+            this.textBoxLearnPhrases.Name = "textBoxLearnPhrases";
+            this.textBoxLearnPhrases.Size = new System.Drawing.Size(47, 20);
+            this.textBoxLearnPhrases.TabIndex = 82;
+            this.textBoxLearnPhrases.Text = "1-20";
             // 
-            // label23
+            // label26
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(182, 98);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(303, 13);
-            this.label23.TabIndex = 49;
-            this.label23.Text = "Расширение дата файлов берется из табы Проверка с КВ";
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(676, 101);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(129, 13);
+            this.label26.TabIndex = 83;
+            this.label26.Text = "№ файлов для обучения";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(676, 127);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(153, 13);
+            this.label27.TabIndex = 85;
+            this.label27.Text = "№ файлов для тестирования";
+            // 
+            // textBoxTestPhrases
+            // 
+            this.textBoxTestPhrases.Location = new System.Drawing.Point(623, 127);
+            this.textBoxTestPhrases.Name = "textBoxTestPhrases";
+            this.textBoxTestPhrases.Size = new System.Drawing.Size(47, 20);
+            this.textBoxTestPhrases.TabIndex = 84;
+            this.textBoxTestPhrases.Text = "40-50";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(676, 153);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(107, 13);
+            this.label28.TabIndex = 87;
+            this.label28.Text = "№ файлов для UBM";
+            // 
+            // textBoxUBMPhrases
+            // 
+            this.textBoxUBMPhrases.Location = new System.Drawing.Point(623, 153);
+            this.textBoxUBMPhrases.Name = "textBoxUBMPhrases";
+            this.textBoxUBMPhrases.Size = new System.Drawing.Size(47, 20);
+            this.textBoxUBMPhrases.TabIndex = 86;
+            this.textBoxUBMPhrases.Text = "10-20";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(676, 175);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(71, 13);
+            this.label29.TabIndex = 89;
+            this.label29.Text = "№ Дикторов";
+            // 
+            // textBoxSpeakerSet
+            // 
+            this.textBoxSpeakerSet.Location = new System.Drawing.Point(623, 175);
+            this.textBoxSpeakerSet.Name = "textBoxSpeakerSet";
+            this.textBoxSpeakerSet.Size = new System.Drawing.Size(47, 20);
+            this.textBoxSpeakerSet.TabIndex = 88;
+            this.textBoxSpeakerSet.Text = "1-10";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 318);
+            this.ClientSize = new System.Drawing.Size(945, 369);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "GMM идентификация диктора";
@@ -1332,6 +1449,17 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBoxFeatureExtension;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox textBoxComment;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox textBoxLearnPhrases;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox textBoxUBMPhrases;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBoxTestPhrases;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBoxSpeakerSet;
     }
 }
 
