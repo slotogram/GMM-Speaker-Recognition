@@ -1563,7 +1563,7 @@ namespace SR_GMM
                             //Создание списка обучающих сегментов
                             foreach(int k in UBM_num)
                             {
-                                learnList[0].Add(textBox12.Text + "\\" + (Speakers[i]) + " (" + k + ")"+textBoxFeatureExtension.Text);
+                                learnList[0].Add(textBox12.Text + "\\" + (i) + " (" + k + ")"+textBoxFeatureExtension.Text);
                             }
 
                         }
@@ -1585,7 +1585,7 @@ namespace SR_GMM
                     //Создание списка обучающих сегментов
                     foreach(int k in learn_num)
                     {
-                        learnList[i].Add(textBox12.Text + "\\" + (Speakers[i]) + " (" + k + ")"+textBoxFeatureExtension.Text);
+                        learnList[i].Add(textBox12.Text + "\\" + (i) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
                     learnData = new Data(learnList[i],  feat_num);
@@ -1644,7 +1644,7 @@ namespace SR_GMM
                     //Создание списка тестовых сегментов
                     foreach (int k in test_num)
                     {
-                        DirList.Add(textBox12.Text + "\\" + (Speakers[l]) + " (" + k + ")"+textBoxFeatureExtension.Text);
+                        DirList.Add(textBox12.Text + "\\" + (l) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
                     // не надо перемешать список!
