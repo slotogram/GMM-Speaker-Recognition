@@ -1015,7 +1015,6 @@ namespace SR_GMM
             //
             StreamWriter fs = new StreamWriter(Environment.CurrentDirectory + "\\" + textBox10.Text + ".txt");
             int right = 0, error = 0, Right = 0, Error = 0;
-            int total = 0;
             int CVCount = 1; //заглушка
             float thrsh = 0;
             float.TryParse(textBox18.Text, out thrsh);
@@ -1050,8 +1049,6 @@ namespace SR_GMM
 
             for (int ii = 0; ii < CVCount; ii++)
             {
-
-                right = 0; error = 0; total = 0;
                 List<GMM> gmmList = new List<GMM>();
                 learnList[0] = new List<string>();
                 GMM ubm = null;
@@ -1208,13 +1205,6 @@ namespace SR_GMM
 
                 fs2.Close();
 
-                //сформировать тестовую выборку и начать тестирование
-                int[] rSp = new int[gmmList.Count+1];
-                int[] rejected = new int[gmmList.Count+1];
-                int[] errSp = new int[gmmList.Count+1]; //1
-                int[] falseAlarm = new int[gmmList.Count+1]; //2
-                
-
                 //вывести параметры теста
                 fs.WriteLine("Путь с семплами: "+textBox12.Text);
                 fs.WriteLine("Компонент GMM: " + textBox15.Text);
@@ -1228,111 +1218,18 @@ namespace SR_GMM
                 foreach (string s in textBoxComment.Lines) fs.WriteLine(s);
                 fs.WriteLine("-------------------------------------------------------------");
 
-                //создаем список обучающих сегментов
-                
-                List<string> DirList;
-                List<Data> AllTestData = new List<Data>();
+                if (checkBoxTestLearnSet.Checked)
+                //тестируем на обучающей выборке
+                TestVerification(fs, ref right, ref error, testLen, cutMFT, delete_mft, mft_num, feat_num, learn_num, Speakers, gmmList, ubm, thr);
 
-                foreach (int l in Speakers)
-                {
-                    DirList = new List<string>();
-                    //Создание списка обучающих сегментов
-                    foreach (int k in test_num)
-                    {
-                        DirList.Add(textBox12.Text + "\\" + (l) + " (" + k + ")" + textBoxFeatureExtension.Text);
-                    }
-
-                    // не надо перемешать список!
-                    /*int n = DirList.Count;
-                    while (n > 1)
-                    {
-                        n--;
-                        int k = r.Next(n + 1);
-                        string tmp = DirList[k];
-                        DirList[k] = DirList[n];
-                        DirList[n] = tmp;
-                    }*/
-                    AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen,feat_num));
-                }
-                    //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
-
-                foreach (Data d in AllTestData)
-                if (cutMFT) d.CutMftSamples(mft_num,delete_mft);
-
-                    for (int i = 0; i < Speakers.Count; i++)
-                    {
-                        //bool[] used = new bool[s.Length];
-
-                        float[] res = new float[gmmList.Count];
-
-                        foreach (Data d in AllTestData)
-                        {
-                            //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
-                            //float max = -(float.MaxValue - 1);
-
-                            /*float E = 0;
-                            float.TryParse(textBox23.Text, out E);
-                            d.deleteLowEnergySamples(E);*/
-                            
-                            if (gmmList[i].Classify(d, 1, null, ubm) > thr[i])
-                            //if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
-                            {
-                                if (d.spkrID == Speakers[i])
-                                {
-                                    right++;
-                                    rSp[i]++;
-                                }
-                                else
-                                {
-                                    error++;
-                                    errSp[i]++;
-                                }
-                            }
-                            else
-                            {
-                                if (d.spkrID == Speakers[i])
-                                {
-                                    error++;
-                                    falseAlarm[i]++;
-                                    
-                                }
-                                else
-                                {
-                                    right++;
-                                    rejected[Speakers.IndexOf(d.spkrID)]++;
-                                }                               
-                                
-                            }
-
-
-                        }
-
-                    }
-                total = right + error;
-                for (int i = 0; i < gmmList.Count; i++)
-                {
-                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (falseAlarm[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i] + "; отвергнуто - " + rejected[i] + " ; процентов - " + (rejected[i] * 100 / (rejected[i] + errSp[i])));
-                    rSp[gmmList.Count ] += rSp[i];
-                    errSp[gmmList.Count ] += errSp[i];
-                    falseAlarm[gmmList.Count ] += falseAlarm[i];
-                    rejected[gmmList.Count ] += rejected[i];
-                }
-
-                fs.WriteLine("Ошибка 1 рода - " + ((float)errSp[gmmList.Count] / (errSp[gmmList.Count] + rejected[gmmList.Count])).ToString("0.0000"));
-                fs.WriteLine("Ошибка 2 рода - " + ((float)falseAlarm[gmmList.Count] / (falseAlarm[gmmList.Count] + rSp[gmmList.Count])).ToString("0.0000"));
-
-                fs.WriteLine("Всего распознано верно - " + right.ToString());
-                fs.WriteLine("Всего распознано верно проценты - " + ((int)(100 * right / total)).ToString());
-
-                fs.WriteLine("Всего распознано неверно - " + error.ToString());
-                fs.WriteLine("Всего распознано неверно проценты - " + ((int)(100 * error / total)).ToString());
-                fs.Flush();
+                //тестируем на тестовой выборке
+                TestVerification(fs, ref right, ref error, testLen, cutMFT, delete_mft, mft_num, feat_num, test_num, Speakers, gmmList, ubm, thr);
 
                 Right += right;
                 Error += error;
 
             }
-            total = Right + Error;
+            int total = Right + Error;
             fs.WriteLine("-------------------------------------------------------------");
             fs.WriteLine("Всего распознано верно - " + Right.ToString());
             fs.WriteLine("Всего распознано верно проценты - " + ((int)(100 * Right / total)).ToString());
@@ -1344,6 +1241,116 @@ namespace SR_GMM
                     
             
             fs.Close();
+        }
+
+        private void TestVerification(StreamWriter fs, ref int right, ref int error, int testLen, bool cutMFT, bool delete_mft, int mft_num, List<int> feat_num, List<int> test_num, List<int> Speakers, List<GMM> gmmList, GMM ubm, float[] thr)
+        {
+            right = 0; error = 0;
+            int total = 0;
+            //сформировать тестовую выборку и начать тестирование
+            int[] rSp = new int[gmmList.Count + 1];
+            int[] rejected = new int[gmmList.Count + 1];
+            int[] errSp = new int[gmmList.Count + 1]; //1
+            int[] falseAlarm = new int[gmmList.Count + 1]; //2
+
+            //создаем список обучающих сегментов
+            List<string> DirList;
+            List<Data> AllTestData = new List<Data>();
+
+            foreach (int l in Speakers)
+            {
+                DirList = new List<string>();
+                //Создание списка обучающих сегментов
+                foreach (int k in test_num)
+                {
+                    DirList.Add(textBox12.Text + "\\" + (l) + " (" + k + ")" + textBoxFeatureExtension.Text);
+                }
+
+                // не надо перемешать список!
+                /*int n = DirList.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = r.Next(n + 1);
+                    string tmp = DirList[k];
+                    DirList[k] = DirList[n];
+                    DirList[n] = tmp;
+                }*/
+                AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen, feat_num));
+            }
+            //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
+
+            foreach (Data d in AllTestData)
+                if (cutMFT) d.CutMftSamples(mft_num, delete_mft);
+
+            for (int i = 0; i < Speakers.Count; i++)
+            {
+                //bool[] used = new bool[s.Length];
+
+                float[] res = new float[gmmList.Count];
+
+                foreach (Data d in AllTestData)
+                {
+                    //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
+                    //float max = -(float.MaxValue - 1);
+
+                    /*float E = 0;
+                    float.TryParse(textBox23.Text, out E);
+                    d.deleteLowEnergySamples(E);*/
+
+                    if (gmmList[i].Classify(d, 1, null, ubm) > thr[i])
+                    //if (gmmList[i].Classify(d, 1, null) - (ubm.Classify(d, 1, null)) > thrsh)
+                    {
+                        if (d.spkrID == Speakers[i])
+                        {
+                            right++;
+                            rSp[i]++;
+                        }
+                        else
+                        {
+                            error++;
+                            errSp[i]++;
+                        }
+                    }
+                    else
+                    {
+                        if (d.spkrID == Speakers[i])
+                        {
+                            error++;
+                            falseAlarm[i]++;
+
+                        }
+                        else
+                        {
+                            right++;
+                            rejected[Speakers.IndexOf(d.spkrID)]++;
+                        }
+
+                    }
+
+
+                }
+
+            }
+            total = right + error;
+            for (int i = 0; i < gmmList.Count; i++)
+            {
+                fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (falseAlarm[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i] + "; отвергнуто - " + rejected[i] + " ; процентов - " + (rejected[i] * 100 / (rejected[i] + errSp[i])));
+                rSp[gmmList.Count] += rSp[i];
+                errSp[gmmList.Count] += errSp[i];
+                falseAlarm[gmmList.Count] += falseAlarm[i];
+                rejected[gmmList.Count] += rejected[i];
+            }
+
+            fs.WriteLine("Ошибка 1 рода - " + ((float)errSp[gmmList.Count] / (errSp[gmmList.Count] + rejected[gmmList.Count])).ToString("0.0000"));
+            fs.WriteLine("Ошибка 2 рода - " + ((float)falseAlarm[gmmList.Count] / (falseAlarm[gmmList.Count] + rSp[gmmList.Count])).ToString("0.0000"));
+
+            fs.WriteLine("Всего распознано верно - " + right.ToString());
+            fs.WriteLine("Всего распознано верно проценты - " + ((int)(100 * right / total)).ToString());
+
+            fs.WriteLine("Всего распознано неверно - " + error.ToString());
+            fs.WriteLine("Всего распознано неверно проценты - " + ((int)(100 * error / total)).ToString());
+            fs.Flush();
         }
 
         private void button16_Click(object sender, EventArgs e)
@@ -1502,7 +1509,8 @@ namespace SR_GMM
             //Составить список файлов, которые не должны участвовать в тестировании
             //
             StreamWriter fs = new StreamWriter(Environment.CurrentDirectory + "\\" + textBox10.Text + ".txt");
-            int right = 0, error = 0, Right = 0, Error = 0;
+            int  Right = 0, Error = 0;
+            int right = 0, error = 0;
             int total = 0;
             int CVCount = 1; //заглушка
             float thrsh = 0;
@@ -1541,7 +1549,7 @@ namespace SR_GMM
             for (int ii = 0; ii < CVCount; ii++)
             {
 
-                right = 0; error = 0; total = 0;
+                
                 List<GMM> gmmList = new List<GMM>();
                 learnList[0] = new List<string>();
                 GMM ubm = null;
@@ -1610,12 +1618,6 @@ namespace SR_GMM
                 }
 
                 //сформировать тестовую выборку и начать тестирование
-                int[] rSp = new int[gmmList.Count + 1];
-                int[] rejected = new int[gmmList.Count + 1];
-                int[] errSp = new int[gmmList.Count + 1]; //1
-                int[] falseAlarm = new int[gmmList.Count + 1]; //2
-
-
                 //вывести параметры теста
                 fs.WriteLine("Путь с семплами: " + textBox12.Text);
                 fs.WriteLine("Компонент GMM: " + textBox15.Text);
@@ -1633,96 +1635,12 @@ namespace SR_GMM
                 foreach (string s in textBoxComment.Lines) fs.WriteLine(s);
                 fs.WriteLine("-------------------------------------------------------------");
 
-                //создаем список тестовых сегментов
+                if (checkBoxTestLearnSet.Checked)                
+                //тестируем идентификацию на обучающей выборке
+                TestId(fs, ref right, ref error, testLen, cutMFT, delete_mft, mft_num, feat_num, learn_num, Speakers, gmmList, ref ubm);
 
-                List<string> DirList;
-                List<Data> AllTestData = new List<Data>();
-
-                foreach (int l in Speakers)
-                {
-                    DirList = new List<string>();
-                    //Создание списка тестовых сегментов
-                    foreach (int k in test_num)
-                    {
-                        DirList.Add(textBox12.Text + "\\" + (l) + " (" + k + ")"+textBoxFeatureExtension.Text);
-                    }
-
-                    // не надо перемешать список!
-                    /*int n = DirList.Count;
-                    while (n > 1)
-                    {
-                        n--;
-                        int k = r.Next(n + 1);
-                        string tmp = DirList[k];
-                        DirList[k] = DirList[n];
-                        DirList[n] = tmp;
-                    }*/
-                    AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen, feat_num));
-                }
-
-                if (!checkBox14.Checked) ubm = null;
-                //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
-                
-                foreach (Data d in AllTestData)
-                    if (cutMFT) d.CutMftSamples(mft_num, delete_mft);
-         
-                    //bool[] used = new bool[s.Length];
-
-                    float[] res = new float[gmmList.Count];
-
-                    foreach (Data d in AllTestData)
-                    {
-                         //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
-                        float max = -(float.MaxValue - 1);
-                        int numb = 0;
-                        if (checkBox12.Checked)
-                        {
-                            float E = 0;
-                            float.TryParse(textBox23.Text, out E);
-                            d.deleteLowEnergySamples(E);
-                        }
-                        for (int j = 0; j < gmmList.Count; j++)
-                        {
-                            res[j] = gmmList[j].Classify(d,1,null,ubm);
-                            if (res[j] > max) { max = res[j]; numb = j; }
-                        }
-
-                        //вывести инфу
-
-                        if (Speakers[numb] == d.spkrID)
-                        {
-                            right++;
-                            rSp[numb]++;
-                        }
-                        else
-                        {
-                            error++;
-                            falseAlarm[Speakers.IndexOf(d.spkrID)]++;
-                            errSp[numb]++;
-                        }
-
-                    }
-
-                
-                total = right + error;
-                for (int i = 0; i < gmmList.Count; i++)
-                {
-                    fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (falseAlarm[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i] );
-                    rSp[gmmList.Count] += rSp[i];
-                    errSp[gmmList.Count] += errSp[i];
-                    falseAlarm[gmmList.Count] += falseAlarm[i];
-                    rejected[gmmList.Count] += rejected[i];
-                }
-
-                 fs.WriteLine("Ошибка 1 рода - " + ((float)errSp[gmmList.Count] / (errSp[gmmList.Count] + rejected[gmmList.Count])).ToString("0.0000"));
-                fs.WriteLine("Ошибка 2 рода - " + ((float)falseAlarm[gmmList.Count] / (falseAlarm[gmmList.Count] + rSp[gmmList.Count])).ToString("0.0000"));
-
-                fs.WriteLine("Всего распознано верно - " + right.ToString());
-                fs.WriteLine("Всего распознано верно проценты - " + ((float)(100 * right / total)).ToString("0.00"));
-
-                fs.WriteLine("Всего распознано неверно - " + error.ToString());
-                fs.WriteLine("Всего распознано неверно проценты - " + ((float)(100 * error / total)).ToString("0.00"));
-                fs.Flush();
+                //тестируем идентификацию на тестовой выборке
+                TestId(fs, ref right, ref error, testLen, cutMFT, delete_mft, mft_num, feat_num, test_num, Speakers, gmmList, ref ubm);
 
                 Right += right;
                 Error += error;
@@ -1740,6 +1658,107 @@ namespace SR_GMM
 
 
             fs.Close();
+        }
+
+        private void TestId(StreamWriter fs, ref int right, ref int error, int testLen, bool cutMFT, bool delete_mft, int mft_num, List<int> feat_num, List<int> test_num, List<int> Speakers, List<GMM> gmmList, ref GMM ubm)
+        {
+            int total = 0;
+            right = 0; error = 0;
+
+            int[] rSp = new int[gmmList.Count + 1];
+            int[] rejected = new int[gmmList.Count + 1];
+            int[] errSp = new int[gmmList.Count + 1]; //1
+            int[] falseAlarm = new int[gmmList.Count + 1]; //2
+
+            //создаем список тестовых сегментов
+            List<string> DirList;
+            List<Data> AllTestData = new List<Data>();
+
+            foreach (int l in Speakers)
+            {
+                DirList = new List<string>();
+                //Создание списка тестовых сегментов
+                foreach (int k in test_num)
+                {
+                    DirList.Add(textBox12.Text + "\\" + (l) + " (" + k + ")" + textBoxFeatureExtension.Text);
+                }
+
+                // не надо перемешать список!
+                /*int n = DirList.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = r.Next(n + 1);
+                    string tmp = DirList[k];
+                    DirList[k] = DirList[n];
+                    DirList[n] = tmp;
+                }*/
+                AllTestData.AddRange(Data.JoinDataWLen(DirList, testLen, feat_num));
+            }
+
+            if (!checkBox14.Checked) ubm = null;
+            //объединить все кроме обучающей выборки и разбить на Data по testLen секунд
+
+            foreach (Data d in AllTestData)
+                if (cutMFT) d.CutMftSamples(mft_num, delete_mft);
+
+            //bool[] used = new bool[s.Length];
+
+            float[] res = new float[gmmList.Count];
+
+            foreach (Data d in AllTestData)
+            {
+                //проводим классификацию каждого тестового случая по всем моделям и проверяем результат
+                float max = -(float.MaxValue - 1);
+                int numb = 0;
+                if (checkBox12.Checked)
+                {
+                    float E = 0;
+                    float.TryParse(textBox23.Text, out E);
+                    d.deleteLowEnergySamples(E);
+                }
+                for (int j = 0; j < gmmList.Count; j++)
+                {
+                    res[j] = gmmList[j].Classify(d, 1, null, ubm);
+                    if (res[j] > max) { max = res[j]; numb = j; }
+                }
+
+                //вывести инфу
+
+                if (Speakers[numb] == d.spkrID)
+                {
+                    right++;
+                    rSp[numb]++;
+                }
+                else
+                {
+                    error++;
+                    falseAlarm[Speakers.IndexOf(d.spkrID)]++;
+                    errSp[numb]++;
+                }
+
+            }
+
+
+            total = right + error;
+            for (int i = 0; i < gmmList.Count; i++)
+            {
+                fs.WriteLine("Диктор - " + i + " распознано " + rSp[i] + " ; процентов - " + (rSp[i] * 100 / (falseAlarm[i] + rSp[i])) + " ош 1 рода - " + errSp[i] + "; ош 2 рода - " + falseAlarm[i]);
+                rSp[gmmList.Count] += rSp[i];
+                errSp[gmmList.Count] += errSp[i];
+                falseAlarm[gmmList.Count] += falseAlarm[i];
+                rejected[gmmList.Count] += rejected[i];
+            }
+
+            fs.WriteLine("Ошибка 1 рода - " + ((float)errSp[gmmList.Count] / (errSp[gmmList.Count] + rejected[gmmList.Count])).ToString("0.0000"));
+            fs.WriteLine("Ошибка 2 рода - " + ((float)falseAlarm[gmmList.Count] / (falseAlarm[gmmList.Count] + rSp[gmmList.Count])).ToString("0.0000"));
+
+            fs.WriteLine("Всего распознано верно - " + right.ToString());
+            fs.WriteLine("Всего распознано верно проценты - " + ((float)(100 * right / total)).ToString("0.00"));
+
+            fs.WriteLine("Всего распознано неверно - " + error.ToString());
+            fs.WriteLine("Всего распознано неверно проценты - " + ((float)(100 * error / total)).ToString("0.00"));
+            fs.Flush();
         }
 
         /// <summary>

@@ -71,6 +71,15 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBoxSpeakerSet = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.textBoxUBMPhrases = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBoxTestPhrases = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBoxLearnPhrases = new System.Windows.Forms.TextBox();
+            this.textBoxComment = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -135,15 +144,7 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.textBoxComment = new System.Windows.Forms.TextBox();
-            this.textBoxLearnPhrases = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.textBoxTestPhrases = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.textBoxUBMPhrases = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.textBoxSpeakerSet = new System.Windows.Forms.TextBox();
+            this.checkBoxTestLearnSet = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -194,7 +195,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(784, 292);
+            this.tabPage1.Size = new System.Drawing.Size(937, 343);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -412,7 +413,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(784, 292);
+            this.tabPage2.Size = new System.Drawing.Size(937, 343);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Создание модели диктора";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -517,7 +518,7 @@
             this.tabPage3.Controls.Add(this.button7);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(784, 292);
+            this.tabPage3.Size = new System.Drawing.Size(937, 343);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Проверка модели";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -586,6 +587,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBoxTestLearnSet);
             this.tabPage4.Controls.Add(this.label29);
             this.tabPage4.Controls.Add(this.textBoxSpeakerSet);
             this.tabPage4.Controls.Add(this.label28);
@@ -647,6 +649,83 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(676, 175);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(71, 13);
+            this.label29.TabIndex = 89;
+            this.label29.Text = "№ Дикторов";
+            // 
+            // textBoxSpeakerSet
+            // 
+            this.textBoxSpeakerSet.Location = new System.Drawing.Point(623, 175);
+            this.textBoxSpeakerSet.Name = "textBoxSpeakerSet";
+            this.textBoxSpeakerSet.Size = new System.Drawing.Size(47, 20);
+            this.textBoxSpeakerSet.TabIndex = 88;
+            this.textBoxSpeakerSet.Text = "1-10";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(676, 153);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(107, 13);
+            this.label28.TabIndex = 87;
+            this.label28.Text = "№ файлов для UBM";
+            // 
+            // textBoxUBMPhrases
+            // 
+            this.textBoxUBMPhrases.Location = new System.Drawing.Point(623, 153);
+            this.textBoxUBMPhrases.Name = "textBoxUBMPhrases";
+            this.textBoxUBMPhrases.Size = new System.Drawing.Size(47, 20);
+            this.textBoxUBMPhrases.TabIndex = 86;
+            this.textBoxUBMPhrases.Text = "10-20";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(676, 127);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(153, 13);
+            this.label27.TabIndex = 85;
+            this.label27.Text = "№ файлов для тестирования";
+            // 
+            // textBoxTestPhrases
+            // 
+            this.textBoxTestPhrases.Location = new System.Drawing.Point(623, 127);
+            this.textBoxTestPhrases.Name = "textBoxTestPhrases";
+            this.textBoxTestPhrases.Size = new System.Drawing.Size(47, 20);
+            this.textBoxTestPhrases.TabIndex = 84;
+            this.textBoxTestPhrases.Text = "40-50";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(676, 101);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(129, 13);
+            this.label26.TabIndex = 83;
+            this.label26.Text = "№ файлов для обучения";
+            // 
+            // textBoxLearnPhrases
+            // 
+            this.textBoxLearnPhrases.Location = new System.Drawing.Point(623, 101);
+            this.textBoxLearnPhrases.Name = "textBoxLearnPhrases";
+            this.textBoxLearnPhrases.Size = new System.Drawing.Size(47, 20);
+            this.textBoxLearnPhrases.TabIndex = 82;
+            this.textBoxLearnPhrases.Text = "1-20";
+            // 
+            // textBoxComment
+            // 
+            this.textBoxComment.Location = new System.Drawing.Point(30, 293);
+            this.textBoxComment.Multiline = true;
+            this.textBoxComment.Name = "textBoxComment";
+            this.textBoxComment.Size = new System.Drawing.Size(587, 41);
+            this.textBoxComment.TabIndex = 81;
+            this.textBoxComment.Text = "Комментарий";
             // 
             // label25
             // 
@@ -1072,7 +1151,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(784, 292);
+            this.tabPage5.Size = new System.Drawing.Size(937, 343);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Silence remove";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1164,7 +1243,7 @@
             this.tabPage6.Controls.Add(this.button17);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(784, 292);
+            this.tabPage6.Size = new System.Drawing.Size(937, 343);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "UBM creation";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1240,82 +1319,17 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // textBoxComment
+            // checkBoxTestLearnSet
             // 
-            this.textBoxComment.Location = new System.Drawing.Point(30, 293);
-            this.textBoxComment.Multiline = true;
-            this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.Size = new System.Drawing.Size(587, 41);
-            this.textBoxComment.TabIndex = 81;
-            this.textBoxComment.Text = "Комментарий";
-            // 
-            // textBoxLearnPhrases
-            // 
-            this.textBoxLearnPhrases.Location = new System.Drawing.Point(623, 101);
-            this.textBoxLearnPhrases.Name = "textBoxLearnPhrases";
-            this.textBoxLearnPhrases.Size = new System.Drawing.Size(47, 20);
-            this.textBoxLearnPhrases.TabIndex = 82;
-            this.textBoxLearnPhrases.Text = "1-20";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(676, 101);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(129, 13);
-            this.label26.TabIndex = 83;
-            this.label26.Text = "№ файлов для обучения";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(676, 127);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(153, 13);
-            this.label27.TabIndex = 85;
-            this.label27.Text = "№ файлов для тестирования";
-            // 
-            // textBoxTestPhrases
-            // 
-            this.textBoxTestPhrases.Location = new System.Drawing.Point(623, 127);
-            this.textBoxTestPhrases.Name = "textBoxTestPhrases";
-            this.textBoxTestPhrases.Size = new System.Drawing.Size(47, 20);
-            this.textBoxTestPhrases.TabIndex = 84;
-            this.textBoxTestPhrases.Text = "40-50";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(676, 153);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(107, 13);
-            this.label28.TabIndex = 87;
-            this.label28.Text = "№ файлов для UBM";
-            // 
-            // textBoxUBMPhrases
-            // 
-            this.textBoxUBMPhrases.Location = new System.Drawing.Point(623, 153);
-            this.textBoxUBMPhrases.Name = "textBoxUBMPhrases";
-            this.textBoxUBMPhrases.Size = new System.Drawing.Size(47, 20);
-            this.textBoxUBMPhrases.TabIndex = 86;
-            this.textBoxUBMPhrases.Text = "10-20";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(676, 175);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(71, 13);
-            this.label29.TabIndex = 89;
-            this.label29.Text = "№ Дикторов";
-            // 
-            // textBoxSpeakerSet
-            // 
-            this.textBoxSpeakerSet.Location = new System.Drawing.Point(623, 175);
-            this.textBoxSpeakerSet.Name = "textBoxSpeakerSet";
-            this.textBoxSpeakerSet.Size = new System.Drawing.Size(47, 20);
-            this.textBoxSpeakerSet.TabIndex = 88;
-            this.textBoxSpeakerSet.Text = "1-10";
+            this.checkBoxTestLearnSet.AutoSize = true;
+            this.checkBoxTestLearnSet.Checked = true;
+            this.checkBoxTestLearnSet.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxTestLearnSet.Location = new System.Drawing.Point(623, 196);
+            this.checkBoxTestLearnSet.Name = "checkBoxTestLearnSet";
+            this.checkBoxTestLearnSet.Size = new System.Drawing.Size(220, 17);
+            this.checkBoxTestLearnSet.TabIndex = 90;
+            this.checkBoxTestLearnSet.Text = "Тестирование на обучающей выборке";
+            this.checkBoxTestLearnSet.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1460,6 +1474,7 @@
         private System.Windows.Forms.TextBox textBoxTestPhrases;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox textBoxSpeakerSet;
+        private System.Windows.Forms.CheckBox checkBoxTestLearnSet;
     }
 }
 
