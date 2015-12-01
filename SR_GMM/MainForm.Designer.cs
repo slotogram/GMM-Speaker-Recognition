@@ -71,6 +71,7 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkBoxTestLearnSet = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
             this.textBoxSpeakerSet = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
@@ -144,7 +145,7 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.checkBoxTestLearnSet = new System.Windows.Forms.CheckBox();
+            this.checkBoxUseLearnLength = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -587,6 +588,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBoxUseLearnLength);
             this.tabPage4.Controls.Add(this.checkBoxTestLearnSet);
             this.tabPage4.Controls.Add(this.label29);
             this.tabPage4.Controls.Add(this.textBoxSpeakerSet);
@@ -649,6 +651,18 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTestLearnSet
+            // 
+            this.checkBoxTestLearnSet.AutoSize = true;
+            this.checkBoxTestLearnSet.Checked = true;
+            this.checkBoxTestLearnSet.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxTestLearnSet.Location = new System.Drawing.Point(623, 196);
+            this.checkBoxTestLearnSet.Name = "checkBoxTestLearnSet";
+            this.checkBoxTestLearnSet.Size = new System.Drawing.Size(220, 17);
+            this.checkBoxTestLearnSet.TabIndex = 90;
+            this.checkBoxTestLearnSet.Text = "Тестирование на обучающей выборке";
+            this.checkBoxTestLearnSet.UseVisualStyleBackColor = true;
             // 
             // label29
             // 
@@ -1319,17 +1333,14 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // checkBoxTestLearnSet
+            // checkBoxUseLearnLength
             // 
-            this.checkBoxTestLearnSet.AutoSize = true;
-            this.checkBoxTestLearnSet.Checked = true;
-            this.checkBoxTestLearnSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTestLearnSet.Location = new System.Drawing.Point(623, 196);
-            this.checkBoxTestLearnSet.Name = "checkBoxTestLearnSet";
-            this.checkBoxTestLearnSet.Size = new System.Drawing.Size(220, 17);
-            this.checkBoxTestLearnSet.TabIndex = 90;
-            this.checkBoxTestLearnSet.Text = "Тестирование на обучающей выборке";
-            this.checkBoxTestLearnSet.UseVisualStyleBackColor = true;
+            this.checkBoxUseLearnLength.AutoSize = true;
+            this.checkBoxUseLearnLength.Location = new System.Drawing.Point(12, 76);
+            this.checkBoxUseLearnLength.Name = "checkBoxUseLearnLength";
+            this.checkBoxUseLearnLength.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxUseLearnLength.TabIndex = 91;
+            this.checkBoxUseLearnLength.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1475,6 +1486,7 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox textBoxSpeakerSet;
         private System.Windows.Forms.CheckBox checkBoxTestLearnSet;
+        private System.Windows.Forms.CheckBox checkBoxUseLearnLength;
     }
 }
 

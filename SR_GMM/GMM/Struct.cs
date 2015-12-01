@@ -165,7 +165,7 @@ namespace SR_GMM
                 stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
                 short flags = reader.ReadInt16(); //разбор флагов, надо ли?
                 //вычисляем, сколько у нас фич:
-                int dim = (int)((stream.Length - 12) / (4*samples)); //!!!!!!!! 25.11.2015
+                //int dim = (int)((stream.Length - 12) / (4*samp)); //!!!!!!!! 25.11.2015
                 long n = samp;
                 
                 if (need_samp != long.MaxValue && need_samp < n) { n = need_samp; }
@@ -247,7 +247,7 @@ namespace SR_GMM
                 stream.ReadByte(); stream.ReadByte(); //тут длина семпла - у нас всегда флоат
                 short flags = reader.ReadInt16(); //разбор флагов, надо ли?
                 //вычисляем, сколько у нас фич:
-                int dim = (int)((stream.Length - 12) / (4 * samples));
+                int dim = (int)((stream.Length - 12) / (4 * samp));
                 long n = samp;
 
                 int new_dimension = feat_list.Count;
@@ -370,8 +370,8 @@ namespace SR_GMM
             //data = lst[0];
             //dimension = d.dimension;
             frame_rate = d.frame_rate;
-            
-            
+
+            this.spkrID = d.spkrID;
             //for (int i = 1; i < lst.Count; i++) { data = data.Concat(lst[i]).ToArray(); }
             //samples = samp;
           
@@ -399,15 +399,19 @@ namespace SR_GMM
             long counter = 0;
 
             this.samples = samp;
+            if (feat_list == null) this.dimension = d.dimension;
+            this.spkrID = d.spkrID;
             foreach (string s1 in Paths)
             {
                 
                 //создаем отдельный метод загружающий дата в выделенный массив
                 if (feat_list == null) LoadDataToArray(s1, ref counter,ref res,ref need_samp);
                 else LoadDataToArray_f(s1, ref counter, ref res, feat_list, ref need_samp);
+                if (need_samp == 0) break;
 
             }
-
+            this.data = res;
+            
 
 
             CalcMean();

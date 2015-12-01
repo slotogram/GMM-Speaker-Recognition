@@ -1023,7 +1023,7 @@ namespace SR_GMM
             //for (int i = 1; i <= 50; i++) speakerList.Add(i);
             List<string>[] learnList = new List<string>[50];
             int learnLen = int.MaxValue, testLen;
-            //int.TryParse(textBox11.Text, out learnLen);
+            if (checkBoxUseLearnLength.Checked) int.TryParse(textBox11.Text, out learnLen);
             int.TryParse(textBox13.Text, out testLen);
             int iter_num = 1;
             int.TryParse(textBox30.Text, out iter_num);
@@ -1092,6 +1092,8 @@ namespace SR_GMM
                         learnList[i-1].Add(textBox12.Text + "\\" + (i) + " (" + k + ")" + textBoxFeatureExtension.Text);
                     }
 
+                    if (checkBoxUseLearnLength.Checked) learnData = new Data(learnList[i-1], learnLen, feat_num);
+                    else
                     learnData = new Data(learnList[i-1],feat_num);
                     if (cutMFT) learnData.CutMftSamples(mft_num,delete_mft);
                     GMM spkr = new GMM(ubm,true);
@@ -1208,6 +1210,7 @@ namespace SR_GMM
                 //вывести параметры теста
                 fs.WriteLine("Путь с семплами: "+textBox12.Text);
                 fs.WriteLine("Компонент GMM: " + textBox15.Text);
+                if (checkBoxUseLearnLength.Checked) fs.WriteLine("Длина обучающих данных (сек): " + textBox11.Text);
                 fs.WriteLine("Длина тестовых данных (сек): " + textBox13.Text);
                 fs.WriteLine("Используемые характеристики: " + textBox28.Text);
                 fs.WriteLine("Удалять семплы без тона: " + checkBox9.Checked);
@@ -1520,7 +1523,7 @@ namespace SR_GMM
             //for (int i = 1; i <= 50; i++) speakerList.Add(i);
             List<string>[] learnList = new List<string>[50];
             int learnLen = int.MaxValue, testLen;
-            //int.TryParse(textBox11.Text, out learnLen);
+            if (checkBoxUseLearnLength.Checked) int.TryParse(textBox11.Text, out learnLen);
             int.TryParse(textBox13.Text, out testLen);
             int iter_num = 1;
             int.TryParse(textBox30.Text, out iter_num);
@@ -1596,13 +1599,17 @@ namespace SR_GMM
                         learnList[i].Add(textBox12.Text + "\\" + (i) + " (" + k + ")"+textBoxFeatureExtension.Text);
                     }
 
-                    learnData = new Data(learnList[i],  feat_num);
+                    if (checkBoxUseLearnLength.Checked) learnData = new Data(learnList[i], learnLen, feat_num);
+                    else
+                        learnData = new Data(learnList[i], feat_num);
+                    
                     if (cutMFT) learnData.CutMftSamples(mft_num, delete_mft);
                     GMM spkr;
                     if (checkBox11.Checked) 
                     {
                         if (checkBox13.Checked) spkr = new GMM(ubm, true); else
-                        spkr = new GMM(gmmN, learnData.dimension, learnData);
+                        
+                            spkr = new GMM(gmmN, learnData.dimension, learnData);
                         
                         spkr.Train(learnData, "asdas", textBox12.Text + "\\" + i.ToString() + ".gmm", gmmN, 0.95, 0.01, 100,1);
                         //spkr.Adapt(learnData, ubm, "asdas", textBox12.Text + "\\" + speakerList[i].ToString() + ".gmm", gmmN, 14, 0.95, 0.01, 1, 1);
@@ -1621,6 +1628,7 @@ namespace SR_GMM
                 //вывести параметры теста
                 fs.WriteLine("Путь с семплами: " + textBox12.Text);
                 fs.WriteLine("Компонент GMM: " + textBox15.Text);
+                if (checkBoxUseLearnLength.Checked) fs.WriteLine("Длина обучающих данных (сек): " + textBox11.Text);
                 fs.WriteLine("Длина тестовых данных (сек): " + textBox13.Text);
                 fs.WriteLine("Используемые характеристики: " + textBox28.Text);
                 fs.WriteLine("Удалять семплы без тона: " + checkBox9.Checked);
