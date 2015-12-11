@@ -411,7 +411,7 @@ namespace SR_GMM
 
             }
             this.data = res;
-            
+            if (need_samp != 0 && need_samp != long.MaxValue) this.samples -= need_samp;
 
 
             CalcMean();
@@ -471,10 +471,7 @@ namespace SR_GMM
                 {
                     long break_samp = frames-(samp-d.samples);
                     long add_samp = d.samples - break_samp;
-                    for (long i = 0; i <break_samp ; i++)
-                    {
-                        d.data[i].CopyTo(buffer[i + counter], 0);
-                    }
+                    CopyDataToBuffer(d, counter, buffer, break_samp);
                     counter = 0;
                     /*d.data = buffer;
                     d.samples = frames;
@@ -532,10 +529,7 @@ namespace SR_GMM
                 }
                 else //lst.Add(d.data);
                 {
-                    for (long i = 0; i < d.samples; i++)
-                    {
-                        d.data[i].CopyTo(buffer[i + counter], 0);
-                    }
+                    CopyDataToBuffer(d, counter, buffer, d.samples);
                     counter += d.samples;
                 }
                  /*   if (buffer != null) buffer = buffer.Concat(d.data).ToArray(); 
@@ -551,6 +545,14 @@ namespace SR_GMM
             CalcMean();
             */
             return result;
+        }
+
+        private static void CopyDataToBuffer(Data d, long counter, float[][] buffer, long samp)
+        {
+            for (long i = 0; i < samp; i++)
+            {
+                d.data[i].CopyTo(buffer[i + counter], 0);
+            }
         }
 
         public Data(string Path, bool needMean, List<int> feat_list=null)
@@ -740,7 +742,7 @@ namespace SR_GMM
             int counter;
             for (long i = 0; i < samples; i++)
             {
-                data[i] = new float[dimension];
+                data[i] = new float[new_dimension];
                 counter = 0;
                 for (int j = 0; j < dimension; j++)
                 {

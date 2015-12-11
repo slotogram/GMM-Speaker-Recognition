@@ -1056,7 +1056,7 @@ namespace SR_GMM
                 int gmmN = 0;
                 int.TryParse(textBox15.Text, out gmmN);
                 //проверить, есть ли gmm?
-                if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
+                if (File.Exists(textBox12.Text + "\\" + "ubm.gmm") && !checkBoxNewUBM.Checked)
                 {
                     ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm", feat_num);
                 }
@@ -1218,6 +1218,8 @@ namespace SR_GMM
                 fs.WriteLine("Циклов адаптации UBM: " + textBox30.Text);
                 fs.WriteLine("Параметр адаптации UBM alpha: " + textBox31.Text);
                 fs.WriteLine("Речевые сегменты, используемые для обучения модели диктора: " + textBoxLearnPhrases.Text);
+                fs.WriteLine("Речевые сегменты, используемые для тестирования модели диктора: " + textBoxTestPhrases.Text);
+                fs.WriteLine("Речевые сегменты, используемые для обучения UBM: " + textBoxUBMPhrases.Text);
                 foreach (string s in textBoxComment.Lines) fs.WriteLine(s);
                 fs.WriteLine("-------------------------------------------------------------");
 
@@ -1562,7 +1564,7 @@ namespace SR_GMM
                 //проверить, есть ли gmm?
                 if (!checkBox11.Checked||checkBox13.Checked)
                 {
-                    if (File.Exists(textBox12.Text + "\\" + "ubm.gmm"))
+                    if (File.Exists(textBox12.Text + "\\" + "ubm.gmm") && !checkBoxNewUBM.Checked)
                     {
                         ubm = new GMM(textBox12.Text + "\\" + "ubm.gmm", feat_num);
                     }
@@ -1640,6 +1642,7 @@ namespace SR_GMM
                 if (checkBox12.Checked) fs.WriteLine("Использовать порог энергии (может быть и не энергия): " + textBox23.Text);
                 if (checkBox14.Checked) fs.WriteLine("Счет вычисляется с UBM: " + checkBox14.Checked);
                 fs.WriteLine("Речевые сегменты, используемые для обучения модели диктора: " + textBoxLearnPhrases.Text);
+                fs.WriteLine("Речевые сегменты, используемые для тестирования модели диктора: " + textBoxTestPhrases.Text);
                 foreach (string s in textBoxComment.Lines) fs.WriteLine(s);
                 fs.WriteLine("-------------------------------------------------------------");
 

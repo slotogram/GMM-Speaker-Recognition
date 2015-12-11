@@ -71,6 +71,7 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkBoxUseLearnLength = new System.Windows.Forms.CheckBox();
             this.checkBoxTestLearnSet = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
             this.textBoxSpeakerSet = new System.Windows.Forms.TextBox();
@@ -145,7 +146,7 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.checkBoxUseLearnLength = new System.Windows.Forms.CheckBox();
+            this.checkBoxNewUBM = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -588,6 +589,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.checkBoxNewUBM);
             this.tabPage4.Controls.Add(this.checkBoxUseLearnLength);
             this.tabPage4.Controls.Add(this.checkBoxTestLearnSet);
             this.tabPage4.Controls.Add(this.label29);
@@ -651,6 +653,15 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Проверка с КВ";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxUseLearnLength
+            // 
+            this.checkBoxUseLearnLength.AutoSize = true;
+            this.checkBoxUseLearnLength.Location = new System.Drawing.Point(12, 76);
+            this.checkBoxUseLearnLength.Name = "checkBoxUseLearnLength";
+            this.checkBoxUseLearnLength.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxUseLearnLength.TabIndex = 91;
+            this.checkBoxUseLearnLength.UseVisualStyleBackColor = true;
             // 
             // checkBoxTestLearnSet
             // 
@@ -873,7 +884,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(176, 267);
+            this.label20.Location = new System.Drawing.Point(98, 270);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(197, 13);
             this.label20.TabIndex = 66;
@@ -883,7 +894,7 @@
             // 
             this.textBox29.Location = new System.Drawing.Point(30, 264);
             this.textBox29.Name = "textBox29";
-            this.textBox29.Size = new System.Drawing.Size(140, 20);
+            this.textBox29.Size = new System.Drawing.Size(61, 20);
             this.textBox29.TabIndex = 65;
             this.textBox29.Text = "13";
             // 
@@ -900,7 +911,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(176, 226);
+            this.label19.Location = new System.Drawing.Point(98, 227);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(168, 13);
             this.label19.TabIndex = 63;
@@ -910,7 +921,7 @@
             // 
             this.textBox28.Location = new System.Drawing.Point(30, 223);
             this.textBox28.Name = "textBox28";
-            this.textBox28.Size = new System.Drawing.Size(140, 20);
+            this.textBox28.Size = new System.Drawing.Size(61, 20);
             this.textBox28.TabIndex = 62;
             this.textBox28.Text = "0-12";
             // 
@@ -1333,14 +1344,15 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // checkBoxUseLearnLength
+            // checkBoxNewUBM
             // 
-            this.checkBoxUseLearnLength.AutoSize = true;
-            this.checkBoxUseLearnLength.Location = new System.Drawing.Point(12, 76);
-            this.checkBoxUseLearnLength.Name = "checkBoxUseLearnLength";
-            this.checkBoxUseLearnLength.Size = new System.Drawing.Size(15, 14);
-            this.checkBoxUseLearnLength.TabIndex = 91;
-            this.checkBoxUseLearnLength.UseVisualStyleBackColor = true;
+            this.checkBoxNewUBM.AutoSize = true;
+            this.checkBoxNewUBM.Location = new System.Drawing.Point(339, 266);
+            this.checkBoxNewUBM.Name = "checkBoxNewUBM";
+            this.checkBoxNewUBM.Size = new System.Drawing.Size(86, 17);
+            this.checkBoxNewUBM.TabIndex = 92;
+            this.checkBoxNewUBM.Text = "новая  UBM";
+            this.checkBoxNewUBM.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1487,6 +1499,7 @@
         private System.Windows.Forms.TextBox textBoxSpeakerSet;
         private System.Windows.Forms.CheckBox checkBoxTestLearnSet;
         private System.Windows.Forms.CheckBox checkBoxUseLearnLength;
+        private System.Windows.Forms.CheckBox checkBoxNewUBM;
     }
 }
 

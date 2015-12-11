@@ -1,31 +1,10 @@
-[ 25.11.2015 - 20:09:41 ]
+[ 08.12.2015 - 15:54:28 ]
     (MSG) [2] in SMILExtract : openSMILE starting!
-[ 25.11.2015 - 20:09:41 ]
-    (MSG) [2] in SMILExtract : config file is: frm3.conf
-[ 25.11.2015 - 20:09:41 ]
+[ 08.12.2015 - 15:54:28 ]
+    (MSG) [2] in SMILExtract : config file is: smile.conf
+[ 08.12.2015 - 15:54:28 ]
     (MSG) [2] in cComponentManager : successfully registered 95 component types.
-[ 25.11.2015 - 20:09:41 ]
-    (ERROR) [1] in instance 'formant' : lpGain not found as input field, cannot compute formant frame intensity, disabling it now!
-==> LEVEL 'wave'  +++  Buffersize(frames) = 16001  +++  nReaders = 1
-==> LEVEL 'frames'  +++  Buffersize(frames) = 1000  +++  nReaders = 3
-==> LEVEL 'framespe'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'winframe'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'fftc'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'fftmag'  +++  Buffersize(frames) = 1000  +++  nReaders = 3
-==> LEVEL 'mspec1'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'mfcc1'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'acf'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'cepstrum'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'pitch'  +++  Buffersize(frames) = 1000  +++  nReaders = 2
-==> LEVEL 'lpc'  +++  Buffersize(frames) = 1000  +++  nReaders = 2
-==> LEVEL 'formant'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'energy'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'formantSm'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-==> LEVEL 'mfccM'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
-[ 25.11.2015 - 20:09:41 ]
-    (MSG) [2] in cComponentManager : successfully finished createInstances
-                                 (17 component instances were finalised, 1 data memories were finalised)
-[ 25.11.2015 - 20:09:41 ]
-    (MSG) [2] in cComponentManager : starting single thread processing loop
-[ 25.11.2015 - 20:09:41 ]
-    (MSG) [2] in cComponentManager : Processing finished! System ran for 1440 ticks.
+[ 08.12.2015 - 15:54:28 ]
+    (ERROR) [1] in configManager : cFileConfigReader::openInput : cannot open input file 'smile.conf'!
+[ 08.12.2015 - 15:54:28 ]
+    (ERROR) [1] in configManager : cFileConfigReader::openInput : cannot open input file 'smile.conf'!
