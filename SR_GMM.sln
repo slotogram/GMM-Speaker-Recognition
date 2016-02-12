@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SR_GMM", "SR_GMM\SR_GMM.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicRecognition", "MicRecognition\MicRecognition.csproj", "{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeaturesConverter", "FeaturesConverter\FeaturesConverter.csproj", "{0FD10A5B-DD74-4462-9E26-F6B354AD1903}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86867E35-A103-4FE9-A6C6-B8D66E8AA00F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD10A5B-DD74-4462-9E26-F6B354AD1903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD10A5B-DD74-4462-9E26-F6B354AD1903}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD10A5B-DD74-4462-9E26-F6B354AD1903}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD10A5B-DD74-4462-9E26-F6B354AD1903}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
