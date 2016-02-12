@@ -49,6 +49,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxUBMSpeakersNum = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxSpeakerTest = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // checkBox6
@@ -66,7 +68,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(12, 267);
+            this.button13.Location = new System.Drawing.Point(12, 309);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(105, 22);
             this.button13.TabIndex = 46;
@@ -113,15 +115,15 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(76, 217);
+            this.label29.Location = new System.Drawing.Point(76, 243);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(71, 13);
+            this.label29.Size = new System.Drawing.Size(141, 13);
             this.label29.TabIndex = 99;
-            this.label29.Text = "№ Дикторов";
+            this.label29.Text = "№ Дикторов для обучения";
             // 
             // textBoxSpeakerSet
             // 
-            this.textBoxSpeakerSet.Location = new System.Drawing.Point(10, 217);
+            this.textBoxSpeakerSet.Location = new System.Drawing.Point(10, 243);
             this.textBoxSpeakerSet.Name = "textBoxSpeakerSet";
             this.textBoxSpeakerSet.Size = new System.Drawing.Size(47, 20);
             this.textBoxSpeakerSet.TabIndex = 98;
@@ -201,7 +203,7 @@
             this.textBoxLists.Name = "textBoxLists";
             this.textBoxLists.Size = new System.Drawing.Size(141, 20);
             this.textBoxLists.TabIndex = 101;
-            this.textBoxLists.Text = "E:\\temp\\123\\12samplesN\\Lists";
+            this.textBoxLists.Text = "E:\\temp\\123\\Smile\\Lists";
             // 
             // button1
             // 
@@ -215,7 +217,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(76, 239);
+            this.label1.Location = new System.Drawing.Point(76, 217);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 13);
             this.label1.TabIndex = 103;
@@ -223,17 +225,36 @@
             // 
             // textBoxUBMSpeakersNum
             // 
-            this.textBoxUBMSpeakersNum.Location = new System.Drawing.Point(10, 239);
+            this.textBoxUBMSpeakersNum.Location = new System.Drawing.Point(10, 217);
             this.textBoxUBMSpeakersNum.Name = "textBoxUBMSpeakersNum";
             this.textBoxUBMSpeakersNum.Size = new System.Drawing.Size(47, 20);
             this.textBoxUBMSpeakersNum.TabIndex = 102;
             this.textBoxUBMSpeakersNum.Text = "1-15";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(76, 267);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(165, 13);
+            this.label2.TabIndex = 105;
+            this.label2.Text = "№ Дикторов для тестирования";
+            // 
+            // textBoxSpeakerTest
+            // 
+            this.textBoxSpeakerTest.Location = new System.Drawing.Point(10, 267);
+            this.textBoxSpeakerTest.Name = "textBoxSpeakerTest";
+            this.textBoxSpeakerTest.Size = new System.Drawing.Size(47, 20);
+            this.textBoxSpeakerTest.TabIndex = 104;
+            this.textBoxSpeakerTest.Text = "16-25";
+            // 
             // FormConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 315);
+            this.ClientSize = new System.Drawing.Size(429, 354);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBoxSpeakerTest);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxUBMSpeakersNum);
             this.Controls.Add(this.textBoxLists);
@@ -284,6 +305,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxUBMSpeakersNum;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxSpeakerTest;
     }
 }
 

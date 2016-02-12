@@ -36,7 +36,7 @@ namespace FeaturesConverter
 
         private void OutList(string path, List<string> fileList)
         {
-            StreamWriter fs = new StreamWriter(Environment.CurrentDirectory + "\\" + path + ".txt");
+            StreamWriter fs = new StreamWriter(path);
             foreach (string s in fileList)
             {
                 fs.WriteLine(s);
@@ -58,6 +58,8 @@ namespace FeaturesConverter
             List<int> UBM_Speakers = stringNumParse(textBoxUBMSpeakersNum.Text, false);
             //Парсим текстбокс со списком speakers
             List<int> Speakers = stringNumParse(textBoxSpeakerSet.Text, false);
+            //Парсим текстбокс со списком speakers для тестирования
+            List<int> SpeakersTest = stringNumParse(textBoxSpeakerSet.Text, false);
 
             string featPath = textBoxLists.Text;
 
@@ -70,9 +72,9 @@ namespace FeaturesConverter
 
             List<string> filesList = new List<string>();
             //создаем список для UBM
-            foreach (int i in UBM_num)
+            foreach (int j in UBM_Speakers)
             {
-                foreach (int j in UBM_Speakers)
+                foreach (int i in UBM_num)
                 {
                     filesList.Add(j + " (" + i + ")" + textBoxFeatureExtension.Text);
                 }
@@ -91,13 +93,13 @@ namespace FeaturesConverter
             }
             //выводим в файл Train.lst
             OutList(featPath + "\\Train.lst", filesList);
-            //создаем список тестовых файлов
+            //создаем список тестовых файлов. Тестируем всех дикторов, у которых есть модели. А файлы могут быть любых дикторов.
             filesList.Clear();
             foreach (int j in Speakers)
             {
-                foreach (int k in Speakers)
+                foreach (int k in SpeakersTest)
                 {
-                    foreach (int i in learn_num)
+                    foreach (int i in test_num)
                     {
                         
                         filesList.Add(j+ " " + k + " (" + i + ")" + textBoxFeatureExtension.Text+ " "+ ((j == k) ? "1" : "0"));
