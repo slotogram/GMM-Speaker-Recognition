@@ -65,3 +65,6 @@ SR_GMM/bin/Debug/SR_GMM.exe
 SR_GMM/bin/Debug/SR_GMM.pdb
 SR_GMM/obj/Debug/SR_GMM.exe
 SR_GMM/obj/Debug/SR_GMM.pdb
+FeaturesConverter/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+FeaturesConverter/obj/Debug/FeaturesConverter.csprojResolveAssemblyReference.cache
+FeaturesConverter/bin/Debug/FeaturesConverter.vshost.exe.manifest

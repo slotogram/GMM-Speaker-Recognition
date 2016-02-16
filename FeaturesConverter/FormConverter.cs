@@ -61,8 +61,9 @@ namespace FeaturesConverter
             //Парсим текстбокс со списком speakers для тестирования
             List<int> SpeakersTest = stringNumParse(textBoxSpeakerSet.Text, false);
 
-            string featPath = textBoxLists.Text;
 
+            string featPath = textBox21.Text;
+            string listPath = textBoxLists.Text;
             //получаем список нужных нам файлов с фичами и выводим их в текстовые лист файлы
 
             /*  string[] s;
@@ -71,16 +72,23 @@ namespace FeaturesConverter
             else s = System.IO.Directory.GetFiles(featPath, "*"+textBoxFeatureExtension.Text);*/
 
             List<string> filesList = new List<string>();
+            List<string> list2 = new List<string>();
             //создаем список для UBM
             foreach (int j in UBM_Speakers)
             {
                 foreach (int i in UBM_num)
                 {
-                    filesList.Add(j + " (" + i + ")" + textBoxFeatureExtension.Text);
+                    filesList.Add("\""+featPath + "\\" +j  + " (" + i + ")" + textBoxFeatureExtension.Text+"\"");
+                    list2.Add("\"" + featPath + "\\" + j + " (" + i + ")" + textBoxFeatureExtension.Text + "\" "+j);
                 }
             }
             //выводим в файл UBM.lst
-            OutList(featPath+"\\UBM.lst",filesList);
+            OutList(listPath+"\\UBM.lst",filesList);
+            
+            OutList(listPath + "\\UBM_id.lst", list2);
+
+            
+            
             //создаем список обучающих файлов
 
             filesList.Clear();
@@ -88,11 +96,11 @@ namespace FeaturesConverter
             {   
                 foreach (int i in learn_num)
                 {
-                    filesList.Add(j+ " "+j + " (" + i + ")" + textBoxFeatureExtension.Text);
+                    filesList.Add(j+ " \""+j + " (" + i + ")" + textBoxFeatureExtension.Text + "\"");
                 }
             }
             //выводим в файл Train.lst
-            OutList(featPath + "\\Train.lst", filesList);
+            OutList(listPath + "\\Train.lst", filesList);
             //создаем список тестовых файлов. Тестируем всех дикторов, у которых есть модели. А файлы могут быть любых дикторов.
             filesList.Clear();
             foreach (int j in Speakers)
@@ -102,13 +110,13 @@ namespace FeaturesConverter
                     foreach (int i in test_num)
                     {
                         
-                        filesList.Add(j+ " " + k + " (" + i + ")" + textBoxFeatureExtension.Text+ " "+ ((j == k) ? "1" : "0"));
+                        filesList.Add(j+ " \"" + k + " (" + i + ")" + textBoxFeatureExtension.Text+ "\" "+ ((j == k) ? "1" : "0"));
                     }
                 }
                 
             }
             //выводим в файл Test.lst
-            OutList(featPath + "\\Test.lst", filesList);
+            OutList(listPath + "\\Test.lst", filesList);
         }
 
         private List<int> stringNumParse(string s, bool needZeroEnd)

@@ -82,7 +82,7 @@
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(141, 20);
             this.textBox21.TabIndex = 45;
-            this.textBox21.Text = "E:\\temp\\123\\12samplesN";
+            this.textBox21.Text = "E:\\temp\\123\\Smile";
             // 
             // button12
             // 
