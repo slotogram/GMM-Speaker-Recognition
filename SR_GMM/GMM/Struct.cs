@@ -42,6 +42,7 @@ namespace SR_GMM
         public int dimension;  /* Dimension number of the data loaded.  */
         public float frame_rate;
         public int spkrID;
+        public short flags;
         //ushort dimension;
 
         //private void LoadSingle(string Path)
@@ -639,7 +640,7 @@ namespace SR_GMM
             this.samples = (long)reader.ReadInt32();
             this.frame_rate = 10000000 / (reader.ReadInt32()); //переводим из периода (100) нс в частоту
             reader.ReadByte(); reader.ReadByte(); //тут длина семпла - у нас всегда флоат
-            short flags = reader.ReadInt16(); //разбор флагов, надо ли?
+            flags = reader.ReadInt16(); //разбор флагов, надо ли?
             //вычисляем, сколько у нас фич:
             this.dimension = (int)((stream.Length - 12) / (4*samples));
 
@@ -724,11 +725,11 @@ namespace SR_GMM
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
             BinaryReader reader = new BinaryReader(stream);
-
+            
             this.samples = (long)reader.ReadInt32();
             this.frame_rate = 10000000 / (reader.ReadInt32()); //переводим из периода (100) нс в частоту
             reader.ReadByte(); reader.ReadByte(); //тут длина семпла - у нас всегда флоат
-            short flags = reader.ReadInt16(); //разбор флагов, надо ли?
+            flags = reader.ReadInt16(); //разбор флагов, надо ли?
             //вычисляем, сколько у нас фич:
             this.dimension = (int)((stream.Length - 12) / (4 * samples));
 
@@ -1114,6 +1115,37 @@ namespace SR_GMM
 
 
         }
+
+
+        public void SaveHtk(string path)
+        {
+            FileStream stream = new FileStream(path, FileMode.Create);
+            BinaryWriter writer = new BinaryWriter(stream);
+            /*
+            this.samples = (long)reader.ReadInt32();
+            this.frame_rate = 10000000 / (reader.ReadInt32()); //переводим из периода (100) нс в частоту
+            reader.ReadByte(); reader.ReadByte(); //тут длина семпла - у нас всегда флоат
+            flags = reader.ReadInt16(); //разбор флагов, надо ли?
+            */
+            writer.Write((Int32)samples);
+            writer.Write((Int32)( 10000000 / frame_rate));
+            writer.Write((Int16)(4*dimension));
+            writer.Write(flags);
+
+            for (long i = 0; i < this.samples; i++)
+            {
+                for (int j = 0; j < this.dimension; j++)
+                {
+                    writer.Write(this.data[i][j]);
+                }
+            }
+
+            writer.Close();
+
+
+        }
+
+
         public void Save(string path, float thr)
         {
             FileStream stream = new FileStream(path, FileMode.Create);

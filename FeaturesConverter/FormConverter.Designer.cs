@@ -1,4 +1,4 @@
-﻿namespace FeaturesConverter
+﻿namespace SR_GMM
 {
     partial class FormConverter
     {
@@ -51,6 +51,13 @@
             this.textBoxUBMSpeakersNum = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxSpeakerTest = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxNewFeatDir = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.buttonCutFeat = new System.Windows.Forms.Button();
+            this.textBoxExtension = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // checkBox6
@@ -68,7 +75,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(12, 309);
+            this.button13.Location = new System.Drawing.Point(14, 355);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(105, 22);
             this.button13.TabIndex = 46;
@@ -96,7 +103,7 @@
             // 
             // textBox28
             // 
-            this.textBox28.Location = new System.Drawing.Point(10, 83);
+            this.textBox28.Location = new System.Drawing.Point(12, 129);
             this.textBox28.Name = "textBox28";
             this.textBox28.Size = new System.Drawing.Size(61, 20);
             this.textBox28.TabIndex = 64;
@@ -105,7 +112,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(79, 85);
+            this.checkBox1.Location = new System.Drawing.Point(81, 131);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(187, 17);
             this.checkBox1.TabIndex = 66;
@@ -115,7 +122,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(76, 243);
+            this.label29.Location = new System.Drawing.Point(78, 289);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(141, 13);
             this.label29.TabIndex = 99;
@@ -123,7 +130,7 @@
             // 
             // textBoxSpeakerSet
             // 
-            this.textBoxSpeakerSet.Location = new System.Drawing.Point(10, 243);
+            this.textBoxSpeakerSet.Location = new System.Drawing.Point(12, 289);
             this.textBoxSpeakerSet.Name = "textBoxSpeakerSet";
             this.textBoxSpeakerSet.Size = new System.Drawing.Size(47, 20);
             this.textBoxSpeakerSet.TabIndex = 98;
@@ -132,7 +139,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(76, 195);
+            this.label28.Location = new System.Drawing.Point(78, 241);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(107, 13);
             this.label28.TabIndex = 97;
@@ -140,7 +147,7 @@
             // 
             // textBoxUBMPhrases
             // 
-            this.textBoxUBMPhrases.Location = new System.Drawing.Point(10, 195);
+            this.textBoxUBMPhrases.Location = new System.Drawing.Point(12, 241);
             this.textBoxUBMPhrases.Name = "textBoxUBMPhrases";
             this.textBoxUBMPhrases.Size = new System.Drawing.Size(47, 20);
             this.textBoxUBMPhrases.TabIndex = 96;
@@ -149,7 +156,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(76, 169);
+            this.label27.Location = new System.Drawing.Point(78, 215);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(153, 13);
             this.label27.TabIndex = 95;
@@ -157,7 +164,7 @@
             // 
             // textBoxTestPhrases
             // 
-            this.textBoxTestPhrases.Location = new System.Drawing.Point(10, 169);
+            this.textBoxTestPhrases.Location = new System.Drawing.Point(12, 215);
             this.textBoxTestPhrases.Name = "textBoxTestPhrases";
             this.textBoxTestPhrases.Size = new System.Drawing.Size(47, 20);
             this.textBoxTestPhrases.TabIndex = 94;
@@ -166,7 +173,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(76, 143);
+            this.label26.Location = new System.Drawing.Point(78, 189);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(129, 13);
             this.label26.TabIndex = 93;
@@ -174,7 +181,7 @@
             // 
             // textBoxLearnPhrases
             // 
-            this.textBoxLearnPhrases.Location = new System.Drawing.Point(10, 143);
+            this.textBoxLearnPhrases.Location = new System.Drawing.Point(12, 189);
             this.textBoxLearnPhrases.Name = "textBoxLearnPhrases";
             this.textBoxLearnPhrases.Size = new System.Drawing.Size(47, 20);
             this.textBoxLearnPhrases.TabIndex = 92;
@@ -183,7 +190,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(76, 118);
+            this.label16.Location = new System.Drawing.Point(78, 164);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(92, 13);
             this.label16.TabIndex = 91;
@@ -191,7 +198,7 @@
             // 
             // textBoxFeatureExtension
             // 
-            this.textBoxFeatureExtension.Location = new System.Drawing.Point(10, 115);
+            this.textBoxFeatureExtension.Location = new System.Drawing.Point(12, 161);
             this.textBoxFeatureExtension.Name = "textBoxFeatureExtension";
             this.textBoxFeatureExtension.Size = new System.Drawing.Size(47, 20);
             this.textBoxFeatureExtension.TabIndex = 90;
@@ -213,11 +220,12 @@
             this.button1.TabIndex = 100;
             this.button1.Text = "Dir";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(76, 217);
+            this.label1.Location = new System.Drawing.Point(78, 263);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 13);
             this.label1.TabIndex = 103;
@@ -225,7 +233,7 @@
             // 
             // textBoxUBMSpeakersNum
             // 
-            this.textBoxUBMSpeakersNum.Location = new System.Drawing.Point(10, 217);
+            this.textBoxUBMSpeakersNum.Location = new System.Drawing.Point(12, 263);
             this.textBoxUBMSpeakersNum.Name = "textBoxUBMSpeakersNum";
             this.textBoxUBMSpeakersNum.Size = new System.Drawing.Size(47, 20);
             this.textBoxUBMSpeakersNum.TabIndex = 102;
@@ -234,7 +242,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(76, 267);
+            this.label2.Location = new System.Drawing.Point(78, 313);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(165, 13);
             this.label2.TabIndex = 105;
@@ -242,17 +250,87 @@
             // 
             // textBoxSpeakerTest
             // 
-            this.textBoxSpeakerTest.Location = new System.Drawing.Point(10, 267);
+            this.textBoxSpeakerTest.Location = new System.Drawing.Point(12, 313);
             this.textBoxSpeakerTest.Name = "textBoxSpeakerTest";
             this.textBoxSpeakerTest.Size = new System.Drawing.Size(47, 20);
             this.textBoxSpeakerTest.TabIndex = 104;
             this.textBoxSpeakerTest.Text = "16-25";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(202, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(90, 13);
+            this.label3.TabIndex = 106;
+            this.label3.Text = "Папка с фичами";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(202, 55);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 13);
+            this.label4.TabIndex = 107;
+            this.label4.Text = "Папка со списками";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(202, 81);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(163, 13);
+            this.label5.TabIndex = 110;
+            this.label5.Text = "Папка с обрезанными фичами";
+            // 
+            // textBoxNewFeatDir
+            // 
+            this.textBoxNewFeatDir.Location = new System.Drawing.Point(12, 78);
+            this.textBoxNewFeatDir.Name = "textBoxNewFeatDir";
+            this.textBoxNewFeatDir.Size = new System.Drawing.Size(141, 20);
+            this.textBoxNewFeatDir.TabIndex = 109;
+            this.textBoxNewFeatDir.Text = "E:\\temp\\123\\Smile";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(159, 78);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(37, 23);
+            this.button2.TabIndex = 108;
+            this.button2.Text = "Dir";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // buttonCutFeat
+            // 
+            this.buttonCutFeat.Location = new System.Drawing.Point(274, 127);
+            this.buttonCutFeat.Name = "buttonCutFeat";
+            this.buttonCutFeat.Size = new System.Drawing.Size(69, 23);
+            this.buttonCutFeat.TabIndex = 111;
+            this.buttonCutFeat.Text = "Обрезать фичи";
+            this.buttonCutFeat.UseVisualStyleBackColor = true;
+            this.buttonCutFeat.Click += new System.EventHandler(this.buttonCutFeat_Click);
+            // 
+            // textBoxExtension
+            // 
+            this.textBoxExtension.Location = new System.Drawing.Point(12, 103);
+            this.textBoxExtension.Name = "textBoxExtension";
+            this.textBoxExtension.Size = new System.Drawing.Size(141, 20);
+            this.textBoxExtension.TabIndex = 112;
+            this.textBoxExtension.Text = ".htk";
+            // 
             // FormConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 354);
+            this.ClientSize = new System.Drawing.Size(429, 405);
+            this.Controls.Add(this.textBoxExtension);
+            this.Controls.Add(this.buttonCutFeat);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBoxNewFeatDir);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxSpeakerTest);
             this.Controls.Add(this.label1);
@@ -307,6 +385,13 @@
         private System.Windows.Forms.TextBox textBoxUBMSpeakersNum;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxSpeakerTest;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxNewFeatDir;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonCutFeat;
+        private System.Windows.Forms.TextBox textBoxExtension;
     }
 }
 

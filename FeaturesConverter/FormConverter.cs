@@ -13,12 +13,12 @@ using System.IO;
 /*
  * 
  * Что должен делать конвертер:
- * 1. Создавать списки с файлами для дикторов
+ * 1. Создавать списки с файлами для дикторов+
  * 2. Убирать ненужные фичи из файлов
  * 3. Объединять файлы с фичами в один (обучающая выборка) или в несколько (тестовая выборка)
- * 4. Убирать ненужные вреймы (на основе VAD)
+ * 4. Убирать ненужные фреймы (на основе VAD)
  */
-namespace FeaturesConverter
+namespace SR_GMM
 {
     public partial class FormConverter : Form
     {
@@ -86,7 +86,7 @@ namespace FeaturesConverter
             OutList(listPath+"\\UBM.lst",filesList);
             
             OutList(listPath + "\\UBM_id.lst", list2);
-
+            
             
             
             //создаем список обучающих файлов
@@ -148,6 +148,42 @@ namespace FeaturesConverter
             else if (needZeroEnd) feat_num.Add(0);
 
             return feat_num;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                textBoxLists.Text = folderBrowserDialog1.SelectedPath;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                textBoxNewFeatDir.Text = folderBrowserDialog1.SelectedPath;
+        }
+
+        private void buttonCutFeat_Click(object sender, EventArgs e)
+        {
+            List<int> features = stringNumParse(textBox28.Text,true);
+            string featDir = textBox21.Text;
+            string newfeatDir = textBoxNewFeatDir.Text;
+            string ext = textBoxExtension.Text;
+            //получаем список файлов
+            string[] s = System.IO.Directory.GetFiles(featDir, "*" + ext);
+
+            //test
+            /*Data dt = new Data(s[0], false, features);
+            dt.SaveHtk("E:\\tst.htk");
+            Data dt2 = new Data("E:\\tst.htk",false);
+            */
+
+            //в цикле каждый файл открываем с чтением нужных фич и перезаписываем
+            for (int i = 0; i < s.Length; i++)
+            {
+                Data dt = new Data(s[i], false, features);
+                dt.SaveHtk(newfeatDir+"\\"+System.IO.Path.GetFileName(s[i]));
+            }
+            
         }
 
     }

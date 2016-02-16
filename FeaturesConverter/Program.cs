@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FeaturesConverter
+namespace SR_GMM
 {
     static class Program
     {
