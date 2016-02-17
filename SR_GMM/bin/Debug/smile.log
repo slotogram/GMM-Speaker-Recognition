@@ -1,10 +1,24 @@
-[ 08.12.2015 - 15:54:28 ]
+[ 17.02.2016 - 09:46:46 ]
     (MSG) [2] in SMILExtract : openSMILE starting!
-[ 08.12.2015 - 15:54:28 ]
-    (MSG) [2] in SMILExtract : config file is: smile.conf
-[ 08.12.2015 - 15:54:28 ]
+[ 17.02.2016 - 09:46:46 ]
+    (MSG) [2] in SMILExtract : config file is: mfc+lpc.conf
+[ 17.02.2016 - 09:46:46 ]
     (MSG) [2] in cComponentManager : successfully registered 95 component types.
-[ 08.12.2015 - 15:54:28 ]
-    (ERROR) [1] in configManager : cFileConfigReader::openInput : cannot open input file 'smile.conf'!
-[ 08.12.2015 - 15:54:28 ]
-    (ERROR) [1] in configManager : cFileConfigReader::openInput : cannot open input file 'smile.conf'!
+==> LEVEL 'wave'  +++  Buffersize(frames) = 16001  +++  nReaders = 1
+==> LEVEL 'frames'  +++  Buffersize(frames) = 1000  +++  nReaders = 3
+==> LEVEL 'framespe'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'winframe'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'fftc'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'fftmag'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'mspec1'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'mfcc1'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'lpc'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'energy'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+==> LEVEL 'mfccM'  +++  Buffersize(frames) = 1000  +++  nReaders = 1
+[ 17.02.2016 - 09:46:46 ]
+    (MSG) [2] in cComponentManager : successfully finished createInstances
+                                 (12 component instances were finalised, 1 data memories were finalised)
+[ 17.02.2016 - 09:46:46 ]
+    (MSG) [2] in cComponentManager : starting single thread processing loop
+[ 17.02.2016 - 09:46:46 ]
+    (MSG) [2] in cComponentManager : Processing finished! System ran for 1440 ticks.

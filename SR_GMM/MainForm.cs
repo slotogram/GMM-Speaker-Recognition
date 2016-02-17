@@ -32,8 +32,8 @@ namespace SR_GMM
             string confPath = textBoxConf.Text;
             if (Path.GetDirectoryName(confPath).Length != 0) confPath = "\"" + textBoxConf.Text + "\"";
             string extension = textBoxExtensionSmile.Text;
-            string newDir = textBox1.Text + "\\Smile";
-            string Dir = textBox1.Text;
+            string newDir = textBoxSmileDir.Text + "\\Smile";
+            string Dir = textBoxSmileDir.Text;
             if (checkBox5.Checked) { Directory.CreateDirectory(newDir); Dir = newDir; }
 
             int n = 0;
@@ -1444,8 +1444,8 @@ namespace SR_GMM
             string dir = textBox1.Text;
 
             string[] s;
-            if (checkBox4.Checked) s = System.IO.Directory.GetFiles(textBox1.Text, "*.mcc", SearchOption.AllDirectories);
-            else s = System.IO.Directory.GetFiles(textBox1.Text, "*.mcc");
+            if (checkBox4.Checked) s = System.IO.Directory.GetFiles(textBox1.Text, "*"+textBoxExtensionSmile.Text, SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*" + textBoxExtensionSmile.Text);
 
             //загружаем Data;
             //записываем без пауз
@@ -1456,8 +1456,8 @@ namespace SR_GMM
                 string s2 = Path.GetDirectoryName(s1)+"\\"+ Path.GetFileNameWithoutExtension(s1)+".mft";
                 Data d2 = new Data(true, s2, false, false);
                 d1.combine_mfcc_mft(d2, s1, s2);
-                
-                d1.Save(s1);
+
+                if (checkBoxHtkSave.Checked) d1.SaveHtk(s1); else d1.Save(s1);
 
 
             }
@@ -1821,7 +1821,7 @@ namespace SR_GMM
         private void button23_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                textBoxConf.Text = folderBrowserDialog1.SelectedPath;
+                textBoxSmileDir.Text = folderBrowserDialog1.SelectedPath;
         }
     }
 }

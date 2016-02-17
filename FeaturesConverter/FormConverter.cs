@@ -78,8 +78,10 @@ namespace SR_GMM
             {
                 foreach (int i in UBM_num)
                 {
-                    filesList.Add("\""+featPath + "\\" +j  + " (" + i + ")" + textBoxFeatureExtension.Text+"\"");
-                    list2.Add("\"" + featPath + "\\" + j + " (" + i + ")" + textBoxFeatureExtension.Text + "\" "+j);
+                    //filesList.Add("\""+featPath + "\\" +j  + " (" + i + ")" + textBoxFeatureExtension.Text+"\"");
+                    //list2.Add("\"" + featPath + "\\" + j + " (" + i + ")" + textBoxFeatureExtension.Text + "\" "+j);
+                    filesList.Add("\"" + j + " (" + i + ")" + textBoxFeatureExtension.Text + "\"");
+                    list2.Add("\"" + j + " (" + i + ")" + textBoxFeatureExtension.Text + "\" "+j);
                 }
             }
             //выводим в файл UBM.lst

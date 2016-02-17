@@ -920,11 +920,17 @@ namespace SR_GMM
             reader.Close();
         }
 
+        /// <summary>
+        /// Работает выдача потока к фичам и на MFCC и на HTK
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <returns></returns>
         public FileStream getStreamtoDataMFCC(string Path)
         {
             FileStream stream = new FileStream(Path, FileMode.Open);
             BinaryReader reader = new BinaryReader(stream);
             reader.ReadBytes(10);
+            if (Path[Path.Length - 3] == 'h') reader.ReadBytes(2); //for HTK format
             return stream;
         }
 
