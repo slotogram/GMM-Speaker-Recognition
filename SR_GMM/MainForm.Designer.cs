@@ -31,12 +31,14 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBoxHtkSave = new System.Windows.Forms.CheckBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.textBoxSmileDir = new System.Windows.Forms.TextBox();
             this.button23 = new System.Windows.Forms.Button();
             this.textBoxExtensionSmile = new System.Windows.Forms.TextBox();
             this.textBoxConf = new System.Windows.Forms.TextBox();
             this.button22 = new System.Windows.Forms.Button();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBoxChannelsOut = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.button20 = new System.Windows.Forms.Button();
             this.button19 = new System.Windows.Forms.Button();
@@ -148,8 +150,7 @@
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.label30 = new System.Windows.Forms.Label();
-            this.checkBoxHtkSave = new System.Windows.Forms.CheckBox();
+            this.button24 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -177,6 +178,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button24);
             this.tabPage1.Controls.Add(this.checkBoxHtkSave);
             this.tabPage1.Controls.Add(this.label30);
             this.tabPage1.Controls.Add(this.textBoxSmileDir);
@@ -184,7 +186,7 @@
             this.tabPage1.Controls.Add(this.textBoxExtensionSmile);
             this.tabPage1.Controls.Add(this.textBoxConf);
             this.tabPage1.Controls.Add(this.button22);
-            this.tabPage1.Controls.Add(this.checkBox8);
+            this.tabPage1.Controls.Add(this.checkBoxChannelsOut);
             this.tabPage1.Controls.Add(this.checkBox7);
             this.tabPage1.Controls.Add(this.button20);
             this.tabPage1.Controls.Add(this.button19);
@@ -207,6 +209,25 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Создание MCC";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxHtkSave
+            // 
+            this.checkBoxHtkSave.AutoSize = true;
+            this.checkBoxHtkSave.Location = new System.Drawing.Point(312, 194);
+            this.checkBoxHtkSave.Name = "checkBoxHtkSave";
+            this.checkBoxHtkSave.Size = new System.Drawing.Size(250, 17);
+            this.checkBoxHtkSave.TabIndex = 49;
+            this.checkBoxHtkSave.Text = "Сохранять объединение ЧОТ в формате htk";
+            this.checkBoxHtkSave.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(189, 77);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(281, 13);
+            this.label30.TabIndex = 48;
+            this.label30.Text = "Расширение файлов SMILE и для объединения с ЧОТ";
             // 
             // textBoxSmileDir
             // 
@@ -252,17 +273,15 @@
             this.button22.UseVisualStyleBackColor = true;
             this.button22.Click += new System.EventHandler(this.button22_Click);
             // 
-            // checkBox8
+            // checkBoxChannelsOut
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Checked = true;
-            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox8.Location = new System.Drawing.Point(294, 38);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(99, 17);
-            this.checkBox8.TabIndex = 42;
-            this.checkBox8.Text = "Зачем то надо";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBoxChannelsOut.AutoSize = true;
+            this.checkBoxChannelsOut.Location = new System.Drawing.Point(294, 38);
+            this.checkBoxChannelsOut.Name = "checkBoxChannelsOut";
+            this.checkBoxChannelsOut.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxChannelsOut.TabIndex = 42;
+            this.checkBoxChannelsOut.Text = "Вывод каналов спектра";
+            this.checkBoxChannelsOut.UseVisualStyleBackColor = true;
             // 
             // checkBox7
             // 
@@ -341,9 +360,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(40, 48);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 13);
+            this.label1.Size = new System.Drawing.Size(207, 13);
             this.label1.TabIndex = 18;
-            this.label1.Text = "Число коэфф (1-24)";
+            this.label1.Text = "Число коэфф (1-24) { + Max гармоники}";
             // 
             // textBox1
             // 
@@ -1368,24 +1387,15 @@
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
-            // label30
+            // button24
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(189, 77);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(281, 13);
-            this.label30.TabIndex = 48;
-            this.label30.Text = "Расширение файлов SMILE и для объединения с ЧОТ";
-            // 
-            // checkBoxHtkSave
-            // 
-            this.checkBoxHtkSave.AutoSize = true;
-            this.checkBoxHtkSave.Location = new System.Drawing.Point(312, 194);
-            this.checkBoxHtkSave.Name = "checkBoxHtkSave";
-            this.checkBoxHtkSave.Size = new System.Drawing.Size(250, 17);
-            this.checkBoxHtkSave.TabIndex = 49;
-            this.checkBoxHtkSave.Text = "Сохранять объединение ЧОТ в формате htk";
-            this.checkBoxHtkSave.UseVisualStyleBackColor = true;
+            this.button24.Location = new System.Drawing.Point(186, 260);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(120, 23);
+            this.button24.TabIndex = 50;
+            this.button24.Text = "ЧОТ -> HTK";
+            this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
             // 
             // MainForm
             // 
@@ -1496,7 +1506,7 @@
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBoxChannelsOut;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox textBox28;
         private System.Windows.Forms.Label label20;
@@ -1536,6 +1546,7 @@
         private System.Windows.Forms.TextBox textBoxSmileDir;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.CheckBox checkBoxHtkSave;
+        private System.Windows.Forms.Button button24;
     }
 }
 

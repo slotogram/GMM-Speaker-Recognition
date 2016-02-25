@@ -1412,8 +1412,10 @@ namespace SR_GMM
                 if (radioButton2.Checked) { shortArgs += "-d "; dir += "1d"; }
                 if (radioButton3.Checked) { shortArgs += "-dd "; dir += "2d"; }
                 if (checkBox2.Checked) { shortArgs += "-n "; dir += "N"; }
+                if (checkBoxChannelsOut.Checked) { shortArgs += "-K "; dir += "K"; }
                 if (checkBox5.Checked) { Directory.CreateDirectory(dir); }
                 if (checkBox7.Checked) { shortArgs += "-seg ";  }
+               
                 
                 var startInfo = new ProcessStartInfo
                 {
@@ -1822,6 +1824,26 @@ namespace SR_GMM
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 textBoxSmileDir.Text = folderBrowserDialog1.SelectedPath;
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            string dir = textBox1.Text;
+
+            string[] s;
+            if (checkBox4.Checked) s = System.IO.Directory.GetFiles(textBox1.Text, "*" + textBoxExtensionSmile.Text, SearchOption.AllDirectories);
+            else s = System.IO.Directory.GetFiles(textBox1.Text, "*" + textBoxExtensionSmile.Text);
+
+            //загружаем Data;
+            //записываем без пауз
+
+            foreach (string s1 in s)
+            {
+                Data d1 = new Data(true, s1, true, false);
+                d1.SaveHtk(s1.Substring(0, s1.Length - 3)+"htk");
+
+            }
+
         }
     }
 }
